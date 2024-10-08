@@ -1,6 +1,8 @@
 package com.flyeasy;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PassagemAerea {
     private String aeroportoOrigem;  
@@ -13,6 +15,7 @@ public class PassagemAerea {
     private double tarifaPremium;
     private String moeda;
     private double percentualLucro = 20.0;
+    private Map<String, Boolean> assentosDisponiveis;
 
     // Construtor
     public PassagemAerea(String aeroportoOrigem, String aeroportoDestino, Date dataHoraVoo,
@@ -27,6 +30,12 @@ public class PassagemAerea {
         this.tarifaBusiness = tarifaBusiness;
         this.tarifaPremium = tarifaPremium;
         this.moeda = moeda;
+        this.assentosDisponiveis = new HashMap<>();
+        
+        // Inicializa os assentos (exemplo com 10 assentos: A1 a A10)
+        for (int i = 1; i <= 10; i++) {
+            this.assentosDisponiveis.put("A" + i, true); // todos os assentos começam como disponíveis
+        }
     }
 
     // Getters e Setters
@@ -110,6 +119,20 @@ public class PassagemAerea {
         this.percentualLucro = percentualLucro;
     }
 
+    // Métodos para verificar e reservar assento
+    public boolean verificarDisponibilidade(String assento) {
+        return assentosDisponiveis.getOrDefault(assento, false);
+    }
+
+    public boolean reservarAssento(String assento) {
+        if (verificarDisponibilidade(assento)) {
+            assentosDisponiveis.put(assento, false); // Marca o assento como reservado
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     // Métodos para calcular os preços
     public double getPreco() {
         return tarifaBasica;
@@ -128,3 +151,4 @@ public class PassagemAerea {
         return tarifaBasica * (percentualLucro / 100);
     }
 }
+
