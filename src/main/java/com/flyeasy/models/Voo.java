@@ -1,23 +1,17 @@
-package model;
+package com.flyeasy.models;
 
-import java.time.Duration;
-import java.time.LocalTime;
 import java.util.List;
 
 public class Voo {
     private String codigo;
     private String origem;
     private String destino;
-    private LocalTime horarioPartida;
-    private Duration duracao;
     private List<DiaSemana> diasSemana;
 
-    public Voo(String codigo, String origem, String destino, LocalTime horarioPartida, Duration duracao, List<DiaSemana> diasSemana) {
+    public Voo(String codigo, String origem, String destino, List<DiaSemana> diasSemana) {
         this.codigo = codigo;
         this.origem = origem;
         this.destino = destino;
-        this.horarioPartida = horarioPartida;
-        this.duracao = duracao;
         this.diasSemana = diasSemana;
     }
 
@@ -25,28 +19,31 @@ public class Voo {
         return codigo;
     }
 
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
     public String getOrigem() {
         return origem;
+    }
+
+    public void setOrigem(String origem) {
+        this.origem = origem;
     }
 
     public String getDestino() {
         return destino;
     }
 
-    public LocalTime getHorarioPartida() {
-        return horarioPartida;
-    }
-
-    public Duration getDuracao() {
-        return duracao;
+    public void setDestino(String destino) {
+        this.destino = destino;
     }
 
     public List<DiaSemana> getDiasSemana() {
         return diasSemana;
     }
 
-    @Override
-    public String toString() {
-        return "Voo " + codigo + ": " + origem + " -> " + destino + ", Partida: " + horarioPartida + ", Duração: " + duracao.toMinutes() + " minutos, Dias: " + diasSemana;
+    public void setDiasSemana(List<DiaSemana> diasSemana) {
+        this.diasSemana = diasSemana;
     }
 }

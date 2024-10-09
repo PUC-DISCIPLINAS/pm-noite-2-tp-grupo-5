@@ -1,3 +1,7 @@
+package test.java;
+
+import com.flyeasy.models.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

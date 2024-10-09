@@ -1,5 +1,10 @@
 package com.flyeasy;
 
+import com.flyeasy.controllers.*;
+import com.flyeasy.views.*;
+import com.flyeasy.models.*;
+import com.flyeasy.models.PassagemAerea;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
