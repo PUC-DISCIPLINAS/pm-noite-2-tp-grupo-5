@@ -1,10 +1,9 @@
-package controller;
+package com.flyeasy.controllers;
 
-import model.Voo;
-import model.DiaSemana;
+import com.flyeasy.models.Voo;
+import com.flyeasy.models.DiaSemana;
 
-import java.time.Duration;
-import java.time.LocalTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,18 +14,36 @@ public class VooController {
         this.voos = new ArrayList<>();
     }
 
-    // Método para cadastrar um novo voo
-    public void cadastrarVoo(String codigo, String origem, String destino, LocalTime horarioPartida, Duration duracao, List<DiaSemana> diasSemana) {
-        Voo novoVoo = new Voo(codigo, origem, destino, horarioPartida, duracao, diasSemana);
+    public void cadastrarVoo(String codigo, String origem, String destino, List<DiaSemana> diasSemana) {
+        Voo novoVoo = new Voo(codigo, origem, destino, diasSemana);
         voos.add(novoVoo);
     }
 
-    // Método para listar todos os voos cadastrados
     public List<Voo> listarVoos() {
         return voos;
     }
 
-    // Método para encontrar um voo pelo código
+    public List<Voo> programarVoosAtivos() {
+        LocalDate dataAtual = LocalDate.now();
+        LocalDate dataFinal = dataAtual.plusDays(30);
+        List<Voo> voosProgramados = new ArrayList<>();
+
+        for (Voo voo : voos) {
+            LocalDate proximaDataVoo = dataAtual;
+
+            while (proximaDataVoo.isBefore(dataFinal) || proximaDataVoo.isEqual(dataFinal)) {
+                for (DiaSemana dia : voo.getDiasSemana()) {
+                    if (proximaDataVoo.getDayOfWeek().equals(dia.toDayOfWeek())) {
+                        Voo vooProgramado = new Voo(voo.getCodigo(), voo.getOrigem(), voo.getDestino(), voo.getDiasSemana());
+                        voosProgramados.add(vooProgramado);
+                    }
+                }
+                proximaDataVoo = proximaDataVoo.plusDays(1);
+            }
+        }
+        return voosProgramados;
+    }
+
     public Voo buscarVooPorCodigo(String codigo) {
         for (Voo voo : voos) {
             if (voo.getCodigo().equals(codigo)) {
@@ -34,14 +51,5 @@ public class VooController {
             }
         }
         return null;
-    }
-
-    // Método para verificar se um voo ocorre em um dia específico
-    public boolean vooOcorreNoDia(String codigo, DiaSemana dia) {
-        Voo voo = buscarVooPorCodigo(codigo);
-        if (voo != null) {
-            return voo.getDiasSemana().contains(dia);
-        }
-        return false;
     }
 }

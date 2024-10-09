@@ -1,4 +1,6 @@
-package com.flyeasy;
+package com.flyeasy.controllers;
+
+import com.flyeasy.models.*;
 
 import java.io.Console;
 import java.util.Scanner;
