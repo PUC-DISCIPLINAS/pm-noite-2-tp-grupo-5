@@ -9,10 +9,10 @@ public class PassagemAereaTest {
 
     @Test
     public void testarGettersESetters() {
-        Aeroporto aeroportoOrigem = new Aeroporto();
+        Aeroporto aeroportoOrigem = new Aeroporto("Aeroporto Internacional", "AIG", "São Paulo", "SP", "Brasil");
         aeroportoOrigem.setNome("Aeroporto de Origem");
         
-        Aeroporto aeroportoDestino = new Aeroporto();
+        Aeroporto aeroportoDestino = new Aeroporto("Aeroporto Internacional", "AIG", "São Paulo", "SP", "Brasil");
         aeroportoDestino.setNome("Aeroporto de Destino");
 
         CompanhiaAerea companhiaAerea = new CompanhiaAerea("Latam", "LA", "Latam Airlines", "12345678000101", 100.0, 50.0);

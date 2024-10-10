@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PassagemAerea {
-    private Aeroporto aeroportoOrigem;  // Corrigido para o tipo Aeroporto
-    private Aeroporto aeroportoDestino; // Corrigido para o tipo Aeroporto
+    private Aeroporto aeroportoOrigem;  // Ajustado para usar objeto Aeroporto
+    private Aeroporto aeroportoDestino; // Ajustado para usar objeto Aeroporto
     private Date dataHoraVoo;
     private String codigoVoo;
-    private CompanhiaAerea companhiaAerea;  // Corrigido para o tipo CompanhiaAerea
+    private CompanhiaAerea companhiaAerea;   // Ajustado para usar objeto CompanhiaAerea
     private double tarifaBasica;
     private double tarifaBusiness;
     private double tarifaPremium;
@@ -19,7 +19,7 @@ public class PassagemAerea {
 
     // Construtor
     public PassagemAerea(Aeroporto aeroportoOrigem, Aeroporto aeroportoDestino, Date dataHoraVoo,
-                         String codigoVoo, CompanhiaAerea companhiaAerea,
+                         String codigoVoo, CompanhiaAerea companhiaAerea, // Ajustado para aceitar objetos
                          double tarifaBasica, double tarifaBusiness, double tarifaPremium, String moeda) {
         this.aeroportoOrigem = aeroportoOrigem;
         this.aeroportoDestino = aeroportoDestino;
@@ -38,7 +38,7 @@ public class PassagemAerea {
         }
     }
 
-    // Getters e Setters corrigidos
+    // Getters e Setters
     public Aeroporto getAeroportoOrigem() {
         return aeroportoOrigem;
     }
