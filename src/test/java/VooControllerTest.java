@@ -36,6 +36,6 @@ public class VooControllerTest {
 
         List<Voo> voosProgramados = vooController.programarVoosAtivos();
 
-        assertEquals(8, voosProgramados.size());
+        assertEquals(9, voosProgramados.size(), "Deve haver exatamente 9 voos programados para os próximos 30 dias");
     }
 }

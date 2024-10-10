@@ -1,6 +1,4 @@
 import com.flyeasy.models.*;
-import com.flyeasy.controllers.*;
-import com.flyeasy.views.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;

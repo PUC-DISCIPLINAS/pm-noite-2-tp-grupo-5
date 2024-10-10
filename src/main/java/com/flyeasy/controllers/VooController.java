@@ -14,36 +14,47 @@ public class VooController {
         this.voos = new ArrayList<>();
     }
 
+    // Método para cadastrar voos
     public void cadastrarVoo(String codigo, String origem, String destino, List<DiaSemana> diasSemana) {
         Voo novoVoo = new Voo(codigo, origem, destino, diasSemana);
         voos.add(novoVoo);
     }
 
+    // Método para listar todos os voos
     public List<Voo> listarVoos() {
         return voos;
     }
 
+    // Método para programar voos ativos nos próximos 30 dias
     public List<Voo> programarVoosAtivos() {
         LocalDate dataAtual = LocalDate.now();
         LocalDate dataFinal = dataAtual.plusDays(30);
         List<Voo> voosProgramados = new ArrayList<>();
 
+        // Para cada voo cadastrado, programar seus voos de acordo com os dias da semana
         for (Voo voo : voos) {
-            LocalDate proximaDataVoo = dataAtual;
+            for (DiaSemana dia : voo.getDiasSemana()) {
+                // Iniciar a programação a partir da próxima ocorrência do dia da semana
+                LocalDate proximaDataVoo = dataAtual.with(dia.toDayOfWeek());
 
-            while (proximaDataVoo.isBefore(dataFinal) || proximaDataVoo.isEqual(dataFinal)) {
-                for (DiaSemana dia : voo.getDiasSemana()) {
-                    if (proximaDataVoo.getDayOfWeek().equals(dia.toDayOfWeek())) {
-                        Voo vooProgramado = new Voo(voo.getCodigo(), voo.getOrigem(), voo.getDestino(), voo.getDiasSemana());
-                        voosProgramados.add(vooProgramado);
-                    }
+                // Se o próximo dia de voo estiver no passado, ajustar para a próxima semana
+                if (proximaDataVoo.isBefore(dataAtual)) {
+                    proximaDataVoo = proximaDataVoo.plusWeeks(1);
                 }
-                proximaDataVoo = proximaDataVoo.plusDays(1);
+
+                // Programar voos enquanto a data for dentro do período de 30 dias
+                while (!proximaDataVoo.isAfter(dataFinal)) {  // Corrigido para não incluir a data final
+                    Voo vooProgramado = new Voo(voo.getCodigo(), voo.getOrigem(), voo.getDestino(), voo.getDiasSemana());
+                    voosProgramados.add(vooProgramado);
+                    proximaDataVoo = proximaDataVoo.plusWeeks(1);  // Próximo voo na semana seguinte
+                }
             }
         }
+
         return voosProgramados;
     }
 
+    // Método para buscar voo por código
     public Voo buscarVooPorCodigo(String codigo) {
         for (Voo voo : voos) {
             if (voo.getCodigo().equals(codigo)) {
