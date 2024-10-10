@@ -1,7 +1,5 @@
 package com.flyeasy.models;
 
-import org.mindrot.jbcrypt.BCrypt;
-
 public class Funcionario extends Usuario {
     private String nome;
     private String cpf;
