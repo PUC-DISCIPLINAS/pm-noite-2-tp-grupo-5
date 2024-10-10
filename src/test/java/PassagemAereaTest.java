@@ -1,5 +1,4 @@
 import com.flyeasy.models.*;
-import com.flyeasy.controllers.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
@@ -19,6 +18,7 @@ public class PassagemAereaTest {
         Date dataHoraVoo = new Date();
         PassagemAerea passagem = new PassagemAerea(aeroportoOrigem, aeroportoDestino, dataHoraVoo, "LA123", companhiaAerea, 200.0, 300.0, 500.0, "BRL");
 
+        // Teste dos getters
         assertEquals(aeroportoOrigem, passagem.getAeroportoOrigem());
         assertEquals(aeroportoDestino, passagem.getAeroportoDestino());
         assertEquals(dataHoraVoo, passagem.getDataHoraVoo());
@@ -32,9 +32,26 @@ public class PassagemAereaTest {
 
     @Test
     public void testarCalculoTarifaLucro() {
-        PassagemAerea passagem = new PassagemAerea(new Aeroporto(), new Aeroporto(), new Date(), "LA123", new CompanhiaAerea("Latam", "LA", "Latam Airlines", "12345678000101", 100.0, 50.0), 200.0, 300.0, 500.0, "BRL");
-        
-        double valorEsperado = 40.0; // 20% de 200.0
+        // Inicializando os objetos Aeroporto e CompanhiaAerea
+        Aeroporto aeroportoOrigem = new Aeroporto("Aeroporto Internacional", "AIG", "São Paulo", "SP", "Brasil");
+        Aeroporto aeroportoDestino = new Aeroporto("Aeroporto Internacional", "AIG", "Rio de Janeiro", "RJ", "Brasil");
+        CompanhiaAerea companhiaAerea = new CompanhiaAerea("Latam", "LA", "Latam Airlines", "12345678000101", 100.0, 50.0);
+
+        // Inicializando a passagem com tarifa básica de 200.0
+        PassagemAerea passagem = new PassagemAerea(
+                aeroportoOrigem, 
+                aeroportoDestino, 
+                new Date(), 
+                "LA123", 
+                companhiaAerea, 
+                200.0, // Tarifa básica
+                300.0, // Tarifa business
+                500.0, // Tarifa premium
+                "BRL"
+        );
+
+        // Cálculo esperado: 20% de 200.0 = 40.0
+        double valorEsperado = 40.0; 
         assertEquals(valorEsperado, passagem.calcularTarifaLucro(), "O valor do lucro deve ser 20% da tarifa básica");
     }
 }
