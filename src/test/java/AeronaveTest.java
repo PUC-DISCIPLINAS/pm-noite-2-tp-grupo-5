@@ -29,7 +29,7 @@ public class AeronaveTest {
     @Test
     public void testarExibirDisposicaoAssentos() {
         // Teste apenas para garantir que o método seja executado sem erros.
-        aeronave.exibirDisposicaoAssentos();
+        AeronaveController.exibirDisposicaoAssentos();
     }
 
     @Test

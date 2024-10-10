@@ -1,4 +1,4 @@
-package com.flyeasy;
+package com.flyeasy.models;
 
 import java.util.Date;
 import java.util.HashMap;

@@ -20,6 +20,7 @@ public class CompanhiaAerea {
     }
     
     // Getters e Setters
+    
     public String getNome() {
         return nome;
     }
@@ -66,5 +67,16 @@ public class CompanhiaAerea {
 
     public void setValorBagagemAdicional(double valorBagagemAdicional) {
         this.valorBagagemAdicional = valorBagagemAdicional;
+    }
+    
+    // Método para calcular o valor da bagagem
+    public double calcularValorBagagem(int quantidadeBagagens) {
+        if (quantidadeBagagens <= 0) {
+            return 0.0;
+        } else if (quantidadeBagagens == 1) {
+            return valorPrimeiraBagagem;
+        } else {
+            return valorPrimeiraBagagem + (quantidadeBagagens - 1) * valorBagagemAdicional;
+        }
     }
 }
