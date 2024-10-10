@@ -10,42 +10,18 @@ import java.util.stream.Collectors;
 public class PassagemController {
     private static List<PassagemAerea> passagens = new ArrayList<>();
 
-    // Método estático para inicializar passagens
     public static void inicializarPassagens() {
-        PassagemAerea passagem1 = new PassagemAerea(
-            "Aeroporto Internacional de São Paulo", 
-            "Aeroporto Internacional de São Paulo",
-            new Date(System.currentTimeMillis() + 86400000), 
-            "TP1020",   
-            "TAP Portugal",   
-            2000.0,    
-            3500.0,    
-            5000.0,    
-            "BRL"
-        );
+        Aeroporto aeroportoOrigem = new Aeroporto();
+        Aeroporto aeroportoDestino = new Aeroporto();
+        CompanhiaAerea companhia = new CompanhiaAerea("Latam", "LA", "Latam Airlines", "12345678000101", 100.0, 50.0);
 
-        PassagemAerea passagem2 = new PassagemAerea(
-            "Aeroporto Internacional de Miami", 
-            "Aeroporto Internacional de Malpensa",
-            new Date(System.currentTimeMillis() + 86400000), 
-            "AA2150",   
-            "American Airlines",   
-            1800.0,    
-            3200.0,    
-            4500.0,    
-            "USD"
-        );
-
+        PassagemAerea passagem1 = new PassagemAerea(aeroportoOrigem, aeroportoDestino, new Date(), "LA123", companhia, 200.0, 300.0, 500.0, "BRL");
         passagens.add(passagem1);
-        passagens.add(passagem2);
     }
 
-    public static List<PassagemAerea> pesquisarPassagens(String origem, String destino, Date data) {
+    public static List<PassagemAerea> buscarPassagensPorOrigem(String origem) {
         return passagens.stream()
-                .filter(passagem -> (origem == null || passagem.getAeroportoOrigem().equalsIgnoreCase(origem)) &&
-                                   (destino == null || passagem.getAeroportoDestino().equalsIgnoreCase(destino)) &&
-                                   (data == null || (passagem.getDataHoraVoo().getTime() >= data.getTime() &&
-                                                     passagem.getDataHoraVoo().getTime() < data.getTime() + 86400000))) // compara datas
+                .filter(p -> p.getAeroportoOrigem().getNome().equals(origem))
                 .collect(Collectors.toList());
     }
 }

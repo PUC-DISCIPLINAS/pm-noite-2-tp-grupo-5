@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PassagemAerea {
-    private String aeroportoOrigem;  
-    private String aeroportoDestino;
+    private Aeroporto aeroportoOrigem;  // Corrigido para o tipo Aeroporto
+    private Aeroporto aeroportoDestino; // Corrigido para o tipo Aeroporto
     private Date dataHoraVoo;
     private String codigoVoo;
-    private String companhiaAerea;   
+    private CompanhiaAerea companhiaAerea;  // Corrigido para o tipo CompanhiaAerea
     private double tarifaBasica;
     private double tarifaBusiness;
     private double tarifaPremium;
@@ -18,8 +18,8 @@ public class PassagemAerea {
     private Map<String, Boolean> assentosDisponiveis;
 
     // Construtor
-    public PassagemAerea(String aeroportoOrigem, String aeroportoDestino, Date dataHoraVoo,
-                         String codigoVoo, String companhiaAerea,
+    public PassagemAerea(Aeroporto aeroportoOrigem, Aeroporto aeroportoDestino, Date dataHoraVoo,
+                         String codigoVoo, CompanhiaAerea companhiaAerea,
                          double tarifaBasica, double tarifaBusiness, double tarifaPremium, String moeda) {
         this.aeroportoOrigem = aeroportoOrigem;
         this.aeroportoDestino = aeroportoDestino;
@@ -38,20 +38,20 @@ public class PassagemAerea {
         }
     }
 
-    // Getters e Setters
-    public String getAeroportoOrigem() {
+    // Getters e Setters corrigidos
+    public Aeroporto getAeroportoOrigem() {
         return aeroportoOrigem;
     }
 
-    public void setAeroportoOrigem(String aeroportoOrigem) {
+    public void setAeroportoOrigem(Aeroporto aeroportoOrigem) {
         this.aeroportoOrigem = aeroportoOrigem;
     }
 
-    public String getAeroportoDestino() {
+    public Aeroporto getAeroportoDestino() {
         return aeroportoDestino;
     }
 
-    public void setAeroportoDestino(String aeroportoDestino) {
+    public void setAeroportoDestino(Aeroporto aeroportoDestino) {
         this.aeroportoDestino = aeroportoDestino;
     }
 
@@ -71,11 +71,11 @@ public class PassagemAerea {
         this.codigoVoo = codigoVoo;
     }
 
-    public String getCompanhiaAerea() {
+    public CompanhiaAerea getCompanhiaAerea() {
         return companhiaAerea;
     }
 
-    public void setCompanhiaAerea(String companhiaAerea) {
+    public void setCompanhiaAerea(CompanhiaAerea companhiaAerea) {
         this.companhiaAerea = companhiaAerea;
     }
 
@@ -151,4 +151,3 @@ public class PassagemAerea {
         return tarifaBasica * (percentualLucro / 100);
     }
 }
-
