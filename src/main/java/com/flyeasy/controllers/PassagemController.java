@@ -52,7 +52,6 @@ public class PassagemController {
 
         // Adicionando passagens à lista
         passagens.add(passagem1);
-        passagens.add(passagem2);
     }
 
     // Método para pesquisar passagens
