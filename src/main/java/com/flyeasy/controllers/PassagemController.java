@@ -38,6 +38,7 @@ public class PassagemController {
         passagens.add(passagem2);
     }
 
+    // Método para pesquisar passagens
     public static List<PassagemAerea> pesquisarPassagens(String origem, String destino, Date data) {
         return passagens.stream()
                 .filter(passagem -> (origem == null || passagem.getAeroportoOrigem().equalsIgnoreCase(origem)) &&
@@ -46,4 +47,15 @@ public class PassagemController {
                                                      passagem.getDataHoraVoo().getTime() < data.getTime() + 86400000))) // compara datas
                 .collect(Collectors.toList());
     }
+
+    // Método para reservar um assento
+    public static boolean reservarAssento(String codigoVoo, String assento) {
+        for (PassagemAerea passagem : passagens) {
+            if (passagem.getCodigoVoo().equals(codigoVoo)) {
+                return passagem.reservarAssento(assento);
+            }
+        }
+        return false; // Voo não encontrado
+    }
 }
+
