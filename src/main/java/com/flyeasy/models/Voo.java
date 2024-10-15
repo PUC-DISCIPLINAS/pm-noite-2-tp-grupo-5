@@ -7,12 +7,14 @@ public class Voo {
     private String origem;
     private String destino;
     private List<DiaSemana> diasSemana;
+    private Aeronave aeronave;
 
-    public Voo(String codigo, String origem, String destino, List<DiaSemana> diasSemana) {
+    public Voo(String codigo, String origem, String destino, List<DiaSemana> diasSemana, Aeronave aeronave) {
         this.codigo = codigo;
         this.origem = origem;
         this.destino = destino;
         this.diasSemana = diasSemana;
+        this.aeronave = aeronave; 
     }
 
     public String getCodigo() {
@@ -45,5 +47,17 @@ public class Voo {
 
     public void setDiasSemana(List<DiaSemana> diasSemana) {
         this.diasSemana = diasSemana;
+    }
+
+    public Aeronave getAeronave() {
+        return aeronave;
+    }
+
+    public void setAeronave(Aeronave aeronave) {
+        this.aeronave = aeronave;
+    }
+
+    public int getCapacidadePassageiros() {
+        return aeronave.getCapacidadePassageiros();
     }
 }

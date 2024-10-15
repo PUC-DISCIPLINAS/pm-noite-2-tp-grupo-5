@@ -2,6 +2,7 @@ package com.flyeasy.controllers;
 
 import com.flyeasy.models.Voo;
 import com.flyeasy.models.DiaSemana;
+import com.flyeasy.models.Aeronave;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,8 +15,8 @@ public class VooController {
         this.voos = new ArrayList<>();
     }
 
-    public void cadastrarVoo(String codigo, String origem, String destino, List<DiaSemana> diasSemana) {
-        Voo novoVoo = new Voo(codigo, origem, destino, diasSemana);
+    public void cadastrarVoo(String codigo, String origem, String destino, List<DiaSemana> diasSemana, Aeronave aeronave) {
+        Voo novoVoo = new Voo(codigo, origem, destino, diasSemana, aeronave);
         voos.add(novoVoo);
     }
 
@@ -34,7 +35,8 @@ public class VooController {
             while (proximaDataVoo.isBefore(dataFinal) || proximaDataVoo.isEqual(dataFinal)) {
                 for (DiaSemana dia : voo.getDiasSemana()) {
                     if (proximaDataVoo.getDayOfWeek().equals(dia.toDayOfWeek())) {
-                        Voo vooProgramado = new Voo(voo.getCodigo(), voo.getOrigem(), voo.getDestino(), voo.getDiasSemana());
+
+                        Voo vooProgramado = new Voo(voo.getCodigo(), voo.getOrigem(), voo.getDestino(), voo.getDiasSemana(), voo.getAeronave());
                         voosProgramados.add(vooProgramado);
                     }
                 }
