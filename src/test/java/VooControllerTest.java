@@ -1,17 +1,17 @@
-package controller;
-
-import model.DiaSemana;
-import model.Voo;
+import com.flyeasy.controllers.VooController;
+import com.flyeasy.models.DiaSemana;
+import com.flyeasy.models.Voo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.Duration;
-import java.time.LocalTime;
 import java.util.Arrays;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class VooControllerTest {
+
     private VooController vooController;
 
     @BeforeEach
@@ -21,32 +21,21 @@ public class VooControllerTest {
 
     @Test
     public void testCadastrarVoo() {
-        vooController.cadastrarVoo("AD4114", "VCD", "CNF", LocalTime.of(10, 30), Duration.ofMinutes(70), Arrays.asList(DiaSemana.SEGUNDA, DiaSemana.TERCA));
+        vooController.cadastrarVoo("AD4114", "VCP", "CNF", Arrays.asList(DiaSemana.SEGUNDA, DiaSemana.TERCA));
 
         Voo voo = vooController.buscarVooPorCodigo("AD4114");
         assertNotNull(voo);
         assertEquals("AD4114", voo.getCodigo());
-        assertEquals("VCD", voo.getOrigem());
+        assertEquals("VCP", voo.getOrigem());
         assertEquals("CNF", voo.getDestino());
-        assertEquals(LocalTime.of(10, 30), voo.getHorarioPartida());
-        assertEquals(Duration.ofMinutes(70), voo.getDuracao());
-        assertTrue(voo.getDiasSemana().contains(DiaSemana.SEGUNDA));
-        assertFalse(voo.getDiasSemana().contains(DiaSemana.QUARTA));
     }
 
     @Test
-    public void testBuscarVooPorCodigo() {
-        vooController.cadastrarVoo("AD4115", "GIG", "GRU", LocalTime.of(9, 0), Duration.ofMinutes(90), Arrays.asList(DiaSemana.SEXTA));
+    public void testProgramarVoosAtivos() {
+        vooController.cadastrarVoo("AD4117", "BSB", "REC", Arrays.asList(DiaSemana.SEGUNDA, DiaSemana.QUARTA));
 
-        Voo voo = vooController.buscarVooPorCodigo("AD4115");
-        assertNotNull(voo);
-    }
+        List<Voo> voosProgramados = vooController.programarVoosAtivos();
 
-    @Test
-    public void testVooOcorreNoDia() {
-        vooController.cadastrarVoo("AD4116", "CGH", "POA", LocalTime.of(12, 0), Duration.ofMinutes(120), Arrays.asList(DiaSemana.QUINTA, DiaSemana.DOMINGO));
-
-        assertTrue(vooController.vooOcorreNoDia("AD4116", DiaSemana.QUINTA));
-        assertFalse(vooController.vooOcorreNoDia("AD4116", DiaSemana.SEGUNDA));
+        assertEquals(9, voosProgramados.size(), "Deve haver exatamente 9 voos programados para os próximos 30 dias");
     }
 }

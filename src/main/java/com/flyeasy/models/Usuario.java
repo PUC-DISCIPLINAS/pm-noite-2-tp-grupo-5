@@ -1,4 +1,4 @@
-package com.flyeasy;
+package com.flyeasy.models;
 
 import org.mindrot.jbcrypt.BCrypt;
 

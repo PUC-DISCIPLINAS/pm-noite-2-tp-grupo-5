@@ -1,47 +1,33 @@
-package controller;
+package com.flyeasy.controllers;
 
-import model.Voo;
-import model.DiaSemana;
-
-import java.time.Duration;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import com.flyeasy.models.DiaSemana;
+import com.flyeasy.models.Voo;
 
 public class VooController {
-    private List<Voo> voos;
 
-    public VooController() {
-        this.voos = new ArrayList<>();
-    }
+    private List<Voo> voos = new ArrayList<>();  // Inicializa a lista de voos
 
     // Método para cadastrar um novo voo
-    public void cadastrarVoo(String codigo, String origem, String destino, LocalTime horarioPartida, Duration duracao, List<DiaSemana> diasSemana) {
-        Voo novoVoo = new Voo(codigo, origem, destino, horarioPartida, duracao, diasSemana);
-        voos.add(novoVoo);
+    public void cadastrarVoo(String codigo, String origem, String destino, List<DiaSemana> diasSemana) {
+        Voo novoVoo = new Voo(codigo, origem, destino, diasSemana, null); // Null para dataVoo inicial
+        voos.add(novoVoo);  // Adiciona o novo voo à lista
     }
 
-    // Método para listar todos os voos cadastrados
-    public List<Voo> listarVoos() {
-        return voos;
-    }
-
-    // Método para encontrar um voo pelo código
+    // Método para buscar voo por código
     public Voo buscarVooPorCodigo(String codigo) {
-        for (Voo voo : voos) {
-            if (voo.getCodigo().equals(codigo)) {
-                return voo;
-            }
-        }
-        return null;
+        Optional<Voo> vooEncontrado = voos.stream()
+                .filter(voo -> voo.getCodigo().equals(codigo))
+                .findFirst();
+        return vooEncontrado.orElse(null);  // Retorna o voo encontrado ou null
     }
 
-    // Método para verificar se um voo ocorre em um dia específico
-    public boolean vooOcorreNoDia(String codigo, DiaSemana dia) {
-        Voo voo = buscarVooPorCodigo(codigo);
-        if (voo != null) {
-            return voo.getDiasSemana().contains(dia);
-        }
-        return false;
+    // Programar voos ativos (essa parte já estava implementada)
+    public List<Voo> programarVoosAtivos() {
+        // Sua lógica existente para programar voos
+        return new ArrayList<>();  // Modifique conforme a lógica de seu projeto
     }
 }

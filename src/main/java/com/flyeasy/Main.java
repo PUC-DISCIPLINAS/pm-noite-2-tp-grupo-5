@@ -1,5 +1,9 @@
 package com.flyeasy;
 
+import com.flyeasy.controllers.*;
+import com.flyeasy.views.*;
+import com.flyeasy.models.*;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,7 +37,7 @@ public class Main {
 
                 switch (escolha) {
                     case 1:
-                        pesquisarPassagens(scanner); // Chama o método para pesquisar passagens
+                        pesquisarPassagens(scanner);
                         break;
                     case 2:
                         loggedIn = LoginController.realizarLogin();
@@ -43,7 +47,7 @@ public class Main {
                         break;
                     case 3:
                         TerminalView.displayMessage("Fechando o terminal...");
-                        continuar = false; // Alterado para encerrar o loop
+                        continuar = false;
                         break;
                     default:
                         System.out.println("Opção inválida. Tente novamente.");
@@ -51,7 +55,6 @@ public class Main {
                 }
             }
 
-            // Menu do usuário logado
             boolean menuContinuar = true;
             while (menuContinuar && loggedIn) {
                 MenuController.exibirMenu(loggedUsername);
@@ -72,10 +75,11 @@ public class Main {
     }
 
     private static void pesquisarPassagens(Scanner scanner) {
-        System.out.print("Informe o aeroporto de origem (ou pressione ENTER para ignorar): ");
-        String origem = scanner.nextLine();
-        System.out.print("Informe o aeroporto de destino (ou pressione ENTER para ignorar): ");
-        String destino = scanner.nextLine();
+        System.out.println("Informe o aeroporto de origem:");
+        Aeroporto aeroportoOrigem = selecionarAeroporto(scanner);
+
+        System.out.println("Informe o aeroporto de destino:");
+        Aeroporto aeroportoDestino = selecionarAeroporto(scanner);
         
         System.out.print("Informe a data do voo (formato: dd/MM/yyyy, ou pressione ENTER para ignorar): ");
         String dataInput = scanner.nextLine();
@@ -89,16 +93,34 @@ public class Main {
             }
         }
 
-        List<PassagemAerea> resultados = PassagemController.pesquisarPassagens(origem, destino, data);
+        List<PassagemAerea> resultados = PassagemController.pesquisarPassagens(aeroportoOrigem, aeroportoDestino, data);
         if (resultados.isEmpty()) {
             System.out.println("Nenhuma passagem encontrada.");
         } else {
             System.out.println("Passagens encontradas:");
             for (PassagemAerea passagem : resultados) {
-                System.out.println("Voo: " + passagem.getCodigoVoo() + ", Companhia: " + passagem.getCompanhiaAerea() +
+                System.out.println("Voo: " + passagem.getCodigoVoo() + ", Companhia: " + passagem.getCompanhiaAerea().getNome() +
                         ", Preço: " + passagem.getPreco() + " " + passagem.getMoeda() +
                         ", Preço com taxas: " + passagem.getPrecoComTaxas() + " " + passagem.getMoeda() +
                         ", Preço em Reais: " + passagem.getPrecoEmReais() + " BRL");
+            }
+        }
+    }
+
+    private static Aeroporto selecionarAeroporto(Scanner scanner) {
+        AeroportoController.listarAeroportos();
+        System.out.print("Digite o número do aeroporto desejado (ou pressione ENTER para ignorar): ");
+        String escolha = scanner.nextLine();
+
+        if (escolha.isEmpty()) {
+            return null;
+        } else {
+            try {
+                int indice = Integer.parseInt(escolha);
+                return AeroportoController.buscarAeroporto(indice);
+            } catch (NumberFormatException e) {
+                System.out.println("Opção inválida. Aeroporto não selecionado.");
+                return null;
             }
         }
     }
