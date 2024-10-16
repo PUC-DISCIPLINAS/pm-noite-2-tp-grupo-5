@@ -20,5 +20,6 @@ mvn exec:java -Dexec.mainClass="com.flyeasy.Main"
 
 Criar as branchs com a tag da issue, ex: issue_1
 
-Utilizar a main so após aprovação do code review em stage
+Solicitar pr para mergiar com dev
+
 # pm-noite-2-tp-grupo-5
