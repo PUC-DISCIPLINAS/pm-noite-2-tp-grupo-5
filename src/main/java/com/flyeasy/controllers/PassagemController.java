@@ -63,4 +63,15 @@ public class PassagemController {
                                                      passagem.getDataHoraVoo().getTime() < data.getTime() + 86400000))) // compara datas
                 .collect(Collectors.toList());
     }
+
+    // Método para reservar um assento
+    public static boolean reservarAssento(String codigoVoo, String assento) {
+        for (PassagemAerea passagem : passagens) {
+            if (passagem.getCodigoVoo().equals(codigoVoo)) {
+                return passagem.reservarAssento(assento);
+            }
+        }
+        return false; // Voo não encontrado
+    }
 }
+
