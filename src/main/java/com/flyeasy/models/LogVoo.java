@@ -15,6 +15,7 @@ public class LogVoo {
         this.dataVoo = dataVoo;
     }
 
+    
     @Override
     public String toString() {
         return "LogVoo{" +
