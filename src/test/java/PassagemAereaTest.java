@@ -54,4 +54,17 @@ public class PassagemAereaTest {
         double valorEsperado = 40.0; 
         assertEquals(valorEsperado, passagem.calcularTarifaLucro(), "O valor do lucro deve ser 20% da tarifa básica");
     }
+    @Test
+    public void testarReservaDeAssento() {
+        PassagemAerea passagem = new PassagemAerea("Aeroporto Internacional de Guarulhos", 
+                "Aeroporto Internacional de Lisboa", new Date(), "LA123", "Latam", 
+                200.0, 300.0, 500.0, "BRL");
+
+        boolean reserva1 = passagem.reservarAssento("12A");
+        boolean reserva2 = passagem.reservarAssento("12A"); // Tentando reservar o mesmo assento novamente
+
+        assertTrue(reserva1, "A reserva do assento 12A deve ser bem-sucedida");
+        assertFalse(reserva2, "A reserva do assento 12A deve falhar, pois já foi reservado");
+    }
+}
 }
