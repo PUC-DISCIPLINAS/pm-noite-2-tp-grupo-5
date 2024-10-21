@@ -28,24 +28,21 @@ public class VooController {
         LocalDate dataAtual = LocalDate.now();
         LocalDate dataFinal = dataAtual.plusDays(30);
         List<Voo> voosProgramados = new ArrayList<>();
-
+    
         for (Voo voo : voos) {
-            LocalDate proximaDataVoo = dataAtual;
-
-            while (proximaDataVoo.isBefore(dataFinal) || proximaDataVoo.isEqual(dataFinal)) {
-                for (DiaSemana dia : voo.getDiasSemana()) {
-                    if (proximaDataVoo.getDayOfWeek().equals(dia.toDayOfWeek())) {
-
-                        Voo vooProgramado = new Voo(voo.getCodigo(), voo.getOrigem(), voo.getDestino(), voo.getDiasSemana(), voo.getAeronave());
-                        voosProgramados.add(vooProgramado);
-                    }
+            for (DiaSemana dia : voo.getDiasSemana()) {
+                LocalDate proximaDataVoo = dataAtual.with(dia.toDayOfWeek());
+    
+                while (!proximaDataVoo.isAfter(dataFinal)) {
+                    Voo vooProgramado = new Voo(voo.getCodigo(), voo.getOrigem(), voo.getDestino(), voo.getDiasSemana(), voo.getAeronave());
+                    voosProgramados.add(vooProgramado);
+                    proximaDataVoo = proximaDataVoo.plusWeeks(1);
                 }
-                proximaDataVoo = proximaDataVoo.plusDays(1);
             }
         }
         return voosProgramados;
     }
-
+    
     public Voo buscarVooPorCodigo(String codigo) {
         for (Voo voo : voos) {
             if (voo.getCodigo().equals(codigo)) {

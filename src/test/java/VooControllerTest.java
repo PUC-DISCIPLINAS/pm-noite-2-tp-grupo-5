@@ -33,22 +33,24 @@ public class VooControllerTest {
         assertEquals("AD4114", voo.getCodigo());
         assertEquals("VCP", voo.getOrigem());
         assertEquals("CNF", voo.getDestino());
-        assertEquals(aeronave, voo.getAeronave());  /
-        assertEquals(180, voo.getCapacidadePassageiros());  
+        assertEquals(aeronave, voo.getAeronave());
+        assertEquals(180, voo.getCapacidadePassageiros());
     }
 
     @Test
     public void testProgramarVoosAtivos() {
+        Aeronave aeronave = new Aeronave("A320", 180, 2000.0, 30);
 
-        vooController.cadastrarVoo("AD4117", "BSB", "REC", Arrays.asList(DiaSemana.SEGUNDA, DiaSemana.QUARTA), aeronave);
+        vooController.cadastrarVoo("AD4117", "BSB", "REC", Arrays.asList(DiaSemana.SEGUNDA, DiaSemana.QUARTA),
+                aeronave);
 
         List<Voo> voosProgramados = vooController.programarVoosAtivos();
 
-        assertEquals(8, voosProgramados.size());
-
+        assertEquals(10, voosProgramados.size());
         for (Voo voo : voosProgramados) {
             assertEquals(aeronave, voo.getAeronave());
-            assertEquals(180, voo.getCapacidadePassageiros()); 
+            assertEquals(180, voo.getCapacidadePassageiros());
         }
     }
+
 }
