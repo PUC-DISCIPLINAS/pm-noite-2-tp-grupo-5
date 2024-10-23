@@ -1,7 +1,8 @@
-package com.flyeasy;
+import com.flyeasy.models.*;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -10,19 +11,21 @@ public class BilheteTest {
     @Test
     public void testEmitirBilhete() {
         // Criar objetos de teste
-        Aeroporto aeroportoOrigem = new Aeroporto("Aeroporto de Origem", "Origem");
-        Aeroporto aeroportoDestino = new Aeroporto("Aeroporto de Destino", "Destino");
-        CompanhiaAerea companhiaAerea = new CompanhiaAerea("Companhia Aérea XYZ");
+        Aeroporto aeroportoOrigem = new Aeroporto("Aeroporto de Origem", "ORG", "São Paulo", "SP", "Brasil");
+        Aeroporto aeroportoDestino = new Aeroporto("Aeroporto de Destino", "DST", "Rio de Janeiro", "RJ", "Brasil");
+        CompanhiaAerea companhiaAerea = new CompanhiaAerea("Companhia Aérea XYZ", "XYZ", "XYZ Airlines", "12345678000123", 100.0, 50.0);
+        Date dataHoraVoo = new Date();
+
         PassagemAerea passagemAerea = new PassagemAerea(
-                aeroportoOrigem,
-                aeroportoDestino,
-                new Date(),
-                "XYZ123",
-                companhiaAerea,
-                100.0,  // tarifaBasica
-                200.0,  // tarifaBusiness
-                300.0,  // tarifaPremium
-                "BRL"   // moeda
+                aeroportoOrigem, 
+                aeroportoDestino, 
+                dataHoraVoo, 
+                "XYZ123", 
+                companhiaAerea, 
+                100.0,
+                200.0,
+                300.0,
+                "BRL"
         );
 
         // Criar um bilhete
@@ -33,20 +36,22 @@ public class BilheteTest {
         assertEquals("Silva", bilhete.getSobrenome());
         assertEquals("123456789", bilhete.getDocumento());
         assertEquals(passagemAerea, bilhete.getPassagemAerea());
-        assertEquals(120.0, bilhete.getValorTotal(), 0.01); // valor total esperado com 20% de lucro
+        assertEquals(120.0, bilhete.getValorTotal(), 0.01); // valor total esperado com 20% de lucro sobre 100.0
     }
 
     @Test
     public void testToString() {
-        Aeroporto aeroportoOrigem = new Aeroporto("Aeroporto de Origem", "Origem");
-        Aeroporto aeroportoDestino = new Aeroporto("Aeroporto de Destino", "Destino");
-        CompanhiaAerea companhiaAerea = new CompanhiaAerea("Companhia Aérea XYZ");
+        Aeroporto aeroportoOrigem = new Aeroporto("Aeroporto de Origem", "ORG", "São Paulo", "SP", "Brasil");
+        Aeroporto aeroportoDestino = new Aeroporto("Aeroporto de Destino", "DST", "Rio de Janeiro", "RJ", "Brasil");
+        CompanhiaAerea companhiaAerea = new CompanhiaAerea("Companhia Aérea XYZ", "XYZ", "XYZ Airlines", "12345678000123", 100.0, 50.0);
+        Date dataHoraVoo = new Date();
+
         PassagemAerea passagemAerea = new PassagemAerea(
-                aeroportoOrigem,
-                aeroportoDestino,
-                new Date(),
-                "XYZ123",
-                companhiaAerea,
+                aeroportoOrigem, 
+                aeroportoDestino, 
+                dataHoraVoo, 
+                "XYZ123", 
+                companhiaAerea, 
                 100.0,  // tarifaBasica
                 200.0,  // tarifaBusiness
                 300.0,  // tarifaPremium

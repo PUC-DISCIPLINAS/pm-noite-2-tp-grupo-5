@@ -1,4 +1,4 @@
-package com.flyeasy;
+package com.flyeasy.views;
 
 public class TerminalView {
 

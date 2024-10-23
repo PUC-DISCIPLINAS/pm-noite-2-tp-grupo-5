@@ -1,12 +1,11 @@
-package controller;
+package com.flyeasy.controllers;
 
-import model.Voo;
-import model.DiaSemana;
-
-import java.time.Duration;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import com.flyeasy.models.DiaSemana;
+import com.flyeasy.models.Voo;
 
 public class VooController {
     private List<Voo> voos; // Lista que armazenará todos os voos cadastrados

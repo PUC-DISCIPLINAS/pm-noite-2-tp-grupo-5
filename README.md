@@ -18,4 +18,8 @@ Após a compilação bem-sucedida, execute a aplicação com o comando:
 
 mvn exec:java -Dexec.mainClass="com.flyeasy.Main"
 
+Criar as branchs com a tag da issue, ex: issue_1
+
+Solicitar pr para mergiar com dev
+
 # pm-noite-2-tp-grupo-5

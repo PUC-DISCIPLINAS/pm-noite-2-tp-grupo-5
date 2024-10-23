@@ -1,4 +1,4 @@
-package com.flyeasy;
+package com.flyeasy.models;
 
 public class Bilhete {
     private String nome;

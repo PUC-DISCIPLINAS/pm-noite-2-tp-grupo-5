@@ -1,4 +1,6 @@
-package com.flyeasy;
+package com.flyeasy.controllers;
+
+import com.flyeasy.models.Aeroporto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,28 +10,22 @@ public class AeroportoController {
     private static List<Aeroporto> aeroportos = new ArrayList<>();
     private static Scanner scanner = new Scanner(System.in);
 
+    // Inicializando com um aeroporto
     static {
-        Aeroporto confins = new Aeroporto();
-        confins.setNome("Aeroporto Internacional de Confins");
-        confins.setSigla("CNF");
-        confins.setCidade("Confins");
-        confins.setEstado("Minas Gerais");
-        confins.setPais("Brasil");
+        Aeroporto confins = new Aeroporto("Aeroporto Internacional de Confins", "CNF", "Confins", "Minas Gerais", "Brasil");
         aeroportos.add(confins);
     }
 
+    // Método para cadastrar um novo aeroporto
     public static void cadastrarAeroporto() {
-        Aeroporto aeroporto = new Aeroporto();
-
         System.out.print("Nome do Aeroporto: ");
-        aeroporto.setNome(scanner.nextLine());
+        String nome = scanner.nextLine();
 
         String sigla;
         while (true) {
             System.out.print("Sigla (3 letras): ");
             sigla = scanner.nextLine().toUpperCase();
             if (sigla.length() == 3) {
-                aeroporto.setSigla(sigla);
                 break;
             } else {
                 System.out.println("Sigla deve ter 3 letras.");
@@ -37,18 +33,21 @@ public class AeroportoController {
         }
 
         System.out.print("Cidade: ");
-        aeroporto.setCidade(scanner.nextLine());
+        String cidade = scanner.nextLine();
 
         System.out.print("Estado: ");
-        aeroporto.setEstado(scanner.nextLine());
+        String estado = scanner.nextLine();
 
         System.out.print("País: ");
-        aeroporto.setPais(scanner.nextLine());
+        String pais = scanner.nextLine();
 
+        // Usando o novo construtor da classe Aeroporto
+        Aeroporto aeroporto = new Aeroporto(nome, sigla, cidade, estado, pais);
         aeroportos.add(aeroporto);
         System.out.println("\nAeroporto cadastrado com sucesso!");
     }
 
+    // Método para listar os aeroportos
     public static void listarAeroportos() {
         if (aeroportos.isEmpty()) {
             System.out.println("Nenhum aeroporto cadastrado.");
@@ -63,6 +62,7 @@ public class AeroportoController {
         }
     }
 
+    // Método para buscar um aeroporto pelo índice
     public static Aeroporto buscarAeroporto(int indice) {
         if (indice >= 1 && indice <= aeroportos.size()) {
             return aeroportos.get(indice - 1);
@@ -70,6 +70,7 @@ public class AeroportoController {
         return null;
     }
 
+    // Método para editar as informações de um aeroporto
     public static void editarAeroporto() {
         listarAeroportos();
 
@@ -86,9 +87,41 @@ public class AeroportoController {
 
         System.out.println("Editando Aeroporto: " + aeroporto.getNome());
         
-        MenuController.editarInformacoesAeroporto(aeroporto);
+        // Refatorado para permitir a edição
+        System.out.print("Novo nome do Aeroporto (ou pressione Enter para manter o atual): ");
+        String novoNome = scanner.nextLine();
+        if (!novoNome.trim().isEmpty()) {
+            aeroporto.setNome(novoNome);
+        }
+
+        System.out.print("Nova sigla do Aeroporto (ou pressione Enter para manter a atual): ");
+        String novaSigla = scanner.nextLine().toUpperCase();
+        if (novaSigla.length() == 3) {
+            aeroporto.setSigla(novaSigla);
+        }
+
+        System.out.print("Nova cidade do Aeroporto (ou pressione Enter para manter a atual): ");
+        String novaCidade = scanner.nextLine();
+        if (!novaCidade.trim().isEmpty()) {
+            aeroporto.setCidade(novaCidade);
+        }
+
+        System.out.print("Novo estado do Aeroporto (ou pressione Enter para manter o atual): ");
+        String novoEstado = scanner.nextLine();
+        if (!novoEstado.trim().isEmpty()) {
+            aeroporto.setEstado(novoEstado);
+        }
+
+        System.out.print("Novo país do Aeroporto (ou pressione Enter para manter o atual): ");
+        String novoPais = scanner.nextLine();
+        if (!novoPais.trim().isEmpty()) {
+            aeroporto.setPais(novoPais);
+        }
+
+        System.out.println("\nAeroporto atualizado com sucesso!");
     }
 
+    // Método para deletar um aeroporto
     public static void deletarAeroporto() {
         listarAeroportos();
 
