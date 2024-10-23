@@ -18,6 +18,7 @@ public class PassagemAereaTest {
         Date dataHoraVoo = new Date();
         PassagemAerea passagem = new PassagemAerea(aeroportoOrigem, aeroportoDestino, dataHoraVoo, "LA123", companhiaAerea, 200.0, 300.0, 500.0, "BRL");
 
+        // Teste dos getters
         assertEquals(aeroportoOrigem, passagem.getAeroportoOrigem());
         assertEquals(aeroportoDestino, passagem.getAeroportoDestino());
         assertEquals(dataHoraVoo, passagem.getDataHoraVoo());
@@ -31,7 +32,6 @@ public class PassagemAereaTest {
 
     @Test
     public void testarCalculoTarifaLucro() {
-
         Aeroporto aeroportoOrigem = new Aeroporto("Aeroporto Internacional", "AIG", "São Paulo", "SP", "Brasil");
         Aeroporto aeroportoDestino = new Aeroporto("Aeroporto Internacional", "AIG", "Rio de Janeiro", "RJ", "Brasil");
         CompanhiaAerea companhiaAerea = new CompanhiaAerea("Latam", "LA", "Latam Airlines", "12345678000101", 100.0, 50.0);
