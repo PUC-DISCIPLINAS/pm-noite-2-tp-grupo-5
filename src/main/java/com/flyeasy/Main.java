@@ -14,7 +14,6 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // Inicialização dos controladores
         UsuarioController.inicializarUsuarios();
         CompanhiaAereaController.inicializarCompanhiasAereas();
         PassagemController.inicializarPassagens();
@@ -30,7 +29,7 @@ public class Main {
                 System.out.println("1. Pesquisar Passagens Aéreas");
                 System.out.println("2. Fazer login (Setor Administrativo)");
                 System.out.println("3. Fechar terminal");
-                System.out.print("Escolha uma opção: ");
+                System.out.print("Escolha uma opção dentro de nosso sistema: ");
                 
                 int escolha = scanner.nextInt();
                 scanner.nextLine(); 

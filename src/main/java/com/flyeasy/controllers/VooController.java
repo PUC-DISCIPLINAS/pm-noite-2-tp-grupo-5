@@ -1,5 +1,10 @@
 package com.flyeasy.controllers;
 
+import com.flyeasy.models.Voo;
+import com.flyeasy.models.DiaSemana;
+import com.flyeasy.models.Aeronave;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -10,37 +15,36 @@ import com.flyeasy.models.Voo;
 public class VooController {
     private List<Voo> voos; // Lista que armazenará todos os voos cadastrados
 
-    public VooController() {
-        this.voos = new ArrayList<>(); // Inicializa a lista de voos
+    private List<Voo> voos = new ArrayList<>();  // Inicializa a lista de voos
+
+    public void cadastrarVoo(String codigo, String origem, String destino, List<DiaSemana> diasSemana, Aeronave aeronave) {
+        Voo novoVoo = new Voo(codigo, origem, destino, diasSemana, aeronave);
+        voos.add(novoVoo);
     }
 
-    /**
-     * Método para cadastrar um novo voo.
-     * @param codigo Código identificador do voo
-     * @param origem Cidade de origem do voo
-     * @param destino Cidade de destino do voo
-     * @param horarioPartida Horário de partida do voo
-     * @param duracao Duração do voo
-     * @param diasSemana Lista com os dias da semana em que o voo ocorre
-     */
-    public void cadastrarVoo(String codigo, String origem, String destino, LocalTime horarioPartida, Duration duracao, List<DiaSemana> diasSemana) {
-        Voo novoVoo = new Voo(codigo, origem, destino, horarioPartida, duracao, diasSemana); // Cria um novo objeto Voo
-        voos.add(novoVoo); // Adiciona o voo à lista
-    }
-
-    /**
-     * Método para listar todos os voos cadastrados.
-     * @return Lista de todos os voos cadastrados
-     */
     public List<Voo> listarVoos() {
-        return voos; // Retorna a lista de voos cadastrados
+        return voos;
     }
 
-    /**
-     * Método para buscar um voo pelo código.
-     * @param codigo Código do voo a ser buscado
-     * @return O objeto Voo correspondente, ou null se não encontrado
-     */
+    public List<Voo> programarVoosAtivos() {
+        LocalDate dataAtual = LocalDate.now();
+        LocalDate dataFinal = dataAtual.plusDays(30);
+        List<Voo> voosProgramados = new ArrayList<>();
+    
+        for (Voo voo : voos) {
+            for (DiaSemana dia : voo.getDiasSemana()) {
+                LocalDate proximaDataVoo = dataAtual.with(dia.toDayOfWeek());
+    
+                while (!proximaDataVoo.isAfter(dataFinal)) {
+                    Voo vooProgramado = new Voo(voo.getCodigo(), voo.getOrigem(), voo.getDestino(), voo.getDiasSemana(), voo.getAeronave());
+                    voosProgramados.add(vooProgramado);
+                    proximaDataVoo = proximaDataVoo.plusWeeks(1);
+                }
+            }
+        }
+        return voosProgramados;
+    }
+    
     public Voo buscarVooPorCodigo(String codigo) {
         return voos.stream()
                    .filter(voo -> voo.getCodigo().equals(codigo)) // Filtra a lista para encontrar o voo com o código correspondente
