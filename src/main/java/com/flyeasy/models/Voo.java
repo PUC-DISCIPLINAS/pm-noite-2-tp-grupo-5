@@ -8,15 +8,14 @@ public class Voo {
     private String origem;
     private String destino;
     private List<DiaSemana> diasSemana;
-    private LocalDateTime dataVoo;  // Novo campo para armazenar a data e hora do voo
+    private Aeronave aeronave;
 
-    // Construtor atualizado para incluir a data do voo
-    public Voo(String codigo, String origem, String destino, List<DiaSemana> diasSemana, LocalDateTime dataVoo) {
+    public Voo(String codigo, String origem, String destino, List<DiaSemana> diasSemana, Aeronave aeronave) {
         this.codigo = codigo;
         this.origem = origem;
         this.destino = destino;
         this.diasSemana = diasSemana;
-        this.dataVoo = dataVoo;
+        this.aeronave = aeronave; 
     }
 
     // Getter para o código
@@ -59,13 +58,15 @@ public class Voo {
         this.diasSemana = diasSemana;
     }
 
-    // Getter para a data do voo
-    public LocalDateTime getDataVoo() {
-        return dataVoo;
+    public Aeronave getAeronave() {
+        return aeronave;
     }
 
-    // Setter para a data do voo, caso precise atualizar
-    public void setDataVoo(LocalDateTime dataVoo) {
-        this.dataVoo = dataVoo;
+    public void setAeronave(Aeronave aeronave) {
+        this.aeronave = aeronave;
+    }
+
+    public int getCapacidadePassageiros() {
+        return aeronave.getCapacidadePassageiros();
     }
 }

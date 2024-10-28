@@ -3,9 +3,9 @@ package com.flyeasy.models;
 public class Aeronave {
     private String codigoAeronave;
     private int capacidadePassageiros;
-    private double capacidadeCarga; // Capacidade de carga em kg
+    private double capacidadeCarga; 
     private int numeroFileiras;
-    private int assentosPorFileira = 6; // Assumindo 6 assentos por fileira conforme especificação
+    private int assentosPorFileira = 6;
 
         public Aeronave(String codigoAeronave, int capacidadePassageiros, double capacidadeCarga, int numeroFileiras) {
         this.codigoAeronave = codigoAeronave;
