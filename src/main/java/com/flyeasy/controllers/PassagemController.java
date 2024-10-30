@@ -12,20 +12,17 @@ import java.util.stream.Collectors;
 public class PassagemController {
     private static List<PassagemAerea> passagens = new ArrayList<>();
 
-    // Método estático para inicializar passagens com os novos objetos
     public static void inicializarPassagens() {
-        // Aeroportos de origem e destino
+
         Aeroporto aeroportoOrigem1 = new Aeroporto("Aeroporto Internacional de São Paulo", "GRU", "São Paulo", "SP", "Brasil");
         Aeroporto aeroportoDestino1 = new Aeroporto("Aeroporto Internacional de Lisboa", "LIS", "Lisboa", "Lisboa", "Portugal");
 
         Aeroporto aeroportoOrigem2 = new Aeroporto("Aeroporto Internacional de Miami", "MIA", "Miami", "FL", "EUA");
         Aeroporto aeroportoDestino2 = new Aeroporto("Aeroporto Internacional de Malpensa", "MXP", "Milão", "Lombardia", "Itália");
 
-        // Companhias aéreas
         CompanhiaAerea companhia1 = new CompanhiaAerea("TAP Portugal", "TP", "TAP", "12345678000100", 100.0, 50.0);
         CompanhiaAerea companhia2 = new CompanhiaAerea("American Airlines", "AA", "American Airlines", "12345678000200", 150.0, 60.0);
 
-        // Passagens aéreas
         PassagemAerea passagem1 = new PassagemAerea(
             aeroportoOrigem1, 
             aeroportoDestino1,
