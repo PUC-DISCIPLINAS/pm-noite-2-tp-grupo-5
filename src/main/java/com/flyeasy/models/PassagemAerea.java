@@ -5,20 +5,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PassagemAerea {
-    private Aeroporto aeroportoOrigem;  // Ajustado para usar objeto Aeroporto
-    private Aeroporto aeroportoDestino; // Ajustado para usar objeto Aeroporto
+    private Aeroporto aeroportoOrigem;
+    private Aeroporto aeroportoDestino;
     private Date dataHoraVoo;
     private String codigoVoo;
-    private CompanhiaAerea companhiaAerea;   // Ajustado para usar objeto CompanhiaAerea
+    private CompanhiaAerea companhiaAerea;
     private double tarifaBasica;
     private double tarifaBusiness;
     private double tarifaPremium;
     private String moeda;
     private double percentualLucro = 20.0;
     private Map<String, Boolean> assentosDisponiveis;
+    private StatusPassagem statusPassagem;
+
+    public enum StatusPassagem {
+        ADQUIRIDA, CANCELADA, CHECKIN_REALIZADO, EMBARQUE_REALIZADO, NO_SHOW
+    }
 
     public PassagemAerea(Aeroporto aeroportoOrigem, Aeroporto aeroportoDestino, Date dataHoraVoo,
-                         String codigoVoo, CompanhiaAerea companhiaAerea, // Ajustado para aceitar objetos
+                         String codigoVoo, CompanhiaAerea companhiaAerea,
                          double tarifaBasica, double tarifaBusiness, double tarifaPremium, String moeda) {
         this.aeroportoOrigem = aeroportoOrigem;
         this.aeroportoDestino = aeroportoDestino;
@@ -30,10 +35,19 @@ public class PassagemAerea {
         this.tarifaPremium = tarifaPremium;
         this.moeda = moeda;
         this.assentosDisponiveis = new HashMap<>();
-        
+        this.statusPassagem = StatusPassagem.ADQUIRIDA;
+
         for (int i = 1; i <= 10; i++) {
             this.assentosDisponiveis.put("A" + i, true);
         }
+    }
+
+    public StatusPassagem getStatusPassagem() {
+        return statusPassagem;
+    }
+
+    public void atualizarStatus(StatusPassagem novoStatus) {
+        this.statusPassagem = novoStatus;
     }
 
     public Aeroporto getAeroportoOrigem() {

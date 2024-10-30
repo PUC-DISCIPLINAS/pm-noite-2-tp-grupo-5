@@ -13,10 +13,10 @@ import com.flyeasy.models.DiaSemana;
 import com.flyeasy.models.Voo;
 
 public class VooController {
-    private List<Voo> voos; // Lista que armazenará todos os voos cadastrados
+    private List<Voo> voos;
 
-    private List<Voo> voos = new ArrayList<>();  // Inicializa a lista de voos
-
+    private List<Voo> voo = new ArrayList<>();
+    
     public void cadastrarVoo(String codigo, String origem, String destino, List<DiaSemana> diasSemana, Aeronave aeronave) {
         Voo novoVoo = new Voo(codigo, origem, destino, diasSemana, aeronave);
         voos.add(novoVoo);
