@@ -2,6 +2,7 @@ package com.flyeasy.controllers;
 
 import com.flyeasy.models.Aeroporto;
 import com.flyeasy.models.CompanhiaAerea;
+import com.flyeasy.models.Passageiro;
 import com.flyeasy.models.PassagemAerea;
 
 import java.util.ArrayList;
@@ -11,17 +12,13 @@ import java.util.stream.Collectors;
 
 public class PassagemController {
     private static List<PassagemAerea> passagens = new ArrayList<>();
+    private static final double precoBagagem = 50.0; // Valor fixo para bagagem adicional
 
     public static void inicializarPassagens() {
-
         Aeroporto aeroportoOrigem1 = new Aeroporto("Aeroporto Internacional de São Paulo", "GRU", "São Paulo", "SP", "Brasil");
         Aeroporto aeroportoDestino1 = new Aeroporto("Aeroporto Internacional de Lisboa", "LIS", "Lisboa", "Lisboa", "Portugal");
 
-        Aeroporto aeroportoOrigem2 = new Aeroporto("Aeroporto Internacional de Miami", "MIA", "Miami", "FL", "EUA");
-        Aeroporto aeroportoDestino2 = new Aeroporto("Aeroporto Internacional de Malpensa", "MXP", "Milão", "Lombardia", "Itália");
-
         CompanhiaAerea companhia1 = new CompanhiaAerea("TAP Portugal", "TP", "TAP", "12345678000100", 100.0, 50.0);
-        CompanhiaAerea companhia2 = new CompanhiaAerea("American Airlines", "AA", "American Airlines", "12345678000200", 150.0, 60.0);
 
         PassagemAerea passagem1 = new PassagemAerea(
             aeroportoOrigem1, 
@@ -35,23 +32,10 @@ public class PassagemController {
             "BRL"
         );
 
-        PassagemAerea passagem2 = new PassagemAerea(
-            aeroportoOrigem2, 
-            aeroportoDestino2,
-            new Date(System.currentTimeMillis() + 86400000), 
-            "AA2150",   
-            companhia2,   
-            1800.0,    
-            3200.0,    
-            4500.0,    
-            "USD"
-        );
-
-        // Adicionando passagens à lista
+        // Adicionando passagem à lista
         passagens.add(passagem1);
     }
 
-    // Método para pesquisar passagens
     public static List<PassagemAerea> pesquisarPassagens(Aeroporto origem, Aeroporto destino, Date data) {
         return passagens.stream()
                 .filter(passagem -> (origem == null || passagem.getAeroportoOrigem().equals(origem)) &&
@@ -61,7 +45,6 @@ public class PassagemController {
                 .collect(Collectors.toList());
     }
 
-    // Método para reservar um assento
     public static boolean reservarAssento(String codigoVoo, String assento) {
         for (PassagemAerea passagem : passagens) {
             if (passagem.getCodigoVoo().equals(codigoVoo)) {
@@ -70,5 +53,30 @@ public class PassagemController {
         }
         return false; // Voo não encontrado
     }
-}
 
+    // Método para aplicar uma taxa de cancelamento
+    private boolean aplicarTaxaCancelamento(PassagemAerea passagem) {
+        double taxaCancelamento = passagem.getTarifaBasica() * 0.1; // Exemplo: 10% da tarifa básica
+        System.out.println("Taxa de cancelamento aplicada: " + taxaCancelamento);
+        return true;
+    }
+
+    public boolean cancelarPassagem(PassagemAerea passagem, Passageiro passageiro) {
+        if (passageiro.isStatusVIP()) {
+            System.out.println("Cancelamento sem custo para passageiro VIP.");
+            passagens.remove(passagem);
+            return true; // Cancelamento processado
+        } else {
+            System.out.println("Aplicando taxa de cancelamento.");
+            return aplicarTaxaCancelamento(passagem);
+        }
+    }
+
+    public double calcularCustoBagagem(Passageiro passageiro, int quantidadeAdicional) {
+        if (passageiro.isStatusVIP()) {
+            System.out.println("Desconto de 50% aplicado para passageiro VIP.");
+            return quantidadeAdicional * precoBagagem * 0.5; // Desconto VIP
+        }
+        return quantidadeAdicional * precoBagagem; // Valor regular
+    }
+}

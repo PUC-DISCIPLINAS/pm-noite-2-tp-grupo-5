@@ -5,20 +5,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PassagemAerea {
-    private Aeroporto aeroportoOrigem;  // Ajustado para usar objeto Aeroporto
-    private Aeroporto aeroportoDestino; // Ajustado para usar objeto Aeroporto
+    private Aeroporto aeroportoOrigem;
+    private Aeroporto aeroportoDestino;
     private Date dataHoraVoo;
     private String codigoVoo;
-    private CompanhiaAerea companhiaAerea;   // Ajustado para usar objeto CompanhiaAerea
+    private CompanhiaAerea companhiaAerea;
     private double tarifaBasica;
     private double tarifaBusiness;
     private double tarifaPremium;
     private String moeda;
     private double percentualLucro = 20.0;
     private Map<String, Boolean> assentosDisponiveis;
+    private Voo voo;
 
     public PassagemAerea(Aeroporto aeroportoOrigem, Aeroporto aeroportoDestino, Date dataHoraVoo,
-                         String codigoVoo, CompanhiaAerea companhiaAerea, // Ajustado para aceitar objetos
+                         String codigoVoo, CompanhiaAerea companhiaAerea, 
                          double tarifaBasica, double tarifaBusiness, double tarifaPremium, String moeda) {
         this.aeroportoOrigem = aeroportoOrigem;
         this.aeroportoDestino = aeroportoDestino;
@@ -34,6 +35,14 @@ public class PassagemAerea {
         for (int i = 1; i <= 10; i++) {
             this.assentosDisponiveis.put("A" + i, true);
         }
+    }
+
+    public Voo getVoo() {
+        return voo;
+    }
+
+    public void setVoo(Voo voo) {
+        this.voo = voo;
     }
 
     public Aeroporto getAeroportoOrigem() {
@@ -138,7 +147,6 @@ public class PassagemAerea {
     }
 
     public double getPrecoEmReais() {
-
         return "USD".equals(moeda) ? tarifaBasica * 5.0 : tarifaBasica;
     }
 
