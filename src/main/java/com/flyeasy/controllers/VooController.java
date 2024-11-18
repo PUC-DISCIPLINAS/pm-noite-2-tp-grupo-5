@@ -2,21 +2,23 @@ package com.flyeasy.controllers;
 
 import com.flyeasy.models.Voo;
 import com.flyeasy.models.DiaSemana;
+import com.flyeasy.models.Passageiro;
+import com.flyeasy.models.PassagemAerea;
 import com.flyeasy.models.Aeronave;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import com.flyeasy.models.DiaSemana;
-import com.flyeasy.models.Voo;
 
 public class VooController {
-    private List<Voo> voos; // Lista que armazenará todos os voos cadastrados
+    private List<Voo> voos;
 
-    private List<Voo> voos = new ArrayList<>();  // Inicializa a lista de voos
+    public VooController() {
+        this.voos = new ArrayList<>();
+    }
 
+    private List<Voo> voo = new ArrayList<>();
+    
     public void cadastrarVoo(String codigo, String origem, String destino, List<DiaSemana> diasSemana, Aeronave aeronave) {
         Voo novoVoo = new Voo(codigo, origem, destino, diasSemana, aeronave);
         voos.add(novoVoo);
@@ -44,12 +46,30 @@ public class VooController {
         }
         return voosProgramados;
     }
-    
+
     public Voo buscarVooPorCodigo(String codigo) {
         return voos.stream()
-                   .filter(voo -> voo.getCodigo().equals(codigo)) // Filtra a lista para encontrar o voo com o código correspondente
+                   .filter(voo -> voo.getCodigo().equals(codigo))
                    .findFirst()
-                   .orElse(null); // Retorna o primeiro voo encontrado ou null se nenhum for encontrado
+                   .orElse(null);
+    }
+
+    public boolean alterarVoo(PassagemAerea passagem, Passageiro passageiro, Voo novoVoo) {
+        if (passageiro.isStatusVIP()) {
+            System.out.println("Alteração sem custo para passageiro VIP.");
+            passagem.setVoo(novoVoo);
+            return true;
+        } else {
+            System.out.println("Aplicando taxa de alteração.");
+            return aplicarTaxaAlteracao(passagem, novoVoo);
+        }
+    }
+
+    private boolean aplicarTaxaAlteracao(PassagemAerea passagem, Voo novoVoo) {
+        double taxaAlteracao = passagem.getTarifaBasica() * 0.05;
+        System.out.println("Taxa de alteração aplicada: " + taxaAlteracao);
+        passagem.setVoo(novoVoo);
+        return true;
     }
 
     /**
@@ -59,11 +79,10 @@ public class VooController {
      * @return true se o voo ocorrer no dia, false caso contrário
      */
     public boolean vooOcorreNoDia(String codigo, DiaSemana dia) {
-        Voo voo = buscarVooPorCodigo(codigo); // Busca o voo pelo código
-        if (voo != null) { // Se o voo foi encontrado
-            return voo.getDiasSemana().contains(dia); // Verifica se o dia está na lista de dias da semana do voo
+        Voo voo = buscarVooPorCodigo(codigo);
+        if (voo != null) {
+            return voo.getDiasSemana().contains(dia);
         }
-        return false; // Retorna false se o voo não ocorre no dia
+        return false;
     }
 }
-
