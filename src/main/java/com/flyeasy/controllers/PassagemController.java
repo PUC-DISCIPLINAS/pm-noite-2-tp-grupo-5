@@ -21,19 +21,32 @@ public class PassagemController {
         CompanhiaAerea companhia1 = new CompanhiaAerea("TAP Portugal", "TP", "TAP", "12345678000100", 100.0, 50.0);
 
         PassagemAerea passagem1 = new PassagemAerea(
-            aeroportoOrigem1, 
-            aeroportoDestino1,
-            new Date(System.currentTimeMillis() + 86400000), 
-            "TP1020",   
-            companhia1,   
-            2000.0,    
-            3500.0,    
-            5000.0,    
-            "BRL"
+                aeroportoOrigem1,
+                aeroportoDestino1,
+                new Date(System.currentTimeMillis() + 86400000), // 1 dia de antecedência
+                "TP1020",
+                companhia1,
+                2000.0,
+                3500.0,
+                5000.0,
+                "BRL"
         );
 
         // Adicionando passagem à lista
+        PassagemAerea passagem2 = new PassagemAerea(
+                aeroportoOrigem2,
+                aeroportoDestino2,
+                new Date(System.currentTimeMillis() + 86400000), // 1 dia de antecedência
+                "AA2150",
+                companhia2,
+                1800.0,
+                3200.0,
+                4500.0,
+                "USD"
+        );
+
         passagens.add(passagem1);
+        passagens.add(passagem2);
     }
 
     public static List<PassagemAerea> pesquisarPassagens(Aeroporto origem, Aeroporto destino, Date data) {
@@ -43,6 +56,25 @@ public class PassagemController {
                                    (data == null || (passagem.getDataHoraVoo().getTime() >= data.getTime() &&
                                                      passagem.getDataHoraVoo().getTime() < data.getTime() + 86400000))) // compara datas
                 .collect(Collectors.toList());
+    // Método para verificar e realizar o check-in
+    public static String realizarCheckIn(String codigoVoo) {
+        for (PassagemAerea passagem : passagens) {
+            if (passagem.getCodigoVoo().equals(codigoVoo)) {
+                if (passagem.realizarCheckIn()) {
+                    return "Check-in realizado com sucesso para o voo " + codigoVoo;
+                } else {
+                    return "Não é possível realizar o check-in para o voo " + codigoVoo + ". Fora do período permitido.";
+                }
+            }
+        }
+        return "Voo não encontrado.";
+    }
+
+    // Método para verificar No Show
+    public static void verificarNoShow() {
+        for (PassagemAerea passagem : passagens) {
+            passagem.registrarNoShow();
+        }
     }
 
     public static boolean reservarAssento(String codigoVoo, String assento) {

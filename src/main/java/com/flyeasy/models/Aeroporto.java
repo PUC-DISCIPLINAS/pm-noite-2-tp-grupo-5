@@ -1,18 +1,25 @@
 package com.flyeasy.models;
 
+public enum TipoVoo {
+    DOMESTICO,
+    INTERNACIONAL
+}
+
 public class Aeroporto {
     private String nome;
     private String sigla;
     private String cidade;
     private String estado;
     private String pais;
+    private TipoVoo tipoVoo; // Novo campo
 
-    public Aeroporto(String nome, String sigla, String cidade, String estado, String pais) {
+    public Aeroporto(String nome, String sigla, String cidade, String estado, String pais, TipoVoo tipoVoo) {
         this.nome = nome;
         this.sigla = sigla;
         this.cidade = cidade;
         this.estado = estado;
         this.pais = pais;
+        this.tipoVoo = tipoVoo; // Inicializa o novo campo
     }
 
     public String getNome() {
@@ -53,5 +60,13 @@ public class Aeroporto {
 
     public void setPais(String pais) {
         this.pais = pais;
+    }
+
+    public TipoVoo getTipoVoo() {
+        return tipoVoo; // Novo getter
+    }
+
+    public void setTipoVoo(TipoVoo tipoVoo) {
+        this.tipoVoo = tipoVoo; // Novo setter
     }
 }
