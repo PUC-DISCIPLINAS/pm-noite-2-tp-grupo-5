@@ -1,3 +1,4 @@
+import com.flyeasy.controllers.PassagemController;
 import com.flyeasy.models.*;
 import org.junit.jupiter.api.Test;
 import java.util.Date;
@@ -12,6 +13,8 @@ public class PassagemAereaTest {
 
         Aeroporto aeroportoDestino = new Aeroporto("Aeroporto Internacional", "AIG", "São Paulo", "SP", "Brasil");
         aeroportoDestino.setNome("Aeroporto de Destino");
+        Aeroporto aeroportoOrigem = new Aeroporto("Aeroporto Internacional de São Paulo", "GRU", "São Paulo", "SP", "Brasil");
+        Aeroporto aeroportoDestino = new Aeroporto("Aeroporto Internacional de Lisboa", "LIS", "Lisboa", "Lisboa", "Portugal");
 
         CompanhiaAerea companhiaAerea = new CompanhiaAerea("Latam", "LA", "Latam Airlines", "12345678000101", 100.0, 50.0);
         Date dataHoraVoo = new Date();
@@ -31,8 +34,8 @@ public class PassagemAereaTest {
 
     @Test
     public void testarCalculoTarifaLucro() {
-        Aeroporto aeroportoOrigem = new Aeroporto("Aeroporto Internacional", "AIG", "São Paulo", "SP", "Brasil");
-        Aeroporto aeroportoDestino = new Aeroporto("Aeroporto Internacional", "AIG", "Rio de Janeiro", "RJ", "Brasil");
+        Aeroporto aeroportoOrigem = new Aeroporto("Aeroporto Internacional de São Paulo", "GRU", "São Paulo", "SP", "Brasil");
+        Aeroporto aeroportoDestino = new Aeroporto("Aeroporto Internacional de Lisboa", "LIS", "Lisboa", "Lisboa", "Portugal");
         CompanhiaAerea companhiaAerea = new CompanhiaAerea("Latam", "LA", "Latam Airlines", "12345678000101", 100.0, 50.0);
 
         PassagemAerea passagem = new PassagemAerea(
@@ -115,5 +118,33 @@ public class PassagemAereaTest {
         // Atualizar status para CANCELADA
         passagem.atualizarStatus(PassagemAerea.StatusPassagem.CANCELADA);
         assertEquals(PassagemAerea.StatusPassagem.CANCELADA, passagem.getStatusPassagem(), "O status deve ser 'CANCELADA' após atualização");
+    public void testCancelamentoSemCustoParaVIP() {
+        Passageiro passageiroVIP = new Passageiro("Ana VIP", "123.456.789-00", "vip@email.com", true);
+
+        Aeroporto aeroportoOrigem = new Aeroporto("Aeroporto Internacional de São Paulo", "GRU", "São Paulo", "SP", "Brasil");
+        Aeroporto aeroportoDestino = new Aeroporto("Aeroporto Internacional de Lisboa", "LIS", "Lisboa", "Lisboa", "Portugal");
+
+        PassagemAerea passagem = new PassagemAerea(
+                aeroportoOrigem,
+                aeroportoDestino,
+                new Date(System.currentTimeMillis() + 86400000),
+                "TP1020",
+                new CompanhiaAerea("TAP Portugal", "TP", "TAP", "12345678000100", 100.0, 50.0),
+                2000.0, 3500.0, 5000.0, "BRL"
+        );
+
+        boolean cancelamentoBemSucedido = new PassagemController().cancelarPassagem(passagem, passageiroVIP);
+
+        assertTrue(cancelamentoBemSucedido, "Passageiro VIP deveria cancelar a passagem sem custo.");
+    }
+
+    @Test
+    public void testDescontoBagagemParaVIP() {
+        Passageiro passageiroVIP = new Passageiro("Ana VIP", "123.456.789-00", "vip@email.com", true);
+
+        PassagemController controller = new PassagemController();
+        double custoComDesconto = controller.calcularCustoBagagem(passageiroVIP, 2);
+
+        assertEquals(50.0 * 2 * 0.5, custoComDesconto, "Desconto de 50% deveria ser aplicado ao passageiro VIP.");
     }
 }
