@@ -33,7 +33,7 @@ public class VooControllerTest {
         assertEquals("AD4114", voo.getCodigo());
         assertEquals("VCP", voo.getOrigem());
         assertEquals("CNF", voo.getDestino());
-        assertEquals(aeronave, voo.getAeronave());  /
+        assertEquals(aeronave, voo.getAeronave());
         assertEquals(180, voo.getCapacidadePassageiros());  
     }
 
