@@ -1,8 +1,6 @@
 package com.flyeasy.models;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class PassagemAerea {
     private Aeroporto aeroportoOrigem;
@@ -16,30 +14,18 @@ public class PassagemAerea {
     private String moeda;
     private double percentualLucro = 20.0;
     private Map<String, Boolean> assentosDisponiveis;
-<<<<<<< HEAD
     private StatusPassagem statusPassagem;
+    private boolean checkInRealizado;
+    private boolean passageiroVIP; // Indica se o passageiro é VIP
 
     public enum StatusPassagem {
         ADQUIRIDA, CANCELADA, CHECKIN_REALIZADO, EMBARQUE_REALIZADO, NO_SHOW
     }
 
+    // Construtor
     public PassagemAerea(Aeroporto aeroportoOrigem, Aeroporto aeroportoDestino, Date dataHoraVoo,
-                         String codigoVoo, CompanhiaAerea companhiaAerea,
-=======
-<<<<<<< HEAD
-    private Voo voo;
-
-    public PassagemAerea(Aeroporto aeroportoOrigem, Aeroporto aeroportoDestino, Date dataHoraVoo,
-                         String codigoVoo, CompanhiaAerea companhiaAerea, 
->>>>>>> origin/main
-                         double tarifaBasica, double tarifaBusiness, double tarifaPremium, String moeda) {
-=======
-    private boolean checkInRealizado;  // Novo campo para verificar se o check-in foi realizado
-
-    public PassagemAerea(Aeroporto aeroportoOrigem, Aeroporto aeroportoDestino, Date dataHoraVoo,
-                         String codigoVoo, CompanhiaAerea companhiaAerea, double tarifaBasica, 
+                         String codigoVoo, CompanhiaAerea companhiaAerea, double tarifaBasica,
                          double tarifaBusiness, double tarifaPremium, String moeda) {
->>>>>>> origin/main
         this.aeroportoOrigem = aeroportoOrigem;
         this.aeroportoDestino = aeroportoDestino;
         this.dataHoraVoo = dataHoraVoo;
@@ -49,85 +35,98 @@ public class PassagemAerea {
         this.tarifaBusiness = tarifaBusiness;
         this.tarifaPremium = tarifaPremium;
         this.moeda = moeda;
-        this.assentosDisponiveis = new HashMap<>();
-<<<<<<< HEAD
         this.statusPassagem = StatusPassagem.ADQUIRIDA;
-=======
-        this.checkInRealizado = false;  // Inicializa como falso
->>>>>>> origin/main
+        this.checkInRealizado = false; // Inicializa o check-in como não realizado
+        this.passageiroVIP = false; // Inicializa como não VIP
+        this.assentosDisponiveis = new HashMap<>();
 
         for (int i = 1; i <= 10; i++) {
             this.assentosDisponiveis.put("A" + i, true);
         }
     }
 
-<<<<<<< HEAD
-    public StatusPassagem getStatusPassagem() {
-        return statusPassagem;
+    // Métodos para busca de voos com conexão
+    public static List<PassagemAerea> buscarVoosComConexao(List<PassagemAerea> voos, Aeroporto origem,
+                                                           Aeroporto destino, Date data) {
+        List<PassagemAerea> voosComConexao = new ArrayList<>();
+
+        for (PassagemAerea voo1 : voos) {
+            if (voo1.getAeroportoOrigem().equals(origem) && voo1.getDataHoraVoo().equals(data)) {
+                for (PassagemAerea voo2 : voos) {
+                    if (voo1.getAeroportoDestino().equals(voo2.getAeroportoOrigem())
+                            && voo2.getAeroportoDestino().equals(destino)
+                            && voo2.getDataHoraVoo().after(voo1.getDataHoraVoo())) {
+                        voosComConexao.add(voo1);
+                        voosComConexao.add(voo2);
+                    }
+                }
+            }
+        }
+        return voosComConexao;
     }
 
-    public void atualizarStatus(StatusPassagem novoStatus) {
-        this.statusPassagem = novoStatus;
-=======
-<<<<<<< HEAD
-    public Voo getVoo() {
-        return voo;
+    // Compra de passagem para passageiros VIP
+    public void tornarPassageiroVIP() {
+        this.passageiroVIP = true;
     }
 
-    public void setVoo(Voo voo) {
-        this.voo = voo;
->>>>>>> origin/main
+    public boolean isPassageiroVIP() {
+        return passageiroVIP;
     }
 
+    public String detalhesCusto() {
+        double tarifaFinal = tarifaBasica + calcularTarifaLucro();
+        String detalhes = "Tarifa Básica: " + tarifaBasica + " " + moeda + "\n" +
+                "Lucro: " + calcularTarifaLucro() + " " + moeda + "\n" +
+                "Total: " + tarifaFinal + " " + moeda;
+
+        if (passageiroVIP) {
+            detalhes += "\nPassageiro VIP: Franquia de bagagem incluída.";
+        }
+        return detalhes;
+    }
+
+    // Cancelamento do voo e passagem
+    public void cancelarPassagem() {
+        atualizarStatus(StatusPassagem.CANCELADA);
+        System.out.println("Passagem para o voo " + codigoVoo + " foi cancelada.");
+    }
+
+    public void cancelarVoo(List<PassagemAerea> passagens) {
+        for (PassagemAerea passagem : passagens) {
+            if (passagem.getCodigoVoo().equals(this.codigoVoo)) {
+                passagem.cancelarPassagem();
+            }
+        }
+        System.out.println("Voo " + codigoVoo + " foi cancelado.");
+    }
+
+    // Métodos auxiliares
     public Aeroporto getAeroportoOrigem() {
         return aeroportoOrigem;
-=======
-    // Getters e setters...
-
-    // Método para verificar se o check-in está dentro do período permitido
-    public boolean podeRealizarCheckIn() {
-        Date agora = new Date();
-        long diff = dataHoraVoo.getTime() - agora.getTime();
-        long diffHours = diff / (60 * 60 * 1000) % 24;
-        long diffMinutes = diff / (60 * 1000) % 60;
-        
-        return (diffHours >= 48 && diffMinutes >= 0) || (diffHours < 48 && diffMinutes >= 30);
->>>>>>> origin/main
     }
 
-    // Método para realizar o check-in
-    public boolean realizarCheckIn() {
-        if (podeRealizarCheckIn()) {
-            this.checkInRealizado = true;
-            return true;
-        }
-        return false;  // Não é possível fazer o check-in se fora do período permitido
+    public Aeroporto getAeroportoDestino() {
+        return aeroportoDestino;
     }
 
-    // Método para registrar No Show
-    public void registrarNoShow() {
-        if (!checkInRealizado && dataHoraVoo.before(new Date())) {
-            System.out.println("No show registrado para o voo: " + codigoVoo);
-        }
+    public Date getDataHoraVoo() {
+        return dataHoraVoo;
     }
 
-<<<<<<< HEAD
-    public double getPreco() {
+    public String getCodigoVoo() {
+        return codigoVoo;
+    }
+
+    public double getTarifaBasica() {
         return tarifaBasica;
-    }
-
-    public double getPrecoComTaxas() {
-        return tarifaBasica + calcularTarifaLucro();
-    }
-
-    public double getPrecoEmReais() {
-        return "USD".equals(moeda) ? tarifaBasica * 5.0 : tarifaBasica;
     }
 
     public double calcularTarifaLucro() {
         return tarifaBasica * (percentualLucro / 100);
     }
-=======
-    // Getters e setters adicionais...
->>>>>>> origin/main
+
+    public void atualizarStatus(StatusPassagem novoStatus) {
+        this.statusPassagem = novoStatus;
+    }
 }
