@@ -7,15 +7,38 @@ public class Voo {
     private String codigo;
     private String origem;
     private String destino;
+    private LocalDateTime horarioDecolagem;
+    private Duration duracao;
+    private double valorPassagem;
     private List<DiaSemana> diasSemana;
     private Aeronave aeronave;
 
-    public Voo(String codigo, String origem, String destino, List<DiaSemana> diasSemana, Aeronave aeronave) {
+    public Voo(String codigo, String origem, String destino, List<DiaSemana> diasSemana, Aeronave aeronave, LocalDateTime horarioDecolagem, Duration duracao, double valorPassagem) {
         this.codigo = codigo;
         this.origem = origem;
         this.destino = destino;
         this.diasSemana = diasSemana;
         this.aeronave = aeronave; 
+        this.horarioDecolagem = horarioDecolagem;
+        this.duracao = duracao;
+        this.valorPassagem = valorPassagem;
+    }
+
+    public String getOrigem() { return origem; }
+    public String getDestino() { return destino; }
+    public LocalDateTime getHorarioDecolagem() { return horarioDecolagem; }
+    public LocalDateTime getHorarioChegada() { return horarioDecolagem.plus(duracao); }
+    public double getValorPassagem() { return valorPassagem; }
+    public String getCodigo() { return codigo; }
+    @Override
+    public String toString() {
+        return "Voo{" +
+                "Origem='" + origem + '\'' +
+                ", Destino='" + destino + '\'' +
+                ", Horário Decolagem=" + horarioDecolagem +
+                ", Horário Chegada=" + getHorarioChegada() +
+                ", Valor Passagem=R$ " + valorPassagem +
+                '}';
     }
 
     public String getCodigo() {
