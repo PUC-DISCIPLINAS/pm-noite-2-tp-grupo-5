@@ -17,8 +17,6 @@ public class VooController {
         this.voos = new ArrayList<>();
     }
 
-    private List<Voo> voo = new ArrayList<>();
-    
     public void cadastrarVoo(String codigo, String origem, String destino, List<DiaSemana> diasSemana, Aeronave aeronave) {
         Voo novoVoo = new Voo(codigo, origem, destino, diasSemana, aeronave);
         voos.add(novoVoo);

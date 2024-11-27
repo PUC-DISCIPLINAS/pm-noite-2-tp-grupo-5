@@ -16,33 +16,10 @@ public class PassagemAerea {
     private String moeda;
     private double percentualLucro = 20.0;
     private Map<String, Boolean> assentosDisponiveis;
-<<<<<<< HEAD
-<<<<<<< HEAD
-    private StatusPassagem statusPassagem;
-
-    public enum StatusPassagem {
-        ADQUIRIDA, CANCELADA, CHECKIN_REALIZADO, EMBARQUE_REALIZADO, NO_SHOW
-    }
-
-    public PassagemAerea(Aeroporto aeroportoOrigem, Aeroporto aeroportoDestino, Date dataHoraVoo,
-                         String codigoVoo, CompanhiaAerea companhiaAerea,
-=======
-<<<<<<< HEAD
-    private Voo voo;
-
-    public PassagemAerea(Aeroporto aeroportoOrigem, Aeroporto aeroportoDestino, Date dataHoraVoo,
-                         String codigoVoo, CompanhiaAerea companhiaAerea, 
->>>>>>> origin/main
-                         double tarifaBasica, double tarifaBusiness, double tarifaPremium, String moeda) {
-=======
-    private boolean checkInRealizado;  // Novo campo para verificar se o check-in foi realizado
-
-=======
     private boolean checkInRealizado;  // Novo campo para verificar se o check-in foi realizado
     private Voo voo;
 
     // Construtor
->>>>>>> origin/issue_3
     public PassagemAerea(Aeroporto aeroportoOrigem, Aeroporto aeroportoDestino, Date dataHoraVoo,
                          String codigoVoo, CompanhiaAerea companhiaAerea, double tarifaBasica, 
                          double tarifaBusiness, double tarifaPremium, String moeda) {
@@ -56,45 +33,14 @@ public class PassagemAerea {
         this.tarifaPremium = tarifaPremium;
         this.moeda = moeda;
         this.assentosDisponiveis = new HashMap<>();
-<<<<<<< HEAD
-        this.statusPassagem = StatusPassagem.ADQUIRIDA;
-=======
         this.checkInRealizado = false;  // Inicializa como falso
->>>>>>> origin/main
 
         for (int i = 1; i <= 10; i++) {
             this.assentosDisponiveis.put("A" + i, true);
         }
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public StatusPassagem getStatusPassagem() {
-        return statusPassagem;
-    }
-
-    public void atualizarStatus(StatusPassagem novoStatus) {
-        this.statusPassagem = novoStatus;
-=======
-<<<<<<< HEAD
-    public Voo getVoo() {
-        return voo;
-    }
-
-    public void setVoo(Voo voo) {
-        this.voo = voo;
->>>>>>> origin/main
-    }
-
-    public Aeroporto getAeroportoOrigem() {
-        return aeroportoOrigem;
-=======
-    // Getters e setters...
-
-    // Método para verificar se o check-in está dentro do período permitido
-=======
     // Métodos para verificação de check-in
->>>>>>> origin/issue_3
     public boolean podeRealizarCheckIn() {
         Date agora = new Date();
         long diff = dataHoraVoo.getTime() - agora.getTime();

@@ -4,11 +4,7 @@ import com.flyeasy.models.Aeroporto;
 import com.flyeasy.models.CompanhiaAerea;
 import com.flyeasy.models.Passageiro;
 import com.flyeasy.models.PassagemAerea;
-<<<<<<< HEAD
-import com.flyeasy.models.PassagemAerea.StatusPassagem;
-=======
 import com.flyeasy.models.TipoVoo;
->>>>>>> origin/issue_3
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,61 +17,23 @@ public class PassagemController {
 
     // Método para inicializar passagens
     public static void inicializarPassagens() {
-<<<<<<< HEAD
-
-        Aeroporto aeroportoOrigem1 = new Aeroporto("Aeroporto Internacional de São Paulo", "GRU", "São Paulo", "SP",
-                "Brasil");
-        Aeroporto aeroportoDestino1 = new Aeroporto("Aeroporto Internacional de Lisboa", "LIS", "Lisboa", "Lisboa",
-                "Portugal");
-
-        Aeroporto aeroportoOrigem2 = new Aeroporto("Aeroporto Internacional de Miami", "MIA", "Miami", "FL", "EUA");
-        Aeroporto aeroportoDestino2 = new Aeroporto("Aeroporto Internacional de Malpensa", "MXP", "Milão", "Lombardia",
-                "Itália");
-
-        CompanhiaAerea companhia1 = new CompanhiaAerea("TAP Portugal", "TP", "TAP", "12345678000100", 100.0, 50.0);
-        CompanhiaAerea companhia2 = new CompanhiaAerea("American Airlines", "AA", "American Airlines", "12345678000200",
-                150.0, 60.0);
-        Aeroporto aeroportoOrigem1 = new Aeroporto("Aeroporto Internacional de São Paulo", "GRU", "São Paulo", "SP", "Brasil");
-        Aeroporto aeroportoDestino1 = new Aeroporto("Aeroporto Internacional de Lisboa", "LIS", "Lisboa", "Lisboa", "Portugal");
-=======
         Aeroporto aeroportoOrigem1 = new Aeroporto("Aeroporto Internacional de São Paulo", "GRU", "São Paulo", "SP", "Brasil", TipoVoo.DOMESTICO);
         Aeroporto aeroportoDestino1 = new Aeroporto("Aeroporto Internacional de Lisboa", "LIS", "Lisboa", "Lisboa", "Portugal", TipoVoo.INTERNACIONAL);
->>>>>>> origin/issue_3
 
         CompanhiaAerea companhia1 = new CompanhiaAerea("TAP Portugal", "TP", "TAP", "12345678000100", 100.0, 50.0);
 
         PassagemAerea passagem1 = new PassagemAerea(
-                aeroportoOrigem1,
-                aeroportoDestino1,
-                new Date(System.currentTimeMillis() + 86400000),
-                new Date(System.currentTimeMillis() + 86400000), // 1 dia de antecedência
-                "TP1020",
-                companhia1,
-                2000.0,
-                3500.0,
-                5000.0,
-                "BRL");
-                "BRL"
-        );
+            aeroportoOrigem1,
+            aeroportoDestino1,
+            new Date(System.currentTimeMillis() + 86400000), // 1 dia de antecedência
+            "TP1020",
+            companhia1,
+            2000.0,
+            3500.0,
+            5000.0,
+            "BRL"
+    );
 
-<<<<<<< HEAD
-        // Adicionando passagem à lista
-        PassagemAerea passagem2 = new PassagemAerea(
-                aeroportoOrigem2,
-                aeroportoDestino2,
-                new Date(System.currentTimeMillis() + 86400000),
-                new Date(System.currentTimeMillis() + 86400000), // 1 dia de antecedência
-                "AA2150",
-                companhia2,
-                1800.0,
-                3200.0,
-                4500.0,
-                "USD");
-                "USD"
-        );
-
-=======
->>>>>>> origin/issue_3
         passagens.add(passagem1);
     }
 
@@ -118,19 +76,6 @@ public class PassagemController {
             }
         }
         return false;
-<<<<<<< HEAD
-    }
-
-    public static boolean atualizarStatusPassagem(String codigoVoo, StatusPassagem novoStatus) {
-        for (PassagemAerea passagem : passagens) {
-            if (passagem.getCodigoVoo().equals(codigoVoo)) {
-                passagem.atualizarStatus(novoStatus);
-                return true;
-            }
-        }
-        return false;
-=======
->>>>>>> origin/issue_3
     }
 
     // Método para cancelar passagem

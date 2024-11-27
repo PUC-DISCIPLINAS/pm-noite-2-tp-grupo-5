@@ -6,26 +6,21 @@ public class Bilhete {
     private String documento;
     private PassagemAerea passagemAerea;
     private double valorTotal;
-    private Passageiro passageiro;
-    private Voo voo;
 
-    public Bilhete(String nome, String sobrenome, String documento, PassagemAerea passagemAerea, Passageiro passageiro, Voo voo) {
+    // Construtor
+    public Bilhete(String nome, String sobrenome, String documento, PassagemAerea passagemAerea) {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.documento = documento;
         this.passagemAerea = passagemAerea;
         this.valorTotal = calcularValorTotal();
-        this.passageiro = passageiro;
-        this.voo = voo;
     }
-
-    public Passageiro getPassageiro() { return passageiro; }
-    public Voo getVoo() { return voo; }
 
     private double calcularValorTotal() {
         return passagemAerea.getTarifaBasica() + passagemAerea.calcularTarifaLucro();
     }
 
+    // Getters e Setters
     public String getNome() {
         return nome;
     }
