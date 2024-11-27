@@ -46,6 +46,38 @@ public class VooController {
         }
         return voosProgramados;
     }
+    public static List<String> buscarVoosComConexao(String origem, String destino, Date data) {
+        List<String> resultados = new ArrayList<>();
+
+        for (Voo voo1 : voos) {
+            if (voo1.getOrigem().equals(origem) && mesmaData(voo1.getDataHoraDecolagem(), data)) {
+                for (Voo voo2 : voos) {
+                    if (voo1.getDestino().equals(voo2.getOrigem()) &&
+                        voo2.getDestino().equals(destino) &&
+                        voo1.getDataHoraChegada().before(voo2.getDataHoraDecolagem())) {
+
+                        resultados.add("Conexão encontrada: \n" +
+                                "Voo 1 - Origem: " + voo1.getOrigem() + ", Destino: " + voo1.getDestino() +
+                                ", Saída: " + voo1.getDataHoraDecolagem() + ", Chegada: " + voo1.getDataHoraChegada() +
+                                ", Valor: " + voo1.getValorPassagem() + "\n" +
+                                "Voo 2 - Origem: " + voo2.getOrigem() + ", Destino: " + voo2.getDestino() +
+                                ", Saída: " + voo2.getDataHoraDecolagem() + ", Chegada: " + voo2.getDataHoraChegada() +
+                                ", Valor: " + voo2.getValorPassagem());
+                    }
+                }
+            }
+        }
+        return resultados;
+    }
+
+    private static boolean mesmaData(Date data1, Date data2) {
+        Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        cal1.setTime(data1);
+        cal2.setTime(data2);
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+               cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
+    }
 
     public Voo buscarVooPorCodigo(String codigo) {
         return voos.stream()
