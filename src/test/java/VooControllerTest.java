@@ -6,6 +6,7 @@ import com.flyeasy.models.DiaSemana;
 import com.flyeasy.models.Passageiro;
 import com.flyeasy.models.PassagemAerea;
 import com.flyeasy.models.Voo;
+import com.flyeasy.models.TipoVoo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,13 +33,17 @@ public class VooControllerTest {
     @Test
     public void testCadastrarVoo() {
 
-        vooController.cadastrarVoo("AD4114", "VCP", "CNF", Arrays.asList(DiaSemana.SEGUNDA, DiaSemana.TERCA), aeronave);
+        // Corrigindo a criação dos aeroportos com o TipoVoo
+        Aeroporto aeroportoOrigem = new Aeroporto("Aeroporto Internacional de São Paulo", "GRU", "São Paulo", "SP", "Brasil", TipoVoo.INTERNACIONAL);
+        Aeroporto aeroportoDestino = new Aeroporto("Aeroporto Internacional de Lisboa", "LIS", "Lisboa", "Lisboa", "Portugal", TipoVoo.INTERNACIONAL);
+
+        vooController.cadastrarVoo("AD4114", aeroportoOrigem.getSigla(), aeroportoDestino.getSigla(), Arrays.asList(DiaSemana.SEGUNDA, DiaSemana.TERCA), aeronave);
 
         Voo voo = vooController.buscarVooPorCodigo("AD4114");
         assertNotNull(voo);
         assertEquals("AD4114", voo.getCodigo());
-        assertEquals("VCP", voo.getOrigem());
-        assertEquals("CNF", voo.getDestino());
+        assertEquals(aeroportoOrigem.getSigla(), voo.getOrigem());
+        assertEquals(aeroportoDestino.getSigla(), voo.getDestino());
         assertEquals(aeronave, voo.getAeronave());
         assertEquals(180, voo.getCapacidadePassageiros());
     }
@@ -63,8 +68,9 @@ public class VooControllerTest {
     public void testAlteracaoSemCustoParaVIP() {
         Passageiro passageiroVIP = new Passageiro("Ana VIP", "123.456.789-00", "vip@email.com", true);
 
-        Aeroporto aeroportoOrigem = new Aeroporto("Aeroporto Internacional de São Paulo", "GRU", "São Paulo", "SP", "Brasil");
-        Aeroporto aeroportoDestino = new Aeroporto("Aeroporto Internacional de Lisboa", "LIS", "Lisboa", "Lisboa", "Portugal");
+        // Corrigindo a criação dos aeroportos com o TipoVoo
+        Aeroporto aeroportoOrigem = new Aeroporto("Aeroporto Internacional de São Paulo", "GRU", "São Paulo", "SP", "Brasil", TipoVoo.INTERNACIONAL);
+        Aeroporto aeroportoDestino = new Aeroporto("Aeroporto Internacional de Lisboa", "LIS", "Lisboa", "Lisboa", "Portugal", TipoVoo.INTERNACIONAL);
 
         Voo vooOriginal = new Voo("AD4114", "GRU", "LIS", Arrays.asList(DiaSemana.SEGUNDA), new Aeronave("A320", 180, 2000.0, 30));
         Voo novoVoo = new Voo("AD5114", "GRU", "FCO", Arrays.asList(DiaSemana.TERCA), new Aeronave("A320", 180, 2000.0, 30));
