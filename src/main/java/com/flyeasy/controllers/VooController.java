@@ -38,7 +38,13 @@ public class VooController {
                 LocalDate proximaDataVoo = dataAtual.with(dia.toDayOfWeek());
     
                 while (!proximaDataVoo.isAfter(dataFinal)) {
-                    Voo vooProgramado = new Voo(voo.getCodigo(), voo.getOrigem(), voo.getDestino(), voo.getDiasSemana(), voo.getAeronave());
+                    Voo vooProgramado = new Voo(
+                        voo.getCodigo(),
+                        voo.getOrigem(),
+                        voo.getDestino(),
+                        voo.getDiasSemana(),
+                        voo.getAeronave()
+                    );
                     voosProgramados.add(vooProgramado);
                     proximaDataVoo = proximaDataVoo.plusWeeks(1);
                 }
@@ -72,12 +78,6 @@ public class VooController {
         return true;
     }
 
-    /**
-     * Método para verificar se um voo ocorre em um dia específico da semana.
-     * @param codigo Código do voo a ser verificado
-     * @param dia Dia da semana a ser verificado
-     * @return true se o voo ocorrer no dia, false caso contrário
-     */
     public boolean vooOcorreNoDia(String codigo, DiaSemana dia) {
         Voo voo = buscarVooPorCodigo(codigo);
         if (voo != null) {

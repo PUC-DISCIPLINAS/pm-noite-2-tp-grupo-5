@@ -17,6 +17,7 @@ public class PassagemAerea {
     private double percentualLucro = 20.0;
     private Map<String, Boolean> assentosDisponiveis;
 <<<<<<< HEAD
+<<<<<<< HEAD
     private StatusPassagem statusPassagem;
 
     public enum StatusPassagem {
@@ -36,10 +37,15 @@ public class PassagemAerea {
 =======
     private boolean checkInRealizado;  // Novo campo para verificar se o check-in foi realizado
 
+=======
+    private boolean checkInRealizado;  // Novo campo para verificar se o check-in foi realizado
+    private Voo voo;
+
+    // Construtor
+>>>>>>> origin/issue_3
     public PassagemAerea(Aeroporto aeroportoOrigem, Aeroporto aeroportoDestino, Date dataHoraVoo,
                          String codigoVoo, CompanhiaAerea companhiaAerea, double tarifaBasica, 
                          double tarifaBusiness, double tarifaPremium, String moeda) {
->>>>>>> origin/main
         this.aeroportoOrigem = aeroportoOrigem;
         this.aeroportoDestino = aeroportoDestino;
         this.dataHoraVoo = dataHoraVoo;
@@ -61,6 +67,7 @@ public class PassagemAerea {
         }
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     public StatusPassagem getStatusPassagem() {
         return statusPassagem;
@@ -85,6 +92,9 @@ public class PassagemAerea {
     // Getters e setters...
 
     // Método para verificar se o check-in está dentro do período permitido
+=======
+    // Métodos para verificação de check-in
+>>>>>>> origin/issue_3
     public boolean podeRealizarCheckIn() {
         Date agora = new Date();
         long diff = dataHoraVoo.getTime() - agora.getTime();
@@ -92,10 +102,8 @@ public class PassagemAerea {
         long diffMinutes = diff / (60 * 1000) % 60;
         
         return (diffHours >= 48 && diffMinutes >= 0) || (diffHours < 48 && diffMinutes >= 30);
->>>>>>> origin/main
     }
 
-    // Método para realizar o check-in
     public boolean realizarCheckIn() {
         if (podeRealizarCheckIn()) {
             this.checkInRealizado = true;
@@ -111,7 +119,7 @@ public class PassagemAerea {
         }
     }
 
-<<<<<<< HEAD
+    // Métodos de preço
     public double getPreco() {
         return tarifaBasica;
     }
@@ -127,7 +135,82 @@ public class PassagemAerea {
     public double calcularTarifaLucro() {
         return tarifaBasica * (percentualLucro / 100);
     }
-=======
-    // Getters e setters adicionais...
->>>>>>> origin/main
+
+    // Métodos de manipulação de assentos
+    public boolean reservarAssento(String assento) {
+        if (assentosDisponiveis.containsKey(assento) && assentosDisponiveis.get(assento)) {
+            assentosDisponiveis.put(assento, false); // Marca o assento como reservado
+            return true;
+        }
+        return false;
+    }
+
+    public Map<String, Boolean> getAssentosDisponiveis() {
+        return assentosDisponiveis;
+    }
+
+    // Getters e Setters
+    public Aeroporto getAeroportoOrigem() {
+        return aeroportoOrigem;
+    }
+
+    public void setAeroportoOrigem(Aeroporto aeroportoOrigem) {
+        this.aeroportoOrigem = aeroportoOrigem;
+    }
+
+    public Aeroporto getAeroportoDestino() {
+        return aeroportoDestino;
+    }
+
+    public void setAeroportoDestino(Aeroporto aeroportoDestino) {
+        this.aeroportoDestino = aeroportoDestino;
+    }
+
+    public Date getDataHoraVoo() {
+        return dataHoraVoo;
+    }
+
+    public void setDataHoraVoo(Date dataHoraVoo) {
+        this.dataHoraVoo = dataHoraVoo;
+    }
+
+    public String getCodigoVoo() {
+        return codigoVoo;
+    }
+
+    public void setCodigoVoo(String codigoVoo) {
+        this.codigoVoo = codigoVoo;
+    }
+
+    public CompanhiaAerea getCompanhiaAerea() {
+        return companhiaAerea;
+    }
+
+    public void setCompanhiaAerea(CompanhiaAerea companhiaAerea) {
+        this.companhiaAerea = companhiaAerea;
+    }
+
+    public double getTarifaBasica() {
+        return tarifaBasica;
+    }
+
+    public Voo getVoo() {
+        return voo;
+    }
+
+    public void setVoo(Voo voo) {
+        this.voo = voo;
+    }
+
+        public double getTarifaBusiness() {
+        return tarifaBusiness;
+    }
+
+    public double getTarifaPremium() {
+        return tarifaPremium;
+    }
+
+    public String getMoeda() {
+        return moeda;
+    }
 }

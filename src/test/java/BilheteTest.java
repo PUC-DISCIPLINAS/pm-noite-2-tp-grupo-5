@@ -11,8 +11,9 @@ public class BilheteTest {
     @Test
     public void testEmitirBilhete() {
         // Criar objetos de teste
-        Aeroporto aeroportoOrigem = new Aeroporto("Aeroporto de Origem", "ORG", "São Paulo", "SP", "Brasil");
-        Aeroporto aeroportoDestino = new Aeroporto("Aeroporto de Destino", "DST", "Rio de Janeiro", "RJ", "Brasil");
+        Aeroporto aeroportoOrigem = new Aeroporto("Aeroporto de Origem", "ORG", "São Paulo", "SP", "Brasil", TipoVoo.INTERNACIONAL);
+        Aeroporto aeroportoDestino = new Aeroporto("Aeroporto de Destino", "DST", "Rio de Janeiro", "RJ", "Brasil", TipoVoo.INTERNACIONAL);
+        
         CompanhiaAerea companhiaAerea = new CompanhiaAerea("Companhia Aérea XYZ", "XYZ", "XYZ Airlines", "12345678000123", 100.0, 50.0);
         Date dataHoraVoo = new Date();
 
@@ -41,8 +42,8 @@ public class BilheteTest {
 
     @Test
     public void testToString() {
-        Aeroporto aeroportoOrigem = new Aeroporto("Aeroporto de Origem", "ORG", "São Paulo", "SP", "Brasil");
-        Aeroporto aeroportoDestino = new Aeroporto("Aeroporto de Destino", "DST", "Rio de Janeiro", "RJ", "Brasil");
+        Aeroporto aeroportoOrigem = new Aeroporto("Aeroporto de Origem", "ORG", "São Paulo", "SP", "Brasil", TipoVoo.INTERNACIONAL);
+        Aeroporto aeroportoDestino = new Aeroporto("Aeroporto de Destino", "DST", "Rio de Janeiro", "RJ", "Brasil", TipoVoo.INTERNACIONAL);
         CompanhiaAerea companhiaAerea = new CompanhiaAerea("Companhia Aérea XYZ", "XYZ", "XYZ Airlines", "12345678000123", 100.0, 50.0);
         Date dataHoraVoo = new Date();
 
