@@ -13,10 +13,10 @@ public class Voo {
     private double valorPassagem;
     private List<DiaSemana> diasSemana;
     private Aeronave aeronave;
-
+    private CompanhiaAerea companhiaAerea;
     // Construtor
     public Voo(String codigo, String origem, String destino, List<DiaSemana> diasSemana, Aeronave aeronave,
-            LocalDateTime horarioDecolagem, Duration duracao, double valorPassagem) {
+            LocalDateTime horarioDecolagem, Duration duracao, double valorPassagem, CompanhiaAerea companhiaAerea) {
         if (codigo == null || codigo.isBlank()) {
             throw new IllegalArgumentException("O código do voo não pode ser nulo ou vazio.");
         }
@@ -47,6 +47,7 @@ public class Voo {
         this.horarioDecolagem = horarioDecolagem;
         this.duracao = duracao;
         this.valorPassagem = valorPassagem;
+        this.companhiaAerea = companhiaAerea;
     }
 
     public String getCodigo() {
@@ -140,6 +141,10 @@ public class Voo {
 
     public LocalDateTime getHorarioChegada() {
         return horarioDecolagem.plus(duracao);
+    }
+
+    public CompanhiaAerea getCompanhiaAerea() {
+        return companhiaAerea;  // Método para acessar a companhia aérea
     }
 
     // Representação em string

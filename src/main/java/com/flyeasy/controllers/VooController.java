@@ -5,7 +5,7 @@ import com.flyeasy.models.DiaSemana;
 import com.flyeasy.models.Passageiro;
 import com.flyeasy.models.PassagemAerea;
 import com.flyeasy.models.Aeronave;
-import com.flyeasy.models.DiaSemana;
+import com.flyeasy.models.CompanhiaAerea;  // Adiciona a classe CompanhiaAerea
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,12 +21,14 @@ public class VooController {
     }
 
     public void cadastrarVoo(String codigo, String origem, String destino, List<DiaSemana> diasSemana, 
-                             Aeronave aeronave, LocalDateTime horarioDecolagem, Duration duracao, double valorPassagem) {
+                             Aeronave aeronave, LocalDateTime horarioDecolagem, Duration duracao, 
+                             double valorPassagem, CompanhiaAerea companhiaAerea) {  // Adicionando CompanhiaAerea como parâmetro
         if (buscarVooPorCodigo(codigo) != null) {
             throw new IllegalArgumentException("Já existe um voo cadastrado com o código: " + codigo);
         }
 
-        Voo novoVoo = new Voo(codigo, origem, destino, diasSemana, aeronave, horarioDecolagem, duracao, valorPassagem);
+        // Agora passando a CompanhiaAerea para o construtor do Voo
+        Voo novoVoo = new Voo(codigo, origem, destino, diasSemana, aeronave, horarioDecolagem, duracao, valorPassagem, companhiaAerea);
         voos.add(novoVoo);
     }
 
@@ -45,6 +47,7 @@ public class VooController {
 
                 while (!proximaDataVoo.isAfter(dataFinal)) {
                     LocalDateTime horarioDecolagem = proximaDataVoo.atTime(voo.getHorarioDecolagem().toLocalTime());
+                    // Criando o Voo programado, agora com companhia aérea
                     Voo vooProgramado = new Voo(
                         voo.getCodigo(),
                         voo.getOrigem(),
@@ -53,7 +56,8 @@ public class VooController {
                         voo.getAeronave(),
                         horarioDecolagem,
                         voo.getDuracao(),
-                        voo.getValorPassagem()
+                        voo.getValorPassagem(),
+                        voo.getCompanhiaAerea()  // Passando a companhia aérea para o voo programado
                     );
                     voosProgramados.add(vooProgramado);
                     proximaDataVoo = proximaDataVoo.plusWeeks(1);
