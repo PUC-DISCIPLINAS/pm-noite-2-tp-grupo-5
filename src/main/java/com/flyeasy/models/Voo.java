@@ -1,5 +1,6 @@
 package com.flyeasy.models;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -7,53 +8,117 @@ public class Voo {
     private String codigo;
     private String origem;
     private String destino;
+    private LocalDateTime horarioDecolagem;
+    private Duration duracao;
+    private double valorPassagem;
     private List<DiaSemana> diasSemana;
     private Aeronave aeronave;
 
-    public Voo(String codigo, String origem, String destino, List<DiaSemana> diasSemana, Aeronave aeronave) {
+    // Construtor
+    public Voo(String codigo, String origem, String destino, List<DiaSemana> diasSemana, Aeronave aeronave,
+            LocalDateTime horarioDecolagem, Duration duracao, double valorPassagem) {
+        if (codigo == null || codigo.isBlank()) {
+            throw new IllegalArgumentException("O código do voo não pode ser nulo ou vazio.");
+        }
+        if (origem == null || origem.isBlank()) {
+            throw new IllegalArgumentException("A origem não pode ser nula ou vazia.");
+        }
+        if (destino == null || destino.isBlank()) {
+            throw new IllegalArgumentException("O destino não pode ser nulo ou vazio.");
+        }
+        if (horarioDecolagem == null) {
+            throw new IllegalArgumentException("O horário de decolagem não pode ser nulo.");
+        }
+        if (duracao == null || duracao.isNegative() || duracao.isZero()) {
+            throw new IllegalArgumentException("A duração deve ser positiva.");
+        }
+        if (valorPassagem < 0) {
+            throw new IllegalArgumentException("O valor da passagem não pode ser negativo.");
+        }
+        if (aeronave == null) {
+            throw new IllegalArgumentException("A aeronave não pode ser nula.");
+        }
+
         this.codigo = codigo;
         this.origem = origem;
         this.destino = destino;
         this.diasSemana = diasSemana;
-        this.aeronave = aeronave; 
+        this.aeronave = aeronave;
+        this.horarioDecolagem = horarioDecolagem;
+        this.duracao = duracao;
+        this.valorPassagem = valorPassagem;
     }
 
-    // Getter para o código
     public String getCodigo() {
         return codigo;
     }
 
-    // Setter para o código
     public void setCodigo(String codigo) {
+        if (codigo == null || codigo.isBlank()) {
+            throw new IllegalArgumentException("O código do voo não pode ser nulo ou vazio.");
+        }
         this.codigo = codigo;
     }
 
-    // Getter para a origem
     public String getOrigem() {
         return origem;
     }
 
-    // Setter para a origem
     public void setOrigem(String origem) {
+        if (origem == null || origem.isBlank()) {
+            throw new IllegalArgumentException("A origem não pode ser nula ou vazia.");
+        }
         this.origem = origem;
     }
 
-    // Getter para o destino
     public String getDestino() {
         return destino;
     }
 
-    // Setter para o destino
     public void setDestino(String destino) {
+        if (destino == null || destino.isBlank()) {
+            throw new IllegalArgumentException("O destino não pode ser nulo ou vazio.");
+        }
         this.destino = destino;
     }
 
-    // Getter para os dias da semana
+    public LocalDateTime getHorarioDecolagem() {
+        return horarioDecolagem;
+    }
+
+    public void setHorarioDecolagem(LocalDateTime horarioDecolagem) {
+        if (horarioDecolagem == null) {
+            throw new IllegalArgumentException("O horário de decolagem não pode ser nulo.");
+        }
+        this.horarioDecolagem = horarioDecolagem;
+    }
+
+    public Duration getDuracao() {
+        return duracao;
+    }
+
+    public void setDuracao(Duration duracao) {
+        if (duracao == null || duracao.isNegative() || duracao.isZero()) {
+            throw new IllegalArgumentException("A duração deve ser positiva.");
+        }
+        this.duracao = duracao;
+    }
+
+    public double getValorPassagem() {
+        return valorPassagem;
+    }
+
+    public void setValorPassagem(double valorPassagem) {
+        if (valorPassagem < 0) {
+            throw new IllegalArgumentException("O valor da passagem não pode ser negativo.");
+        }
+        this.valorPassagem = valorPassagem;
+    }
+
     public List<DiaSemana> getDiasSemana() {
         return diasSemana;
     }
 
-    // Setter para os dias da semana
     public void setDiasSemana(List<DiaSemana> diasSemana) {
         this.diasSemana = diasSemana;
     }
@@ -63,10 +128,25 @@ public class Voo {
     }
 
     public void setAeronave(Aeronave aeronave) {
+        if (aeronave == null) {
+            throw new IllegalArgumentException("A aeronave não pode ser nula.");
+        }
         this.aeronave = aeronave;
     }
 
     public int getCapacidadePassageiros() {
         return aeronave.getCapacidadePassageiros();
+    }
+
+    public LocalDateTime getHorarioChegada() {
+        return horarioDecolagem.plus(duracao);
+    }
+
+    // Representação em string
+    @Override
+    public String toString() {
+        return String.format(
+                "Voo {Código: %s, Origem: %s, Destino: %s, Horário Decolagem: %s, Horário Chegada: %s, Valor Passagem: R$ %.2f}",
+                codigo, origem, destino, horarioDecolagem, getHorarioChegada(), valorPassagem);
     }
 }
