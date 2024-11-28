@@ -16,13 +16,12 @@ public class PassagemAerea {
     private String moeda;
     private double percentualLucro = 20.0;
     private Map<String, Boolean> assentosDisponiveis;
-    private boolean checkInRealizado;  // Novo campo para verificar se o check-in foi realizado
+    private boolean checkInRealizado;
     private Voo voo;
 
-    // Construtor
     public PassagemAerea(Aeroporto aeroportoOrigem, Aeroporto aeroportoDestino, Date dataHoraVoo,
-                         String codigoVoo, CompanhiaAerea companhiaAerea, double tarifaBasica, 
-                         double tarifaBusiness, double tarifaPremium, String moeda) {
+            String codigoVoo, CompanhiaAerea companhiaAerea, double tarifaBasica,
+            double tarifaBusiness, double tarifaPremium, String moeda) {
         this.aeroportoOrigem = aeroportoOrigem;
         this.aeroportoDestino = aeroportoDestino;
         this.dataHoraVoo = dataHoraVoo;
@@ -33,20 +32,19 @@ public class PassagemAerea {
         this.tarifaPremium = tarifaPremium;
         this.moeda = moeda;
         this.assentosDisponiveis = new HashMap<>();
-        this.checkInRealizado = false;  // Inicializa como falso
+        this.checkInRealizado = false;
 
         for (int i = 1; i <= 10; i++) {
             this.assentosDisponiveis.put("A" + i, true);
         }
     }
 
-    // Métodos para verificação de check-in
     public boolean podeRealizarCheckIn() {
         Date agora = new Date();
         long diff = dataHoraVoo.getTime() - agora.getTime();
         long diffHours = diff / (60 * 60 * 1000) % 24;
         long diffMinutes = diff / (60 * 1000) % 60;
-        
+
         return (diffHours >= 48 && diffMinutes >= 0) || (diffHours < 48 && diffMinutes >= 30);
     }
 
@@ -55,17 +53,15 @@ public class PassagemAerea {
             this.checkInRealizado = true;
             return true;
         }
-        return false;  // Não é possível fazer o check-in se fora do período permitido
+        return false;
     }
 
-    // Método para registrar No Show
     public void registrarNoShow() {
         if (!checkInRealizado && dataHoraVoo.before(new Date())) {
             System.out.println("No show registrado para o voo: " + codigoVoo);
         }
     }
 
-    // Métodos de preço
     public double getPreco() {
         return tarifaBasica;
     }
@@ -82,10 +78,9 @@ public class PassagemAerea {
         return tarifaBasica * (percentualLucro / 100);
     }
 
-    // Métodos de manipulação de assentos
     public boolean reservarAssento(String assento) {
         if (assentosDisponiveis.containsKey(assento) && assentosDisponiveis.get(assento)) {
-            assentosDisponiveis.put(assento, false); // Marca o assento como reservado
+            assentosDisponiveis.put(assento, false);
             return true;
         }
         return false;
@@ -95,7 +90,6 @@ public class PassagemAerea {
         return assentosDisponiveis;
     }
 
-    // Getters e Setters
     public Aeroporto getAeroportoOrigem() {
         return aeroportoOrigem;
     }
@@ -148,7 +142,7 @@ public class PassagemAerea {
         this.voo = voo;
     }
 
-        public double getTarifaBusiness() {
+    public double getTarifaBusiness() {
         return tarifaBusiness;
     }
 
