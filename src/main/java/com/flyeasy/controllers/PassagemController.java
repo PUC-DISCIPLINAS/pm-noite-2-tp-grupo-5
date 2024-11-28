@@ -1,10 +1,6 @@
 package com.flyeasy.controllers;
 
-import com.flyeasy.models.Aeroporto;
-import com.flyeasy.models.CompanhiaAerea;
-import com.flyeasy.models.Passageiro;
-import com.flyeasy.models.PassagemAerea;
-import com.flyeasy.models.TipoVoo;
+import com.flyeasy.models.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,9 +9,8 @@ import java.util.stream.Collectors;
 
 public class PassagemController {
     private static List<PassagemAerea> passagens = new ArrayList<>();
-    private static final double precoBagagem = 50.0; // Valor fixo para bagagem adicional
+    private static final double precoBagagem = 50.0;
 
-    // Método para inicializar passagens
     public static void inicializarPassagens() {
         Aeroporto aeroportoOrigem1 = new Aeroporto("Aeroporto Internacional de São Paulo", "GRU", "São Paulo", "SP", "Brasil", TipoVoo.DOMESTICO);
         Aeroporto aeroportoDestino1 = new Aeroporto("Aeroporto Internacional de Lisboa", "LIS", "Lisboa", "Lisboa", "Portugal", TipoVoo.INTERNACIONAL);
@@ -25,13 +20,14 @@ public class PassagemController {
         PassagemAerea passagem1 = new PassagemAerea(
                 aeroportoOrigem1,
                 aeroportoDestino1,
-                new Date(System.currentTimeMillis() + 86400000), // 1 dia de antecedência
+                new Date(System.currentTimeMillis() + 86400000),
                 "TP1020",
                 companhia1,
                 2000.0,
                 3500.0,
                 5000.0,
-                "BRL"
+                "BRL",
+                "passageiro@example.com"
         );
 
         passagens.add(passagem1);
@@ -52,6 +48,7 @@ public class PassagemController {
         for (PassagemAerea passagem : passagens) {
             if (passagem.getCodigoVoo().equals(codigoVoo)) {
                 if (passagem.realizarCheckIn()) {
+                    passagem.enviarNotificacao("Check-in Realizado", "Seu check-in foi realizado com sucesso.");
                     return "Check-in realizado com sucesso para o voo " + codigoVoo;
                 } else {
                     return "Não é possível realizar o check-in para o voo " + codigoVoo + ". Fora do período permitido.";
@@ -78,21 +75,22 @@ public class PassagemController {
         return false;
     }
 
-    // Método para cancelar passagem
+    // Método para aplicar taxa de cancelamento
     private static boolean aplicarTaxaCancelamento(PassagemAerea passagem) {
-        double taxaCancelamento = passagem.getTarifaBasica() * 0.1; // 10% da tarifa básica
+        double taxaCancelamento = passagem.getTarifaBasica() * 0.1;
         System.out.println("Taxa de cancelamento aplicada: " + taxaCancelamento);
         return true;
     }
 
+    // Método para cancelar passagem
     public static boolean cancelarPassagem(PassagemAerea passagem, Passageiro passageiro) {
         if (passageiro.isStatusVIP()) {
-            System.out.println("Cancelamento sem custo para passageiro VIP.");
-            passagens.remove(passagem);
+            passagem.enviarNotificacao("Passagem Cancelada", "Sua passagem foi cancelada com sucesso, sem custo devido ao status VIP.");
             return true;
         } else {
             System.out.println("Aplicando taxa de cancelamento.");
-            return aplicarTaxaCancelamento(passagem);
+            passagem.enviarNotificacao("Passagem Cancelada", "Sua passagem foi cancelada com taxa.");
+            return true;
         }
     }
 

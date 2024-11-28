@@ -81,8 +81,10 @@ public class VooControllerTest {
                 new Date(),
                 "TP1020",
                 new CompanhiaAerea("TAP Portugal", "TP", "TAP", "12345678000100", 100.0, 50.0),
-                2000.0, 3500.0, 5000.0, "BRL"
+                2000.0, 3500.0, 5000.0, "BRL",
+                "passageiro@example.com" // e-mail
         );
+
 
         vooController.cadastrarVoo("AD4114", "GRU", "LIS", Arrays.asList(DiaSemana.SEGUNDA), new Aeronave("A320", 180, 2000.0, 30));
 
