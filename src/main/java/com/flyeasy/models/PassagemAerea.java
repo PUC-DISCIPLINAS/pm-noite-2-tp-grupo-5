@@ -17,16 +17,17 @@ public class PassagemAerea {
     private double percentualLucro = 20.0;
     private Map<String, Boolean> assentosDisponiveis;
     private StatusPassagem statusPassagem;
+    private boolean checkInRealizado;
+    private Voo voo;
 
     // Enum para status da passagem
     public enum StatusPassagem {
         ADQUIRIDA, CANCELADA, CHECKIN_REALIZADO, EMBARQUE_REALIZADO, NO_SHOW
     }
 
-    // Construtor
     public PassagemAerea(Aeroporto aeroportoOrigem, Aeroporto aeroportoDestino, Date dataHoraVoo,
-                         String codigoVoo, CompanhiaAerea companhiaAerea,
-                         double tarifaBasica, double tarifaBusiness, double tarifaPremium, String moeda) {
+            String codigoVoo, CompanhiaAerea companhiaAerea, double tarifaBasica,
+            double tarifaBusiness, double tarifaPremium, String moeda) {
         this.aeroportoOrigem = aeroportoOrigem;
         this.aeroportoDestino = aeroportoDestino;
         this.dataHoraVoo = dataHoraVoo;
@@ -38,6 +39,7 @@ public class PassagemAerea {
         this.moeda = moeda;
         this.assentosDisponiveis = new HashMap<>();
         this.statusPassagem = StatusPassagem.ADQUIRIDA;
+        this.checkInRealizado = false;
 
         // Inicializa os assentos disponíveis
         for (int i = 1; i <= 10; i++) {
@@ -45,16 +47,15 @@ public class PassagemAerea {
         }
     }
 
-    // Método para verificar se o check-in pode ser realizado
     public boolean podeRealizarCheckIn() {
         Date agora = new Date();
-        long diffMillis = dataHoraVoo.getTime() - agora.getTime();
-        long diffMinutes = diffMillis / (60 * 1000); // Diferença em minutos
+        long diff = dataHoraVoo.getTime() - agora.getTime();
+        long diffHours = diff / (60 * 60 * 1000) % 24;
+        long diffMinutes = diff / (60 * 1000) % 60;
 
-        return diffMinutes >= 30 && diffMinutes <= (48 * 60); // Entre 48h e 30 minutos antes do voo
+        return (diffHours >= 48 && diffMinutes >= 0) || (diffHours < 48 && diffMinutes >= 30);
     }
 
-    // Método para realizar o check-in
     public boolean realizarCheckIn() {
         if (podeRealizarCheckIn()) {
             this.statusPassagem = StatusPassagem.CHECKIN_REALIZADO;
@@ -63,19 +64,40 @@ public class PassagemAerea {
         return false;
     }
 
-    // Método para registrar NO SHOW
     public void registrarNoShow() {
         if (statusPassagem == StatusPassagem.ADQUIRIDA && dataHoraVoo.before(new Date())) {
             this.statusPassagem = StatusPassagem.NO_SHOW;
         }
     }
 
-    // Método para calcular o preço com lucro
+    public double getPreco() {
+        return tarifaBasica;
+    }
+
+    public double getPrecoComTaxas() {
+        return tarifaBasica + calcularTarifaLucro();
+    }
+
+    public double getPrecoEmReais() {
+        return "USD".equals(moeda) ? tarifaBasica * 5.0 : tarifaBasica;
+    }
+
     public double calcularTarifaLucro() {
         return tarifaBasica * (percentualLucro / 100);
     }
 
-    // Getters e Setters
+    public boolean reservarAssento(String assento) {
+        if (assentosDisponiveis.containsKey(assento) && assentosDisponiveis.get(assento)) {
+            assentosDisponiveis.put(assento, false);
+            return true;
+        }
+        return false;
+    }
+
+    public Map<String, Boolean> getAssentosDisponiveis() {
+        return assentosDisponiveis;
+    }
+
     public Aeroporto getAeroportoOrigem() {
         return aeroportoOrigem;
     }
@@ -122,6 +144,14 @@ public class PassagemAerea {
 
     public void setTarifaBasica(double tarifaBasica) {
         this.tarifaBasica = tarifaBasica;
+    }
+    
+    public Voo getVoo() {
+        return voo;
+    }
+
+    public void setVoo(Voo voo) {
+        this.voo = voo;
     }
 
     public double getTarifaBusiness() {

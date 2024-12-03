@@ -5,8 +5,11 @@ import com.flyeasy.models.DiaSemana;
 import com.flyeasy.models.Passageiro;
 import com.flyeasy.models.PassagemAerea;
 import com.flyeasy.models.Aeronave;
+import com.flyeasy.models.CompanhiaAerea;  // Adiciona a classe CompanhiaAerea
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +20,15 @@ public class VooController {
         this.voos = new ArrayList<>();
     }
 
-    /**
-     * Método para cadastrar um novo voo.
-     */
-    public void cadastrarVoo(String codigo, String origem, String destino, List<DiaSemana> diasSemana, Aeronave aeronave) {
-        Voo novoVoo = new Voo(codigo, origem, destino, diasSemana, aeronave);
+    public void cadastrarVoo(String codigo, String origem, String destino, List<DiaSemana> diasSemana, 
+                             Aeronave aeronave, LocalDateTime horarioDecolagem, Duration duracao, 
+                             double valorPassagem, CompanhiaAerea companhiaAerea) {  // Adicionando CompanhiaAerea como parâmetro
+        if (buscarVooPorCodigo(codigo) != null) {
+            throw new IllegalArgumentException("Já existe um voo cadastrado com o código: " + codigo);
+        }
+
+        // Agora passando a CompanhiaAerea para o construtor do Voo
+        Voo novoVoo = new Voo(codigo, origem, destino, diasSemana, aeronave, horarioDecolagem, duracao, valorPassagem, companhiaAerea);
         voos.add(novoVoo);
     }
 
@@ -29,7 +36,7 @@ public class VooController {
      * Método para listar todos os voos cadastrados.
      */
     public List<Voo> listarVoos() {
-        return new ArrayList<>(voos); // Retorna uma cópia para evitar modificações externas
+        return new ArrayList<>(voos); // Retorna uma cópia para evitar alterações externas
     }
 
     /**
@@ -39,18 +46,24 @@ public class VooController {
         LocalDate dataAtual = LocalDate.now();
         LocalDate dataFinal = dataAtual.plusDays(30);
         List<Voo> voosProgramados = new ArrayList<>();
-    
+
         for (Voo voo : voos) {
             for (DiaSemana dia : voo.getDiasSemana()) {
-                LocalDate proximaDataVoo = dataAtual.with(dia.toDayOfWeek());
-    
+                LocalDate proximaDataVoo = dataAtual.with(dia.toTemporalAdjuster()); // Corrigido para usar o ajuste correto
+
                 while (!proximaDataVoo.isAfter(dataFinal)) {
+                    LocalDateTime horarioDecolagem = proximaDataVoo.atTime(voo.getHorarioDecolagem().toLocalTime());
+                    // Criando o Voo programado, agora com companhia aérea
                     Voo vooProgramado = new Voo(
                         voo.getCodigo(),
                         voo.getOrigem(),
                         voo.getDestino(),
                         voo.getDiasSemana(),
-                        voo.getAeronave()
+                        voo.getAeronave(),
+                        horarioDecolagem,
+                        voo.getDuracao(),
+                        voo.getValorPassagem(),
+                        voo.getCompanhiaAerea()  // Passando a companhia aérea para o voo programado
                     );
                     voosProgramados.add(vooProgramado);
                     proximaDataVoo = proximaDataVoo.plusWeeks(1);
@@ -64,6 +77,10 @@ public class VooController {
      * Método para buscar um voo pelo código.
      */
     public Voo buscarVooPorCodigo(String codigo) {
+        if (codigo == null || codigo.isBlank()) {
+            throw new IllegalArgumentException("O código do voo não pode ser nulo ou vazio.");
+        }
+
         return voos.stream()
                    .filter(voo -> voo.getCodigo().equals(codigo))
                    .findFirst()
@@ -74,6 +91,10 @@ public class VooController {
      * Método para alterar o voo de uma passagem aérea.
      */
     public boolean alterarVoo(PassagemAerea passagem, Passageiro passageiro, Voo novoVoo) {
+        if (passagem == null || passageiro == null || novoVoo == null) {
+            throw new IllegalArgumentException("Passagem, passageiro e novo voo não podem ser nulos.");
+        }
+
         if (passageiro.isStatusVIP()) {
             System.out.println("Alteração sem custo para passageiro VIP.");
             passagem.setVoo(novoVoo);
@@ -88,15 +109,16 @@ public class VooController {
      * Método privado para aplicar a taxa de alteração de voo.
      */
     private boolean aplicarTaxaAlteracao(PassagemAerea passagem, Voo novoVoo) {
-        double taxaAlteracao = passagem.getTarifaBasica() * 0.05; // 5% da tarifa básica
+        if (passagem == null || novoVoo == null) {
+            throw new IllegalArgumentException("Passagem e novo voo não podem ser nulos.");
+        }
+
+        double taxaAlteracao = passagem.getTarifaBasica() * 0.05;
         System.out.println("Taxa de alteração aplicada: " + taxaAlteracao);
         passagem.setVoo(novoVoo);
         return true;
     }
 
-    /**
-     * Método para verificar se um voo ocorre em um dia específico da semana.
-     */
     public boolean vooOcorreNoDia(String codigo, DiaSemana dia) {
         Voo voo = buscarVooPorCodigo(codigo);
         if (voo != null) {

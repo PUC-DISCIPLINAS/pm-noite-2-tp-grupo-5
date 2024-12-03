@@ -17,11 +17,6 @@ public class AeronaveControllerTest {
     }
 
     @Test
-    public void testarExibirDisposicaoAssentos() {
-        aeronaveController.exibirDisposicaoAssentos("AB123");
-    }
-
-    @Test
     public void testarCadastrarAeronave() {
         aeronaveController.cadastrarAeronave("EF789", 220, 17000.0, 40);
 
@@ -48,5 +43,10 @@ public class AeronaveControllerTest {
         assertEquals("CD456", aeronave.getCodigoAeronave());
 
         assertNull(aeronaveController.buscarAeronavePorCodigo("ZZ999"));
+    }
+
+    @Test
+    public void testarExibirDisposicaoAssentos() {
+        aeronaveController.exibirDisposicaoAssentos("AB123");
     }
 }

@@ -4,7 +4,7 @@ import com.flyeasy.models.Aeroporto;
 import com.flyeasy.models.CompanhiaAerea;
 import com.flyeasy.models.Passageiro;
 import com.flyeasy.models.PassagemAerea;
-import com.flyeasy.models.PassagemAerea.StatusPassagem;
+import com.flyeasy.models.TipoVoo;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,20 +15,12 @@ import java.util.stream.Collectors;
 public class PassagemController {
     private static List<PassagemAerea> passagens = new ArrayList<>();
 
-    // Método para inicializar as passagens
+    // Método para inicializar passagens
     public static void inicializarPassagens() {
-        Aeroporto aeroportoOrigem1 = new Aeroporto("Aeroporto Internacional de São Paulo", "GRU", "São Paulo", "SP",
-                "Brasil", null);
-        Aeroporto aeroportoDestino1 = new Aeroporto("Aeroporto Internacional de Lisboa", "LIS", "Lisboa", "Lisboa",
-                "Portugal", null);
-
-        Aeroporto aeroportoOrigem2 = new Aeroporto("Aeroporto Internacional de Miami", "MIA", "Miami", "FL", "EUA", null);
-        Aeroporto aeroportoDestino2 = new Aeroporto("Aeroporto Internacional de Malpensa", "MXP", "Milão", "Lombardia",
-                "Itália", null);
+        Aeroporto aeroportoOrigem1 = new Aeroporto("Aeroporto Internacional de São Paulo", "GRU", "São Paulo", "SP", "Brasil", TipoVoo.DOMESTICO);
+        Aeroporto aeroportoDestino1 = new Aeroporto("Aeroporto Internacional de Lisboa", "LIS", "Lisboa", "Lisboa", "Portugal", TipoVoo.INTERNACIONAL);
 
         CompanhiaAerea companhia1 = new CompanhiaAerea("TAP Portugal", "TP", "TAP", "12345678000100", 100.0, 50.0);
-        CompanhiaAerea companhia2 = new CompanhiaAerea("American Airlines", "AA", "American Airlines", "12345678000200",
-                150.0, 60.0);
 
         // Adicionando passagens à lista
         PassagemAerea passagem1 = new PassagemAerea(
@@ -56,7 +48,6 @@ public class PassagemController {
         );
 
         passagens.add(passagem1);
-        passagens.add(passagem2);
     }
 
     // Método para pesquisar passagens
@@ -122,12 +113,11 @@ public class PassagemController {
         return true;
     }
 
-    // Método para cancelar passagem
     public static boolean cancelarPassagem(PassagemAerea passagem, Passageiro passageiro) {
         if (passageiro.isStatusVIP()) {
             System.out.println("Cancelamento sem custo para passageiro VIP.");
             passagens.remove(passagem);
-            return true; // Cancelamento processado
+            return true;
         } else {
             System.out.println("Aplicando taxa de cancelamento.");
             return aplicarTaxaCancelamento(passagem);

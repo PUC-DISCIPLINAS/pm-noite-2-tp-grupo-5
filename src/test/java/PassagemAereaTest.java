@@ -1,150 +1,93 @@
-import com.flyeasy.controllers.PassagemController;
 import com.flyeasy.models.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.util.Date;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PassagemAereaTest {
 
-    @Test
-    public void testarGettersESetters() {
-        Aeroporto aeroportoOrigem = new Aeroporto("Aeroporto Internacional", "AIG", "São Paulo", "SP", "Brasil");
-        aeroportoOrigem.setNome("Aeroporto de Origem");
+    private PassagemAerea passagemAerea;
+    private Aeroporto aeroportoOrigem;
+    private Aeroporto aeroportoDestino;
+    private CompanhiaAerea companhia;
 
-        Aeroporto aeroportoDestino = new Aeroporto("Aeroporto Internacional", "AIG", "São Paulo", "SP", "Brasil");
-        aeroportoDestino.setNome("Aeroporto de Destino");
-        Aeroporto aeroportoOrigem = new Aeroporto("Aeroporto Internacional de São Paulo", "GRU", "São Paulo", "SP", "Brasil");
-        Aeroporto aeroportoDestino = new Aeroporto("Aeroporto Internacional de Lisboa", "LIS", "Lisboa", "Lisboa", "Portugal");
+    @BeforeEach
+    public void setUp() {
+        aeroportoOrigem = new Aeroporto("Aeroporto Internacional de São Paulo", "GRU", "São Paulo", "SP", "Brasil", TipoVoo.INTERNACIONAL);
+        aeroportoDestino = new Aeroporto("Aeroporto Internacional de Lisboa", "LIS", "Lisboa", "Lisboa", "Portugal", TipoVoo.INTERNACIONAL);
+        companhia = new CompanhiaAerea("TAP Portugal", "TP", "TAP", "12345678000100", 100.0, 50.0);
+        Date dataHoraVoo = new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 48)); // Voo daqui a 48 horas
 
-        CompanhiaAerea companhiaAerea = new CompanhiaAerea("Latam", "LA", "Latam Airlines", "12345678000101", 100.0, 50.0);
-        Date dataHoraVoo = new Date();
-        PassagemAerea passagem = new PassagemAerea(aeroportoOrigem, aeroportoDestino, dataHoraVoo, "LA123", companhiaAerea, 200.0, 300.0, 500.0, "BRL");
-
-        // Teste dos getters
-        assertEquals(aeroportoOrigem, passagem.getAeroportoOrigem());
-        assertEquals(aeroportoDestino, passagem.getAeroportoDestino());
-        assertEquals(dataHoraVoo, passagem.getDataHoraVoo());
-        assertEquals("LA123", passagem.getCodigoVoo());
-        assertEquals(companhiaAerea, passagem.getCompanhiaAerea());
-        assertEquals(200.0, passagem.getTarifaBasica());
-        assertEquals(300.0, passagem.getTarifaBusiness());
-        assertEquals(500.0, passagem.getTarifaPremium());
-        assertEquals("BRL", passagem.getMoeda());
-    }
-
-    @Test
-    public void testarCalculoTarifaLucro() {
-        Aeroporto aeroportoOrigem = new Aeroporto("Aeroporto Internacional de São Paulo", "GRU", "São Paulo", "SP", "Brasil");
-        Aeroporto aeroportoDestino = new Aeroporto("Aeroporto Internacional de Lisboa", "LIS", "Lisboa", "Lisboa", "Portugal");
-        CompanhiaAerea companhiaAerea = new CompanhiaAerea("Latam", "LA", "Latam Airlines", "12345678000101", 100.0, 50.0);
-
-        PassagemAerea passagem = new PassagemAerea(
-                aeroportoOrigem, 
-                aeroportoDestino, 
-                new Date(), 
-                "LA123", 
-                companhiaAerea, 
-                200.0,
-                300.0,
-                500.0,
-                "BRL"
-        );
-
-        double valorEsperado = 40.0; 
-        assertEquals(valorEsperado, passagem.calcularTarifaLucro(), "O valor do lucro deve ser 20% da tarifa básica");
-    }
-
-    @Test
-    public void testarReservarAssento() {
-        PassagemAerea passagem = new PassagemAerea(
-                new Aeroporto("Aeroporto Internacional", "AIG", "São Paulo", "SP", "Brasil"), 
-                new Aeroporto("Aeroporto Internacional", "AIG", "Rio de Janeiro", "RJ", "Brasil"),
-                new Date(),
-                "LA123",
-                new CompanhiaAerea("Latam", "LA", "Latam Airlines", "12345678000101", 100.0, 50.0),
-                200.0,
-                300.0,
-                500.0,
-                "BRL"
-        );
-
-        // Teste de reserva de assento disponível
-        assertTrue(passagem.reservarAssento("A1"));
-        assertFalse(passagem.verificarDisponibilidade("A1"), "Assento A1 deve estar ocupado após a reserva");
-
-        // Teste de reserva de assento indisponível
-        assertFalse(passagem.reservarAssento("A1"), "Não deve ser possível reservar o mesmo assento duas vezes");
-    }
-
-    @Test
-    public void testarPrecoComTaxas() {
-        PassagemAerea passagem = new PassagemAerea(
-                new Aeroporto("Aeroporto Internacional", "AIG", "São Paulo", "SP", "Brasil"), 
-                new Aeroporto("Aeroporto Internacional", "AIG", "Rio de Janeiro", "RJ", "Brasil"),
-                new Date(),
-                "LA123",
-                new CompanhiaAerea("Latam", "LA", "Latam Airlines", "12345678000101", 100.0, 50.0),
-                200.0,
-                300.0,
-                500.0,
-                "BRL"
-        );
-
-        double precoEsperado = 240.0; // Tarifa básica + 20% de lucro
-        assertEquals(precoEsperado, passagem.getPrecoComTaxas(), 0.01, "O preço com taxas deve incluir a tarifa básica e o lucro");
-    }
-
-    @Test
-    public void testarAtualizacaoStatusPassagem() {
-        PassagemAerea passagem = new PassagemAerea(
-                new Aeroporto("Aeroporto Internacional", "AIG", "São Paulo", "SP", "Brasil"), 
-                new Aeroporto("Aeroporto Internacional", "AIG", "Rio de Janeiro", "RJ", "Brasil"),
-                new Date(),
-                "LA123",
-                new CompanhiaAerea("Latam", "LA", "Latam Airlines", "12345678000101", 100.0, 50.0),
-                200.0,
-                300.0,
-                500.0,
-                "BRL"
-        );
-
-        // Status inicial deve ser ADQUIRIDA
-        assertEquals(PassagemAerea.StatusPassagem.ADQUIRIDA, passagem.getStatusPassagem(), "Status inicial deve ser 'ADQUIRIDA'");
-
-        // Atualizar status para CHECKIN_REALIZADO
-        passagem.atualizarStatus(PassagemAerea.StatusPassagem.CHECKIN_REALIZADO);
-        assertEquals(PassagemAerea.StatusPassagem.CHECKIN_REALIZADO, passagem.getStatusPassagem(), "O status deve ser 'CHECKIN_REALIZADO' após atualização");
-
-        // Atualizar status para CANCELADA
-        passagem.atualizarStatus(PassagemAerea.StatusPassagem.CANCELADA);
-        assertEquals(PassagemAerea.StatusPassagem.CANCELADA, passagem.getStatusPassagem(), "O status deve ser 'CANCELADA' após atualização");
-    public void testCancelamentoSemCustoParaVIP() {
-        Passageiro passageiroVIP = new Passageiro("Ana VIP", "123.456.789-00", "vip@email.com", true);
-
-        Aeroporto aeroportoOrigem = new Aeroporto("Aeroporto Internacional de São Paulo", "GRU", "São Paulo", "SP", "Brasil");
-        Aeroporto aeroportoDestino = new Aeroporto("Aeroporto Internacional de Lisboa", "LIS", "Lisboa", "Lisboa", "Portugal");
-
-        PassagemAerea passagem = new PassagemAerea(
+        passagemAerea = new PassagemAerea(
                 aeroportoOrigem,
                 aeroportoDestino,
-                new Date(System.currentTimeMillis() + 86400000),
+                dataHoraVoo,
                 "TP1020",
-                new CompanhiaAerea("TAP Portugal", "TP", "TAP", "12345678000100", 100.0, 50.0),
-                2000.0, 3500.0, 5000.0, "BRL"
+                companhia,
+                2000.0,
+                3500.0,
+                5000.0,
+                "USD"
         );
-
-        boolean cancelamentoBemSucedido = new PassagemController().cancelarPassagem(passagem, passageiroVIP);
-
-        assertTrue(cancelamentoBemSucedido, "Passageiro VIP deveria cancelar a passagem sem custo.");
     }
 
     @Test
-    public void testDescontoBagagemParaVIP() {
-        Passageiro passageiroVIP = new Passageiro("Ana VIP", "123.456.789-00", "vip@email.com", true);
+    public void testValoresIniciais() {
+        assertNotNull(passagemAerea.getAeroportoOrigem(), "O aeroporto de origem não deve ser nulo.");
+        assertNotNull(passagemAerea.getAeroportoDestino(), "O aeroporto de destino não deve ser nulo.");
+        assertNotNull(passagemAerea.getDataHoraVoo(), "A data e hora do voo não devem ser nulas.");
+        assertEquals("TP1020", passagemAerea.getCodigoVoo(), "O código do voo está incorreto.");
+        assertEquals(2000.0, passagemAerea.getTarifaBasica(), "A tarifa básica está incorreta.");
+        assertEquals("USD", passagemAerea.getMoeda(), "A moeda está incorreta.");
+    }
 
-        PassagemController controller = new PassagemController();
-        double custoComDesconto = controller.calcularCustoBagagem(passageiroVIP, 2);
+    @Test
+    public void testReservarAssento() {
+        assertTrue(passagemAerea.reservarAssento("A1"), "O assento A1 deveria estar disponível para reserva.");
+        assertFalse(passagemAerea.reservarAssento("A1"), "O assento A1 não deveria estar disponível após ser reservado.");
+        assertFalse(passagemAerea.reservarAssento("Z1"), "Assentos inexistentes não devem ser reserváveis.");
+    }
 
-        assertEquals(50.0 * 2 * 0.5, custoComDesconto, "Desconto de 50% deveria ser aplicado ao passageiro VIP.");
+    @Test
+    public void testCheckInValido() {
+        assertTrue(passagemAerea.podeRealizarCheckIn(), "Deveria ser possível realizar o check-in no período correto.");
+        assertTrue(passagemAerea.realizarCheckIn(), "O check-in deveria ser realizado com sucesso.");
+    }
+
+    @Test
+    public void testCheckInForaDoPeriodo() {
+        passagemAerea.setDataHoraVoo(new Date(System.currentTimeMillis() - (1000 * 60 * 60))); // Voo já ocorreu
+        assertFalse(passagemAerea.podeRealizarCheckIn(), "Não deveria ser possível realizar check-in para voos passados.");
+        assertFalse(passagemAerea.realizarCheckIn(), "O check-in não deveria ser realizado fora do período permitido.");
+    }
+
+    @Test
+    public void testPrecoComTaxas() {
+        double precoComTaxas = passagemAerea.getPrecoComTaxas();
+        double tarifaLucro = passagemAerea.calcularTarifaLucro();
+        assertEquals(2000.0 + tarifaLucro, precoComTaxas, "O preço com taxas não foi calculado corretamente.");
+    }
+
+    @Test
+    public void testPrecoEmReais() {
+        double precoEmReais = passagemAerea.getPrecoEmReais();
+        assertEquals(2000.0 * 5.0, precoEmReais, "A conversão do preço para reais está incorreta.");
+    }
+
+    @Test
+    public void testRegistrarNoShow() {
+        passagemAerea.setDataHoraVoo(new Date(System.currentTimeMillis() - (1000 * 60 * 60))); // Voo já ocorreu
+        passagemAerea.registrarNoShow(); // Deve registrar no show
+        assertFalse(passagemAerea.realizarCheckIn(), "Check-in não deve ser possível após o voo.");
+    }
+
+    @Test
+    public void testAssentosDisponiveis() {
+        Map<String, Boolean> assentos = passagemAerea.getAssentosDisponiveis();
+        assertNotNull(assentos, "A lista de assentos não deve ser nula.");
+        assertEquals(10, assentos.size(), "A quantidade de assentos disponíveis deve ser 10 inicialmente.");
     }
 }

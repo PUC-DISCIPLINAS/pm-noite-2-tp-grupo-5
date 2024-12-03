@@ -1,6 +1,7 @@
 package com.flyeasy.models;
 
 import java.time.DayOfWeek;
+import java.time.temporal.TemporalAdjuster;
 
 public enum DiaSemana {
     SEGUNDA, TERCA, QUARTA, QUINTA, SEXTA, SABADO, DOMINGO;
@@ -25,5 +26,10 @@ public enum DiaSemana {
             default:
                 throw new IllegalArgumentException("Dia da semana inválido");
         }
+    }
+
+    public TemporalAdjuster toTemporalAdjuster() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'toTemporalAdjuster'");
     }
 }
