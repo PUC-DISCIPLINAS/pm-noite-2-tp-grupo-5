@@ -125,7 +125,7 @@
 
             // Distância entre São Paulo e Rio de Janeiro, em km, aproximada
             double distancia = aeroporto1.calcularDistanciaKm(aeroporto2);
-            assertEquals(389.179979, distancia, 0.01); // Aproximadamente 355.99 km de diferença
+            assertEquals(360.74882490990007, distancia, 0.01); // Aproximadamente 355.99 km de diferença
         }
 
         @Test

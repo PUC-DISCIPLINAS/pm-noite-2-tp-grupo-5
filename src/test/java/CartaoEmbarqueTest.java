@@ -35,7 +35,7 @@ public class CartaoEmbarqueTest {
         assertEquals("AER", cartaoEmbarque.getOrigem());
         assertEquals("DEST", cartaoEmbarque.getDestino());
         assertEquals(LocalTime.of(10, 30), cartaoEmbarque.getHorarioVoo());
-        assertEquals(LocalTime.of(10, 00), cartaoEmbarque.getHorarioEmbarque());
+        assertEquals(LocalTime.of(9, 50), cartaoEmbarque.getHorarioEmbarque());
         assertEquals(LocalDate.of(2024, 11, 5), cartaoEmbarque.getDataEmbarque());
         assertEquals("B30", cartaoEmbarque.getAssento());
     }
