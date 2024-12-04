@@ -14,6 +14,7 @@ public class Voo {
     private List<DiaSemana> diasSemana;
     private Aeronave aeronave;
     private CompanhiaAerea companhiaAerea;
+
     // Construtor
     public Voo(String codigo, String origem, String destino, List<DiaSemana> diasSemana, Aeronave aeronave,
             LocalDateTime horarioDecolagem, Duration duracao, double valorPassagem, CompanhiaAerea companhiaAerea) {
@@ -145,6 +146,19 @@ public class Voo {
 
     public CompanhiaAerea getCompanhiaAerea() {
         return companhiaAerea;  // Método para acessar a companhia aérea
+    }
+
+        public LocalDateTime calcularHorarioChegada() {
+        // Calcula a distância entre os aeroportos
+        Aeroporto aeroportoOrigem = new Aeroporto();
+        Aeroporto aeroportoDestino = new Aeroporto();
+
+        double distancia = aeroportoOrigem.calcularDistanciaKm(aeroportoDestino); // Km
+        double velocidadeMedia = aeronave.getVelocidadeMedia(); // km/h
+        double tempoDeViagemHoras = distancia / velocidadeMedia; // Tempo de viagem em horas
+        Duration duracaoViagem = Duration.ofHours((long) tempoDeViagemHoras);
+
+        return horarioDecolagem.plus(duracaoViagem); // Calcula o horário de chegada
     }
 
     // Representação em string

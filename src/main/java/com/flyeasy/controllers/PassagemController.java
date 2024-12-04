@@ -18,9 +18,11 @@ public class PassagemController {
 
     // Método para inicializar passagens
     public static void inicializarPassagens() {
-        Aeroporto aeroportoOrigem1 = new Aeroporto("Aeroporto Internacional de São Paulo", "GRU", "São Paulo", "SP", "Brasil", TipoVoo.DOMESTICO);
-        Aeroporto aeroportoDestino1 = new Aeroporto("Aeroporto Internacional de Lisboa", "LIS", "Lisboa", "Lisboa", "Portugal", TipoVoo.INTERNACIONAL);
+        // Criando aeroportos com as novas assinaturas dos construtores
+        Aeroporto aeroportoOrigem1 = new Aeroporto("Aeroporto Internacional de São Paulo", "GRU", "São Paulo", "SP", "Brasil", TipoVoo.DOMESTICO, -23.5505, -46.6333);
+        Aeroporto aeroportoDestino1 = new Aeroporto("Aeroporto Internacional de Lisboa", "LIS", "Lisboa", "Lisboa", "Portugal", TipoVoo.INTERNACIONAL, 38.7167, -9.1395);
 
+        // Criando a companhia aérea
         CompanhiaAerea companhia1 = new CompanhiaAerea("TAP Portugal", "TP", "TAP", "12345678000100", 100.0, 50.0);
 
         // Adicionando passagens à lista
@@ -102,6 +104,7 @@ public class PassagemController {
         return true;
     }
 
+    // Método para cancelar passagem
     public static boolean cancelarPassagem(PassagemAerea passagem, Passageiro passageiro) {
         if (passageiro.isStatusVIP()) {
             System.out.println("Cancelamento sem custo para passageiro VIP.");

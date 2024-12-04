@@ -15,7 +15,7 @@ public class AeronaveController {
     }
 
     public void cadastrarAeronave(String codigo, int capacidadePassageiros, double capacidadeCarga, int numeroFileiras) {
-        Aeronave novaAeronave = new Aeronave(codigo, capacidadePassageiros, capacidadeCarga, numeroFileiras);
+        Aeronave novaAeronave = new Aeronave(codigo, capacidadePassageiros, capacidadeCarga, numeroFileiras, 100.00);
         aeronaves.add(novaAeronave);
     }
 

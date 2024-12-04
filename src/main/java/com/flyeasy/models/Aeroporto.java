@@ -6,16 +6,23 @@ public class Aeroporto {
     private String cidade;
     private String estado;
     private String pais;
-    private TipoVoo tipoVoo; // Novo campo
+    private TipoVoo tipoVoo;
+    private double latitude;
+    private double longitude;
 
-    // Construtor
-    public Aeroporto(String nome, String sigla, String cidade, String estado, String pais, TipoVoo tipoVoo) {
+    public Aeroporto(String nome, String sigla, String cidade, String estado, String pais, TipoVoo tipoVoo, double latitude, double longitude) {
         this.nome = nome;
         this.sigla = sigla;
         this.cidade = cidade;
         this.estado = estado;
         this.pais = pais;
         this.tipoVoo = tipoVoo;
+        this.latitude = latitude;
+        this.longitude = longitude;  // Inicializando longitude
+    }
+
+        // Construtor sem parâmetros
+    public Aeroporto() {
     }
 
     // Getters e Setters
@@ -65,5 +72,30 @@ public class Aeroporto {
 
     public void setTipoVoo(TipoVoo tipoVoo) {
         this.tipoVoo = tipoVoo;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double d) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double d) {
+        this.longitude = longitude;
+    }
+
+        public double calcularDistanciaKm(Aeroporto outroAeroporto) {
+        double x1 = this.latitude;
+        double y1 = this.longitude;
+        double x2 = outroAeroporto.latitude;
+        double y2 = outroAeroporto.longitude;
+
+        return 110.57 * Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 }

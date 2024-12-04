@@ -13,7 +13,8 @@ public class AeroportoController {
 
     // Inicializando com um aeroporto
     static {
-        Aeroporto confins = new Aeroporto("Aeroporto Internacional de Confins", "CNF", "Confins", "Minas Gerais", "Brasil", TipoVoo.INTERNACIONAL);
+        // Exemplo de Aeroporto com latitude e longitude
+        Aeroporto confins = new Aeroporto("Aeroporto Internacional de Confins", "CNF", "Confins", "Minas Gerais", "Brasil", TipoVoo.INTERNACIONAL, -19.6243, -43.9693);
         aeroportos.add(confins);
     }
 
@@ -42,6 +43,15 @@ public class AeroportoController {
         System.out.print("País: ");
         String pais = scanner.nextLine();
 
+        // Coordenadas (latitude e longitude)
+        double latitude;
+        double longitude;
+        System.out.print("Latitude: ");
+        latitude = scanner.nextDouble();
+        System.out.print("Longitude: ");
+        longitude = scanner.nextDouble();
+        scanner.nextLine(); // Limpar o buffer do scanner
+
         TipoVoo tipoVoo;
         while (true) {
             System.out.print("Tipo de Voo (1 - Doméstico, 2 - Internacional): ");
@@ -58,8 +68,8 @@ public class AeroportoController {
             }
         }
 
-        // Usando o novo construtor da classe Aeroporto
-        Aeroporto aeroporto = new Aeroporto(nome, sigla, cidade, estado, pais, tipoVoo);
+        // Usando o novo construtor da classe Aeroporto com latitude e longitude
+        Aeroporto aeroporto = new Aeroporto(nome, sigla, cidade, estado, pais, tipoVoo, latitude, longitude);
         aeroportos.add(aeroporto);
         System.out.println("\nAeroporto cadastrado com sucesso!");
     }
@@ -72,10 +82,10 @@ public class AeroportoController {
             System.out.println("\nLista de Aeroportos:");
             for (int i = 0; i < aeroportos.size(); i++) {
                 Aeroporto aeroporto = aeroportos.get(i);
-                System.out.printf("%d. Nome: %s, Sigla: %s, Cidade: %s, Estado: %s, País: %s, Tipo de Voo: %s%n",
-                                  (i + 1), aeroporto.getNome(), aeroporto.getSigla(),
-                                  aeroporto.getCidade(), aeroporto.getEstado(), aeroporto.getPais(),
-                                  aeroporto.getTipoVoo());
+                System.out.printf("%d. Nome: %s, Sigla: %s, Cidade: %s, Estado: %s, País: %s, Tipo de Voo: %s, Latitude: %.4f, Longitude: %.4f%n",
+                        (i + 1), aeroporto.getNome(), aeroporto.getSigla(),
+                        aeroporto.getCidade(), aeroporto.getEstado(), aeroporto.getPais(),
+                        aeroporto.getTipoVoo(), aeroporto.getLatitude(), aeroporto.getLongitude());
             }
         }
     }

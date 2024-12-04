@@ -33,14 +33,16 @@ public class SistemaAeroportoController {
         // Determinar o TipoVoo com base nos aeroportos de origem e destino
         TipoVoo tipoVoo = determinarTipoVoo(voo.getOrigem(), voo.getDestino());
 
-        // Criar aeroportos de origem e destino
+        // Criar aeroportos de origem e destino com a latitude e longitude
         Aeroporto aeroportoOrigem = new Aeroporto(
                 voo.getOrigem(), // Nome
                 "SIGLA-" + voo.getOrigem(), // Sigla fictícia (ajuste conforme necessidade)
                 "Cidade " + voo.getOrigem(), // Cidade fictícia
                 "Estado", // Estado fictício
                 "Brasil", // País fictício
-                tipoVoo // Determinado automaticamente
+                tipoVoo, // Tipo de voo
+                -23.5505, // Latitude fictícia
+                -46.6333  // Longitude fictícia
         );
 
         Aeroporto aeroportoDestino = new Aeroporto(
@@ -49,7 +51,9 @@ public class SistemaAeroportoController {
                 "Cidade " + voo.getDestino(), // Cidade fictícia
                 "Estado", // Estado fictício
                 "Brasil", // País fictício
-                tipoVoo // Determinado automaticamente
+                tipoVoo, // Tipo de voo
+                38.7167, // Latitude fictícia
+                -9.1395  // Longitude fictícia
         );
 
         // Converter a data de decolagem do voo (LocalDateTime) para Date
