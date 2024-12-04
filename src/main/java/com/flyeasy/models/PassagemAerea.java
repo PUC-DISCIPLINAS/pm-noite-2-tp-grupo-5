@@ -49,16 +49,17 @@ public class PassagemAerea {
 
     public boolean podeRealizarCheckIn() {
         Date agora = new Date();
-        long diff = dataHoraVoo.getTime() - agora.getTime();
-        long diffHours = diff / (60 * 60 * 1000) % 24;
-        long diffMinutes = diff / (60 * 1000) % 60;
-
-        return (diffHours >= 48 && diffMinutes >= 0) || (diffHours < 48 && diffMinutes >= 30);
+        long diff = dataHoraVoo.getTime() - agora.getTime(); // Diferença em milissegundos
+        long diffHours = diff / (60 * 60 * 1000); // Converter para horas
+    
+        // Check-in é permitido de 24h a 1h antes do voo
+        return diffHours >= 1 && diffHours <= 24;
     }
+    
 
     public boolean realizarCheckIn() {
-        if (podeRealizarCheckIn()) {
-            this.statusPassagem = StatusPassagem.CHECKIN_REALIZADO;
+        if (podeRealizarCheckIn() && !checkInRealizado) {
+            checkInRealizado = true;
             return true;
         }
         return false;

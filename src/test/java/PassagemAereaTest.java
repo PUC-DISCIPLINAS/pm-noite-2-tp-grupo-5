@@ -16,8 +16,28 @@ public class PassagemAereaTest {
 
     @BeforeEach
     public void setUp() {
-        aeroportoOrigem = new Aeroporto("Aeroporto Internacional de São Paulo", "GRU", "São Paulo", "SP", "Brasil", TipoVoo.INTERNACIONAL);
-        aeroportoDestino = new Aeroporto("Aeroporto Internacional de Lisboa", "LIS", "Lisboa", "Lisboa", "Portugal", TipoVoo.INTERNACIONAL);
+        aeroportoOrigem = new Aeroporto(
+                "Aeroporto Internacional de São Paulo", 
+                "GRU", 
+                "São Paulo", 
+                "SP", 
+                "Brasil", 
+                TipoVoo.INTERNACIONAL, 
+                -23.435556, 
+                -46.473056
+        );
+
+        aeroportoDestino = new Aeroporto(
+                "Aeroporto Internacional de Lisboa", 
+                "LIS", 
+                "Lisboa", 
+                "Lisboa", 
+                "Portugal", 
+                TipoVoo.INTERNACIONAL, 
+                38.774167, 
+                -9.134167
+        );
+
         companhia = new CompanhiaAerea("TAP Portugal", "TP", "TAP", "12345678000100", 100.0, 50.0);
         Date dataHoraVoo = new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 48)); // Voo daqui a 48 horas
 
@@ -52,11 +72,31 @@ public class PassagemAereaTest {
     }
 
     @Test
+    public void testLatitudeLongitudeAeroportos() {
+        assertEquals(-23.435556, aeroportoOrigem.getLatitude(), 0.0001, "A latitude do aeroporto de origem está incorreta.");
+        assertEquals(-46.473056, aeroportoOrigem.getLongitude(), 0.0001, "A longitude do aeroporto de origem está incorreta.");
+        assertEquals(38.774167, aeroportoDestino.getLatitude(), 0.0001, "A latitude do aeroporto de destino está incorreta.");
+        assertEquals(-9.134167, aeroportoDestino.getLongitude(), 0.0001, "A longitude do aeroporto de destino está incorreta.");
+    }
+
+    @Test
+    public void testDistanciaEntreAeroportos() {
+        double distancia = aeroportoOrigem.calcularDistanciaKm(aeroportoDestino);
+        assertTrue(distancia > 0, "A distância entre os aeroportos deve ser maior que 0.");
+        assertEquals(7935, Math.round(distancia), "A distância entre os aeroportos está incorreta.");
+    }
+
+    @Test
     public void testCheckInValido() {
+        // Configurar data do voo para 23 horas a partir de agora (dentro do período permitido)
+        passagemAerea.setDataHoraVoo(new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 23))); 
+    
+        // Verificar se é possível realizar o check-in e se ele ocorre com sucesso
         assertTrue(passagemAerea.podeRealizarCheckIn(), "Deveria ser possível realizar o check-in no período correto.");
         assertTrue(passagemAerea.realizarCheckIn(), "O check-in deveria ser realizado com sucesso.");
     }
-
+    
+    
     @Test
     public void testCheckInForaDoPeriodo() {
         passagemAerea.setDataHoraVoo(new Date(System.currentTimeMillis() - (1000 * 60 * 60))); // Voo já ocorreu

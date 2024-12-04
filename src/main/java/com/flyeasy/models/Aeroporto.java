@@ -18,10 +18,10 @@ public class Aeroporto {
         this.pais = pais;
         this.tipoVoo = tipoVoo;
         this.latitude = latitude;
-        this.longitude = longitude;  // Inicializando longitude
+        this.longitude = longitude;
     }
 
-        // Construtor sem parâmetros
+    // Construtor sem parâmetros
     public Aeroporto() {
     }
 
@@ -78,7 +78,7 @@ public class Aeroporto {
         return latitude;
     }
 
-    public void setLatitude(double d) {
+    public void setLatitude(double latitude) { // Corrigido: atribuir valor correto
         this.latitude = latitude;
     }
 
@@ -86,16 +86,24 @@ public class Aeroporto {
         return longitude;
     }
 
-    public void setLongitude(double d) {
+    public void setLongitude(double longitude) { // Corrigido: atribuir valor correto
         this.longitude = longitude;
     }
 
-        public double calcularDistanciaKm(Aeroporto outroAeroporto) {
-        double x1 = this.latitude;
-        double y1 = this.longitude;
-        double x2 = outroAeroporto.latitude;
-        double y2 = outroAeroporto.longitude;
+    public double calcularDistanciaKm(Aeroporto outroAeroporto) {
+        double x1 = Math.toRadians(this.latitude);
+        double y1 = Math.toRadians(this.longitude);
+        double x2 = Math.toRadians(outroAeroporto.latitude);
+        double y2 = Math.toRadians(outroAeroporto.longitude);
 
-        return 110.57 * Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+        double deltaLat = x2 - x1;
+        double deltaLon = y2 - y1;
+
+        double a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2)
+                + Math.cos(x1) * Math.cos(x2)
+                * Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
+
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return 6371 * c; // Retorna a distância em km (raio médio da Terra = 6371 km)
     }
 }
