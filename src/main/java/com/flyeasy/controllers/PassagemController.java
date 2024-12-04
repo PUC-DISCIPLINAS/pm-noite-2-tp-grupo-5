@@ -4,6 +4,7 @@ import com.flyeasy.models.Aeroporto;
 import com.flyeasy.models.CompanhiaAerea;
 import com.flyeasy.models.Passageiro;
 import com.flyeasy.models.PassagemAerea;
+import com.flyeasy.models.PassagemAerea.StatusPassagem;
 import com.flyeasy.models.TipoVoo;
 
 import java.util.ArrayList;
@@ -33,18 +34,6 @@ public class PassagemController {
                 3500.0,
                 5000.0,
                 "BRL"
-        );
-
-        PassagemAerea passagem2 = new PassagemAerea(
-                aeroportoOrigem2,
-                aeroportoDestino2,
-                new Date(System.currentTimeMillis() + 172800000), // 2 dias a partir de agora
-                "AA2150",
-                companhia2,
-                1800.0,
-                3200.0,
-                4500.0,
-                "USD"
         );
 
         passagens.add(passagem1);

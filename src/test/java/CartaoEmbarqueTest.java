@@ -1,4 +1,4 @@
-package com.flyeasy.models;
+import com.flyeasy.models.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,7 @@ public class CartaoEmbarqueTest {
     @BeforeEach
     public void setUp() {
         // Inicializando o cartão de embarque com dados fictícios
-        cartaoEmbarque = new CartaoEmbarque("Nome", "Sobrenome", "AER", "DEST", "CA1234", "10:00", "2024-11-05");
+        cartaoEmbarque = new CartaoEmbarque("Nome", "Sobrenome", "AER", "DEST", "10:30", "10:00", "2024-11-05", "B30");
     }
 
     @Test
@@ -22,9 +22,10 @@ public class CartaoEmbarqueTest {
         assertEquals("Sobrenome", cartaoEmbarque.getSobrenomePassageiro());
         assertEquals("AER", cartaoEmbarque.getOrigem());
         assertEquals("DEST", cartaoEmbarque.getDestino());
-        assertEquals("CA1234", cartaoEmbarque.getCodigoVoo());
-        assertEquals("10:00", cartaoEmbarque.getHoraEmbarque());
+        assertEquals("10:30", cartaoEmbarque.getHorarioVoo());
+        assertEquals("10:00", cartaoEmbarque.getHorarioEmbarque());
         assertEquals("2024-11-05", cartaoEmbarque.getDataEmbarque());
+        assertEquals("B30", cartaoEmbarque.getAssento());
     }
 
     @Test

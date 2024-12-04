@@ -11,15 +11,17 @@ public class CartaoEmbarque {
     private String destino;
     private Date horarioVoo;
     private Date horarioEmbarque;
+    private Date dataEmbarque;
     private String assento;
 
     public CartaoEmbarque(String nomePassageiro, String sobrenomePassageiro, String origem,
-                          String destino, Date horarioVoo, String assento) {
+                          String destino, Date horarioVoo, Date horarioEmbarque, Date dataEmbarque, String assento) {
         this.nomePassageiro = nomePassageiro;
         this.sobrenomePassageiro = sobrenomePassageiro;
         this.origem = origem;
         this.destino = destino;
         this.horarioVoo = horarioVoo;
+        this.dataEmbarque = dataEmbarque;
         this.assento = assento;
         this.horarioEmbarque = calcularHorarioEmbarque(horarioVoo);
     }
@@ -60,6 +62,10 @@ public class CartaoEmbarque {
         return assento;
     }
 
+    public Date getDataEmbarque() {
+        return dataEmbarque;
+    }
+
     @Override
     public String toString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -70,4 +76,5 @@ public class CartaoEmbarque {
                "Horário de Embarque: " + dateFormat.format(horarioEmbarque) + "\n" +
                "Assento: " + assento;
     }
+
 }
