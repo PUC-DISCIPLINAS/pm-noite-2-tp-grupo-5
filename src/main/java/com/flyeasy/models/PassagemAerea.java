@@ -186,10 +186,6 @@ public class PassagemAerea {
         this.percentualLucro = percentualLucro;
     }
 
-    public Map<String, Boolean> getAssentosDisponiveis() {
-        return assentosDisponiveis;
-    }
-
     public StatusPassagem getStatusPassagem() {
         return statusPassagem;
     }
