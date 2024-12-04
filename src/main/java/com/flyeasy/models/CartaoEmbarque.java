@@ -1,21 +1,20 @@
 package com.flyeasy.models;
 
-import java.util.Date;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class CartaoEmbarque {
     private String nomePassageiro;
     private String sobrenomePassageiro;
     private String origem;
     private String destino;
-    private Date horarioVoo;
-    private Date horarioEmbarque;
-    private Date dataEmbarque;
+    private LocalTime horarioVoo;
+    private LocalTime horarioEmbarque;
+    private LocalDate dataEmbarque;
     private String assento;
 
     public CartaoEmbarque(String nomePassageiro, String sobrenomePassageiro, String origem,
-                          String destino, Date horarioVoo, Date horarioEmbarque, Date dataEmbarque, String assento) {
+                          String destino, LocalTime horarioVoo, LocalTime horarioEmbarque, LocalDate dataEmbarque, String assento) {
         this.nomePassageiro = nomePassageiro;
         this.sobrenomePassageiro = sobrenomePassageiro;
         this.origem = origem;
@@ -26,11 +25,9 @@ public class CartaoEmbarque {
         this.horarioEmbarque = calcularHorarioEmbarque(horarioVoo);
     }
 
-    private Date calcularHorarioEmbarque(Date horarioVoo) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(horarioVoo);
-        calendar.add(Calendar.MINUTE, -40); // Subtrai 40 minutos
-        return calendar.getTime();
+    // Método para calcular o horário de embarque, subtraindo 40 minutos do horário do voo
+    private LocalTime calcularHorarioEmbarque(LocalTime horarioVoo) {
+        return horarioVoo.minusMinutes(40); // Subtrai 40 minutos para calcular o horário de embarque
     }
 
     // Métodos getters para os dados do cartão de embarque
@@ -50,31 +47,30 @@ public class CartaoEmbarque {
         return destino;
     }
 
-    public Date getHorarioVoo() {
+    public LocalTime getHorarioVoo() {
         return horarioVoo;
     }
 
-    public Date getHorarioEmbarque() {
+    public LocalTime getHorarioEmbarque() {
         return horarioEmbarque;
+    }
+
+    public LocalDate getDataEmbarque() {
+        return dataEmbarque;
     }
 
     public String getAssento() {
         return assento;
     }
 
-    public Date getDataEmbarque() {
-        return dataEmbarque;
-    }
-
+    // Representação em string do Cartão de Embarque
     @Override
     public String toString() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        return "Cartão de Embarque:\n" +
-               "Passageiro: " + nomePassageiro + " " + sobrenomePassageiro + "\n" +
-               "Origem: " + origem + " - Destino: " + destino + "\n" +
-               "Horário do Voo: " + dateFormat.format(horarioVoo) + "\n" +
-               "Horário de Embarque: " + dateFormat.format(horarioEmbarque) + "\n" +
+        return "Cartão de Embarque: " + nomePassageiro + " " + sobrenomePassageiro + "\n" +
+               "Voo: " + origem + " -> " + destino + "\n" +
+               "Horário do Voo: " + horarioVoo + "\n" +
+               "Horário de Embarque: " + horarioEmbarque + "\n" +
+               "Data de Embarque: " + dataEmbarque + "\n" +
                "Assento: " + assento;
     }
-
 }
