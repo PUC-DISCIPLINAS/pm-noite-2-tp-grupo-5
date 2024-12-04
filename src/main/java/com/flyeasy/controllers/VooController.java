@@ -17,17 +17,24 @@ public class VooController {
         this.voos = new ArrayList<>();
     }
 
-    private List<Voo> voo = new ArrayList<>();
-    
+    /**
+     * Método para cadastrar um novo voo.
+     */
     public void cadastrarVoo(String codigo, String origem, String destino, List<DiaSemana> diasSemana, Aeronave aeronave) {
         Voo novoVoo = new Voo(codigo, origem, destino, diasSemana, aeronave);
         voos.add(novoVoo);
     }
 
+    /**
+     * Método para listar todos os voos cadastrados.
+     */
     public List<Voo> listarVoos() {
-        return voos;
+        return new ArrayList<>(voos); // Retorna uma cópia para evitar modificações externas
     }
 
+    /**
+     * Método para programar os voos ativos nos próximos 30 dias.
+     */
     public List<Voo> programarVoosAtivos() {
         LocalDate dataAtual = LocalDate.now();
         LocalDate dataFinal = dataAtual.plusDays(30);
@@ -38,7 +45,13 @@ public class VooController {
                 LocalDate proximaDataVoo = dataAtual.with(dia.toDayOfWeek());
     
                 while (!proximaDataVoo.isAfter(dataFinal)) {
-                    Voo vooProgramado = new Voo(voo.getCodigo(), voo.getOrigem(), voo.getDestino(), voo.getDiasSemana(), voo.getAeronave());
+                    Voo vooProgramado = new Voo(
+                        voo.getCodigo(),
+                        voo.getOrigem(),
+                        voo.getDestino(),
+                        voo.getDiasSemana(),
+                        voo.getAeronave()
+                    );
                     voosProgramados.add(vooProgramado);
                     proximaDataVoo = proximaDataVoo.plusWeeks(1);
                 }
@@ -47,6 +60,9 @@ public class VooController {
         return voosProgramados;
     }
 
+    /**
+     * Método para buscar um voo pelo código.
+     */
     public Voo buscarVooPorCodigo(String codigo) {
         return voos.stream()
                    .filter(voo -> voo.getCodigo().equals(codigo))
@@ -54,6 +70,9 @@ public class VooController {
                    .orElse(null);
     }
 
+    /**
+     * Método para alterar o voo de uma passagem aérea.
+     */
     public boolean alterarVoo(PassagemAerea passagem, Passageiro passageiro, Voo novoVoo) {
         if (passageiro.isStatusVIP()) {
             System.out.println("Alteração sem custo para passageiro VIP.");
@@ -65,8 +84,11 @@ public class VooController {
         }
     }
 
+    /**
+     * Método privado para aplicar a taxa de alteração de voo.
+     */
     private boolean aplicarTaxaAlteracao(PassagemAerea passagem, Voo novoVoo) {
-        double taxaAlteracao = passagem.getTarifaBasica() * 0.05;
+        double taxaAlteracao = passagem.getTarifaBasica() * 0.05; // 5% da tarifa básica
         System.out.println("Taxa de alteração aplicada: " + taxaAlteracao);
         passagem.setVoo(novoVoo);
         return true;
@@ -74,9 +96,6 @@ public class VooController {
 
     /**
      * Método para verificar se um voo ocorre em um dia específico da semana.
-     * @param codigo Código do voo a ser verificado
-     * @param dia Dia da semana a ser verificado
-     * @return true se o voo ocorrer no dia, false caso contrário
      */
     public boolean vooOcorreNoDia(String codigo, DiaSemana dia) {
         Voo voo = buscarVooPorCodigo(codigo);

@@ -1,10 +1,5 @@
 package com.flyeasy.models;
 
-public enum TipoVoo {
-    DOMESTICO,
-    INTERNACIONAL
-}
-
 public class Aeroporto {
     private String nome;
     private String sigla;
