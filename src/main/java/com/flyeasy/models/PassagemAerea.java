@@ -17,7 +17,9 @@ public class PassagemAerea {
     private StatusPassagem statusPassagem;
     private boolean checkInRealizado;
     private boolean passageiroVIP; // Indica se o passageiro é VIP
+    private Voo voo;
 
+    // Enum para status da passagem
     public enum StatusPassagem {
         ADQUIRIDA, CANCELADA, CHECKIN_REALIZADO, EMBARQUE_REALIZADO, NO_SHOW
     }
@@ -40,6 +42,7 @@ public class PassagemAerea {
         this.passageiroVIP = false; // Inicializa como não VIP
         this.assentosDisponiveis = new HashMap<>();
 
+        // Inicializa os assentos disponíveis
         for (int i = 1; i <= 10; i++) {
             this.assentosDisponiveis.put("A" + i, true);
         }
@@ -128,5 +131,116 @@ public class PassagemAerea {
 
     public void atualizarStatus(StatusPassagem novoStatus) {
         this.statusPassagem = novoStatus;
+        
+    public boolean reservarAssento(String assento) {
+        if (assentosDisponiveis.containsKey(assento) && assentosDisponiveis.get(assento)) {
+            assentosDisponiveis.put(assento, false);
+            return true;
+        }
+        return false;
+    }
+
+    public Map<String, Boolean> getAssentosDisponiveis() {
+        return assentosDisponiveis;
+    }
+
+    public Aeroporto getAeroportoOrigem() {
+        return aeroportoOrigem;
+    }
+
+    public void setAeroportoOrigem(Aeroporto aeroportoOrigem) {
+        this.aeroportoOrigem = aeroportoOrigem;
+    }
+
+    public Aeroporto getAeroportoDestino() {
+        return aeroportoDestino;
+    }
+
+    public void setAeroportoDestino(Aeroporto aeroportoDestino) {
+        this.aeroportoDestino = aeroportoDestino;
+    }
+
+    public Date getDataHoraVoo() {
+        return dataHoraVoo;
+    }
+
+    public void setDataHoraVoo(Date dataHoraVoo) {
+        this.dataHoraVoo = dataHoraVoo;
+    }
+
+    public String getCodigoVoo() {
+        return codigoVoo;
+    }
+
+    public void setCodigoVoo(String codigoVoo) {
+        this.codigoVoo = codigoVoo;
+    }
+
+    public CompanhiaAerea getCompanhiaAerea() {
+        return companhiaAerea;
+    }
+
+    public void setCompanhiaAerea(CompanhiaAerea companhiaAerea) {
+        this.companhiaAerea = companhiaAerea;
+    }
+
+    public double getTarifaBasica() {
+        return tarifaBasica;
+    }
+
+    public void setTarifaBasica(double tarifaBasica) {
+        this.tarifaBasica = tarifaBasica;
+    }
+    
+    public Voo getVoo() {
+        return voo;
+    }
+
+    public void setVoo(Voo voo) {
+        this.voo = voo;
+    }
+
+    public double getTarifaBusiness() {
+        return tarifaBusiness;
+    }
+
+    public void setTarifaBusiness(double tarifaBusiness) {
+        this.tarifaBusiness = tarifaBusiness;
+    }
+
+    public double getTarifaPremium() {
+        return tarifaPremium;
+    }
+
+    public void setTarifaPremium(double tarifaPremium) {
+        this.tarifaPremium = tarifaPremium;
+    }
+
+    public String getMoeda() {
+        return moeda;
+    }
+
+    public void setMoeda(String moeda) {
+        this.moeda = moeda;
+    }
+
+    public double getPercentualLucro() {
+        return percentualLucro;
+    }
+
+    public void setPercentualLucro(double percentualLucro) {
+        this.percentualLucro = percentualLucro;
+    }
+
+    public Map<String, Boolean> getAssentosDisponiveis() {
+        return assentosDisponiveis;
+    }
+
+    public StatusPassagem getStatusPassagem() {
+        return statusPassagem;
+    }
+
+    public void setStatusPassagem(StatusPassagem statusPassagem) {
+        this.statusPassagem = statusPassagem;
     }
 }

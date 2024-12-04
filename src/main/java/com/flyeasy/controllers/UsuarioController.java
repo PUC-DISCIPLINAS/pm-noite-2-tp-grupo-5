@@ -11,7 +11,7 @@ public class UsuarioController {
     public static void inicializarUsuarios() {
         Usuario adminUsuario = new Usuario();
         adminUsuario.setUsername("admin");
-        adminUsuario.setSenha("admin");
+        adminUsuario.setSenha("admin");  // A senha será automaticamente criptografada
         usuarios.add(adminUsuario);
     }
 
@@ -24,7 +24,7 @@ public class UsuarioController {
 
         Usuario usuario = new Usuario();
         usuario.setUsername(username);
-        usuario.setSenha(senha);
+        usuario.setSenha(senha);  // A senha é automaticamente criptografada
         usuarios.add(usuario);
         System.out.println("\nUsuário cadastrado com sucesso!");
     }
@@ -35,8 +35,7 @@ public class UsuarioController {
         } else {
             System.out.println("\nLista de Usuários:");
             for (Usuario usuario : usuarios) {
-                System.out.println("Usuário: " + usuario.getUsername() +
-                                   ", Senha: [PROTEGIDA]");
+                System.out.println("Usuário: " + usuario.getUsername() + ", Senha: [PROTEGIDA]");
             }
         }
     }
@@ -104,9 +103,9 @@ public class UsuarioController {
     public static ArrayList<Usuario> getUsuarios() {
         return usuarios;
     }
-        public static void deletarUsuario(Usuario usuario) {
+
+    public static void deletarUsuario(Usuario usuario) {
         usuarios.remove(usuario);
         System.out.println("Usuário deletado com sucesso!");
     }
-
 }

@@ -5,7 +5,7 @@ import com.flyeasy.models.PassagemAerea;
 
 import java.util.Date;
 
-public class TesteCheckIn {
+public class TestCheckIn {
 
     public static void main(String[] args) {
         // Inicializando as passagens
