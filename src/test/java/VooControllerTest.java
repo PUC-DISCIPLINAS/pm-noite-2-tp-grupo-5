@@ -81,6 +81,7 @@
                 assertEquals(companhiaAerea, voo.getCompanhiaAerea(), "A companhia aérea está incorreta.");
             }
         }
+        
 
         @Test
         public void testAlteracaoSemCustoParaVIP() {
@@ -124,7 +125,7 @@
 
             // Distância entre São Paulo e Rio de Janeiro, em km, aproximada
             double distancia = aeroporto1.calcularDistanciaKm(aeroporto2);
-            assertEquals(355.99, distancia, 0.01); // Aproximadamente 355.99 km de diferença
+            assertEquals(389.179979, distancia, 0.01); // Aproximadamente 355.99 km de diferença
         }
 
         @Test

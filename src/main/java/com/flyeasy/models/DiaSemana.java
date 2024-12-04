@@ -2,34 +2,28 @@ package com.flyeasy.models;
 
 import java.time.DayOfWeek;
 import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 
 public enum DiaSemana {
-    SEGUNDA, TERCA, QUARTA, QUINTA, SEXTA, SABADO, DOMINGO;
+    SEGUNDA(DayOfWeek.MONDAY),
+    TERCA(DayOfWeek.TUESDAY),
+    QUARTA(DayOfWeek.WEDNESDAY),
+    QUINTA(DayOfWeek.THURSDAY),
+    SEXTA(DayOfWeek.FRIDAY),
+    SABADO(DayOfWeek.SATURDAY),
+    DOMINGO(DayOfWeek.SUNDAY);
 
-    // Método que converte DiaSemana para DayOfWeek
-    public DayOfWeek toDayOfWeek() {
-        switch (this) {
-            case SEGUNDA:
-                return DayOfWeek.MONDAY;
-            case TERCA:
-                return DayOfWeek.TUESDAY;
-            case QUARTA:
-                return DayOfWeek.WEDNESDAY;
-            case QUINTA:
-                return DayOfWeek.THURSDAY;
-            case SEXTA:
-                return DayOfWeek.FRIDAY;
-            case SABADO:
-                return DayOfWeek.SATURDAY;
-            case DOMINGO:
-                return DayOfWeek.SUNDAY;
-            default:
-                throw new IllegalArgumentException("Dia da semana inválido");
-        }
+    private final DayOfWeek dayOfWeek;
+
+    DiaSemana(DayOfWeek dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
     }
 
     public TemporalAdjuster toTemporalAdjuster() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toTemporalAdjuster'");
+        return TemporalAdjusters.nextOrSame(dayOfWeek);
+    }
+
+    public DayOfWeek getDayOfWeek() {
+        return dayOfWeek;
     }
 }
