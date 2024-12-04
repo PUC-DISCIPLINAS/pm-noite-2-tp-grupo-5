@@ -21,7 +21,14 @@ public class PassagemAerea {
     private boolean checkInRealizado;
     private Voo voo;
     private String emailPassageiro;
+    private StatusPassagem statusPassagem;
 
+    // Enum para status da passagem
+    public enum StatusPassagem {
+        ADQUIRIDA, CANCELADA, CHECKIN_REALIZADO, EMBARQUE_REALIZADO, NO_SHOW
+    }
+
+    // Construtor
     public PassagemAerea(Aeroporto aeroportoOrigem, Aeroporto aeroportoDestino, Date dataHoraVoo,
                          String codigoVoo, CompanhiaAerea companhiaAerea, double tarifaBasica,
                          double tarifaBusiness, double tarifaPremium, String moeda, String emailPassageiro) {
@@ -37,7 +44,9 @@ public class PassagemAerea {
         this.emailPassageiro = emailPassageiro;
         this.assentosDisponiveis = new HashMap<>();
         this.checkInRealizado = false;
+        this.statusPassagem = StatusPassagem.ADQUIRIDA;
 
+        // Inicializa os assentos disponíveis
         for (int i = 1; i <= 10; i++) {
             this.assentosDisponiveis.put("A" + i, true);
         }
@@ -54,15 +63,15 @@ public class PassagemAerea {
 
     public boolean realizarCheckIn() {
         if (podeRealizarCheckIn()) {
-            this.checkInRealizado = true;
+            this.statusPassagem = StatusPassagem.CHECKIN_REALIZADO;
             return true;
         }
         return false;
     }
 
     public void registrarNoShow() {
-        if (!checkInRealizado && dataHoraVoo.before(new Date())) {
-            System.out.println("No show registrado para o voo: " + codigoVoo);
+        if (statusPassagem == StatusPassagem.ADQUIRIDA && dataHoraVoo.before(new Date())) {
+            this.statusPassagem = StatusPassagem.NO_SHOW;
         }
     }
 
@@ -94,9 +103,6 @@ public class PassagemAerea {
         NotificationService.enviarEmail(this.emailPassageiro, assunto, mensagem);
     }
 
-    public Map<String, Boolean> getAssentosDisponiveis() {
-        return assentosDisponiveis;
-    }
 
     public Aeroporto getAeroportoOrigem() {
         return aeroportoOrigem;
@@ -150,23 +156,51 @@ public class PassagemAerea {
         this.voo = voo;
     }
 
-        public double getTarifaBusiness() {
+    public void setTarifaBasica(double tarifaBasica) {
+        this.tarifaBasica = tarifaBasica;
+    }
+
+    public double getTarifaBusiness() {
         return tarifaBusiness;
+    }
+
+    public void setTarifaBusiness(double tarifaBusiness) {
+        this.tarifaBusiness = tarifaBusiness;
     }
 
     public double getTarifaPremium() {
         return tarifaPremium;
     }
 
+    public void setTarifaPremium(double tarifaPremium) {
+        this.tarifaPremium = tarifaPremium;
+    }
+
     public String getMoeda() {
         return moeda;
     }
 
-    public String getEmailPassageiro() {
-        return emailPassageiro;
+    public void setMoeda(String moeda) {
+        this.moeda = moeda;
     }
 
-    public void setEmailPassageiro(String emailPassageiro) {
-        this.emailPassageiro = emailPassageiro;
+    public double getPercentualLucro() {
+        return percentualLucro;
+    }
+
+    public void setPercentualLucro(double percentualLucro) {
+        this.percentualLucro = percentualLucro;
+    }
+
+    public Map<String, Boolean> getAssentosDisponiveis() {
+        return assentosDisponiveis;
+    }
+
+    public StatusPassagem getStatusPassagem() {
+        return statusPassagem;
+    }
+
+    public void setStatusPassagem(StatusPassagem statusPassagem) {
+        this.statusPassagem = statusPassagem;
     }
 }

@@ -18,42 +18,34 @@ public class Voo {
         this.aeronave = aeronave; 
     }
 
-    // Getter para o código
     public String getCodigo() {
         return codigo;
     }
 
-    // Setter para o código
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 
-    // Getter para a origem
     public String getOrigem() {
         return origem;
     }
 
-    // Setter para a origem
     public void setOrigem(String origem) {
         this.origem = origem;
     }
 
-    // Getter para o destino
     public String getDestino() {
         return destino;
     }
 
-    // Setter para o destino
     public void setDestino(String destino) {
         this.destino = destino;
     }
 
-    // Getter para os dias da semana
     public List<DiaSemana> getDiasSemana() {
         return diasSemana;
     }
 
-    // Setter para os dias da semana
     public void setDiasSemana(List<DiaSemana> diasSemana) {
         this.diasSemana = diasSemana;
     }
