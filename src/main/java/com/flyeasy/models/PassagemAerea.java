@@ -55,6 +55,7 @@ public class PassagemAerea {
         // Check-in é permitido de 24h a 1h antes do voo
         return diffHours >= 1 && diffHours <= 24;
     }
+
     
 
     public boolean realizarCheckIn() {

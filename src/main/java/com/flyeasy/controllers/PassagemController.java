@@ -18,11 +18,9 @@ public class PassagemController {
 
     // Método para inicializar passagens
     public static void inicializarPassagens() {
-        // Criando aeroportos com as novas assinaturas dos construtores
         Aeroporto aeroportoOrigem1 = new Aeroporto("Aeroporto Internacional de São Paulo", "GRU", "São Paulo", "SP", "Brasil", TipoVoo.DOMESTICO, -23.5505, -46.6333);
         Aeroporto aeroportoDestino1 = new Aeroporto("Aeroporto Internacional de Lisboa", "LIS", "Lisboa", "Lisboa", "Portugal", TipoVoo.INTERNACIONAL, 38.7167, -9.1395);
 
-        // Criando a companhia aérea
         CompanhiaAerea companhia1 = new CompanhiaAerea("TAP Portugal", "TP", "TAP", "12345678000100", 100.0, 50.0);
 
         // Adicionando passagens à lista
@@ -100,6 +98,7 @@ public class PassagemController {
     // Método privado para aplicar taxa de cancelamento
     private static boolean aplicarTaxaCancelamento(PassagemAerea passagem) {
         double taxaCancelamento = passagem.getTarifaBasica() * 0.1; // Exemplo: 10% da tarifa básica
+        passagem.setTarifaBasica(passagem.getTarifaBasica() - taxaCancelamento); // Aplicando o desconto de cancelamento na tarifa
         System.out.println("Taxa de cancelamento aplicada: " + taxaCancelamento);
         return true;
     }
@@ -112,7 +111,7 @@ public class PassagemController {
             return true;
         } else {
             System.out.println("Aplicando taxa de cancelamento.");
-            return aplicarTaxaCancelamento(passagem);
+            return aplicarTaxaCancelamento(passagem);  // Aplica a taxa de cancelamento no valor da tarifa
         }
     }
 
@@ -124,4 +123,4 @@ public class PassagemController {
         }
         return quantidadeAdicional * passagem.getCompanhiaAerea().getValorBagagemAdicional(); // Valor regular
     }
-}
+    }

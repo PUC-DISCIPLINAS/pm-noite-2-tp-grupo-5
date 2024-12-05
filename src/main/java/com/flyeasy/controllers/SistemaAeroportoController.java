@@ -1,13 +1,11 @@
 package com.flyeasy.controllers;
 
-import com.flyeasy.views.*;
 import com.flyeasy.models.*;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.Date;
 import java.time.ZoneId;
 
 public class SistemaAeroportoController {
@@ -41,8 +39,8 @@ public class SistemaAeroportoController {
                 "Estado", // Estado fictício
                 "Brasil", // País fictício
                 tipoVoo, // Tipo de voo
-                -23.5505, // Latitude fictícia
-                -46.6333  // Longitude fictícia
+                -23.5505, // Latitude fictícia (São Paulo)
+                -46.6333  // Longitude fictícia (São Paulo)
         );
 
         Aeroporto aeroportoDestino = new Aeroporto(
@@ -52,8 +50,8 @@ public class SistemaAeroportoController {
                 "Estado", // Estado fictício
                 "Brasil", // País fictício
                 tipoVoo, // Tipo de voo
-                38.7167, // Latitude fictícia
-                -9.1395  // Longitude fictícia
+                38.7167, // Latitude fictícia (Lisboa)
+                -9.1395  // Longitude fictícia (Lisboa)
         );
 
         // Converter a data de decolagem do voo (LocalDateTime) para Date
@@ -93,10 +91,22 @@ public class SistemaAeroportoController {
         }
     }
 
+    // Método para cancelar o voo
+    public void cancelarVoo(Voo voo) {
+        if (voos.contains(voo)) {
+            voos.remove(voo);
+            System.out.println("Voo " + voo.getCodigo() + " cancelado com sucesso.");
+        } else {
+            System.out.println("Voo não encontrado.");
+        }
+    }
+
+    // Método para realizar o check-in
     public void realizarCheckIn(Bilhete bilhete) {
         System.out.println("Check-in realizado para " + bilhete.getPassageiro().getNome());
     }
 
+    // Método para exibir o cartão de embarque
     public void exibirCartaoEmbarque(Bilhete bilhete) {
         System.out.println("Cartão de Embarque: ");
         System.out.println("Passageiro: " + bilhete.getPassageiro().getNome());
