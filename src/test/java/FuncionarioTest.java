@@ -7,6 +7,8 @@ public class FuncionarioTest {
 
     @Test
     public void testarGettersESetters() {
+        TestLogger.log("Iniciando teste: testarGettersESetters");
+
         Funcionario funcionario = new Funcionario();
         funcionario.setNome("João Silva");
         funcionario.setCpf("12345678909");
@@ -15,5 +17,7 @@ public class FuncionarioTest {
         assertEquals("João Silva", funcionario.getNome());
         assertEquals("12345678909", funcionario.getCpf());
         assertEquals("joao.silva@flyeasy.com", funcionario.getEmail());
+
+        TestLogger.log("Teste testarGettersESetters concluído com sucesso");
     }
 }

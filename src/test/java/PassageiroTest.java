@@ -7,6 +7,8 @@ public class PassageiroTest {
 
     @Test
     public void testeCadastroPassageiroComDadosCompletos() {
+        TestLogger.log("Iniciando teste: testeCadastroPassageiroComDadosCompletos");
+
         Passageiro passageiro = new Passageiro(
                 "Ana Silva",
                 "123.456.789-00",
@@ -19,10 +21,14 @@ public class PassageiroTest {
         assertEquals("ana@email.com", passageiro.getEmail(), "O email do passageiro está incorreto.");
         assertFalse(passageiro.isStatusVIP(), "O status VIP deveria ser falso.");
         assertEquals("RG1234567", passageiro.getDocumento(), "O documento do passageiro está incorreto.");
+
+        TestLogger.log("Teste testeCadastroPassageiroComDadosCompletos concluído com sucesso");
     }
 
     @Test
     public void testeCadastroPassageiroVIP() {
+        TestLogger.log("Iniciando teste: testeCadastroPassageiroVIP");
+
         Passageiro passageiroVIP = new Passageiro(
                 "Ana VIP",
                 "123.456.789-00",
@@ -35,10 +41,14 @@ public class PassageiroTest {
         assertEquals("vip@email.com", passageiroVIP.getEmail(), "O email do passageiro VIP está incorreto.");
         assertTrue(passageiroVIP.isStatusVIP(), "O status VIP deveria ser verdadeiro.");
         assertEquals("PassaporteX12345", passageiroVIP.getDocumento(), "O documento do passageiro VIP está incorreto.");
+
+        TestLogger.log("Teste testeCadastroPassageiroVIP concluído com sucesso");
     }
 
     @Test
     public void testeAlteracaoDeDadosDoPassageiro() {
+        TestLogger.log("Iniciando teste: testeAlteracaoDeDadosDoPassageiro");
+
         Passageiro passageiro = new Passageiro(
                 "Carlos Silva",
                 "987.654.321-00",
@@ -57,5 +67,7 @@ public class PassageiroTest {
                 "O email alterado do passageiro está incorreto.");
         assertTrue(passageiro.isStatusVIP(), "O status VIP alterado deveria ser verdadeiro.");
         assertEquals("CNH987654", passageiro.getDocumento(), "O documento do passageiro não deveria ser alterado.");
+
+        TestLogger.log("Teste testeAlteracaoDeDadosDoPassageiro concluído com sucesso");
     }
 }
