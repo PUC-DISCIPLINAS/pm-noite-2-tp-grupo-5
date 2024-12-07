@@ -23,31 +23,25 @@ public class MainTest {
     }
 
     private static void cadastroBasico() {
-        // Criando duas companhias aéreas
+
         CompanhiaAerea companhia1 = new CompanhiaAerea("TAP Portugal", "TP", "TAP", "12345678000100", 100.0, 50.0);
         CompanhiaAerea companhia2 = new CompanhiaAerea("LATAM", "LA", "LATAM", "98765432000100", 120.0, 60.0);
 
-        // Criando aeronaves
         Aeronave aeronave = new Aeronave("A320", 180, 20000.0, 30, 100.0);
 
-        // Criando os aeroportos
         Aeroporto aeroportoOrigem = new Aeroporto("Aeroporto Internacional de São Paulo", "GRU", "São Paulo", "SP", "Brasil", TipoVoo.INTERNACIONAL, -23.5505, -46.6333);
         Aeroporto aeroportoDestino = new Aeroporto("Aeroporto Internacional de Lisboa", "LIS", "Lisboa", "Lisboa", "Portugal", TipoVoo.INTERNACIONAL, 38.7167, -9.1395);
 
-        // Criando os voos para companhia 1
         Voo voo1 = new Voo("TP1020", "GRU", "LIS", Arrays.asList(DiaSemana.SEGUNDA), aeronave, LocalDateTime.now().plusHours(2), Duration.ofHours(10), 3500.0, companhia1);
         Voo voo2 = new Voo("TP1021", "GRU", "LIS", Arrays.asList(DiaSemana.SEGUNDA), aeronave, LocalDateTime.now().plusHours(3), Duration.ofHours(12), 4000.0, companhia1);
         Voo voo3 = new Voo("TP1022", "GRU", "LIS", Arrays.asList(DiaSemana.SEGUNDA), aeronave, LocalDateTime.now().plusHours(4), Duration.ofHours(8), 3500.0, companhia1);
 
-        // Criando os voos para companhia 2
         Voo voo4 = new Voo("LA1020", "GRU", "LIS", Arrays.asList(DiaSemana.SEGUNDA), aeronave, LocalDateTime.now().plusHours(5), Duration.ofHours(9), 3500.0, companhia2);
         Voo voo5 = new Voo("LA1021", "GRU", "LIS", Arrays.asList(DiaSemana.SEGUNDA), aeronave, LocalDateTime.now().plusHours(6), Duration.ofHours(11), 4000.0, companhia2);
         Voo voo6 = new Voo("LA1022", "GRU", "LIS", Arrays.asList(DiaSemana.SEGUNDA), aeronave, LocalDateTime.now().plusHours(7), Duration.ofHours(10), 3500.0, companhia2);
 
-        // Criando o controller
         SistemaAeroportoController sistemaAeroportoController = new SistemaAeroportoController();
 
-        // Adicionando os voos
         sistemaAeroportoController.adicionarVoo(voo1);
         sistemaAeroportoController.adicionarVoo(voo2);
         sistemaAeroportoController.adicionarVoo(voo3);
@@ -59,22 +53,18 @@ public class MainTest {
     }
 
     private static void cenariosVoosDiretos() {
-        // Criando um passageiro comum
+
         Passageiro passageiro = new Passageiro("João Silva", "123.456.789-00", "joao@email.com", false, "123456789");
 
-        // Buscando voos diretos
         SistemaAeroportoController sistemaAeroportoController = new SistemaAeroportoController();
         List<Voo> voos = sistemaAeroportoController.buscarVoosDiretos("GRU", "LIS", LocalDateTime.now());
 
-        // Exibindo os voos
         for (Voo voo : voos) {
             System.out.println(voo);
         }
 
-        // Adquirindo passagem para o passageiro comum
         Bilhete bilhete = sistemaAeroportoController.comprarPassagem(passageiro, voos.get(0));
 
-        // Realizando o check-in e embarque
         sistemaAeroportoController.realizarCheckIn(bilhete);
         sistemaAeroportoController.exibirCartaoEmbarque(bilhete);
 
@@ -82,23 +72,17 @@ public class MainTest {
     }
 
     private static void cenariosVoosComConexao() {
-        // Criando um passageiro VIP
+
         Passageiro passageiroVIP = new Passageiro("Ana VIP", "123.456.789-00", "vip@email.com", true, "123456789");
 
-        // Buscando voos com conexão
         SistemaAeroportoController sistemaAeroportoController = new SistemaAeroportoController();
         List<Voo> voosConectados = sistemaAeroportoController.buscarVoosDiretos("GRU", "LIS", LocalDateTime.now());
 
-        // Criando bilhete para passageiro VIP
         Bilhete bilhete = sistemaAeroportoController.comprarPassagem(passageiroVIP, voosConectados.get(0));
 
-        // Exibindo o cartão de embarque
         sistemaAeroportoController.exibirCartaoEmbarque(bilhete);
 
-        // Cancelando o voo
         sistemaAeroportoController.cancelarVoo(voosConectados.get(0));
-
-        // Verificando o cancelamento da passagem
 
         System.out.println("Cenário 2 - Compra de passagem VIP, custo de bagagem e cancelamento concluídos com sucesso!");
     }
