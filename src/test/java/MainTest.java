@@ -12,7 +12,7 @@ import java.util.List;
 public class MainTest {
 
     public static void main(String[] args) {
-        // 1. Cadastro Básico - Criar duas companhias aéreas com 3 voos cada
+        // 1. Cadastro Básico - Criar duas companhias aéreas com 3 voos cada,
         cadastroBasico();
 
         // 2. Cenário 1 - Buscar voos diretos, comprar passagem, check-in e embarque
