@@ -27,6 +27,30 @@ public class SistemaAeroportoController {
                 .collect(Collectors.toList());
     }
 
+    public List<Voo> buscarVoosComConexao(String origem, String destino, LocalDateTime data) {
+        List<Voo> voosComConexao = new ArrayList<>();
+
+        List<Voo> voosOrigem = voos.stream()
+                .filter(v -> v.getOrigem().equalsIgnoreCase(origem) &&
+                             v.getHorarioDecolagem().toLocalDate().equals(data.toLocalDate()))
+                .collect(Collectors.toList());
+
+        for (Voo vooOrigem : voosOrigem) {
+            List<Voo> voosDestino = voos.stream()
+                    .filter(v -> v.getOrigem().equalsIgnoreCase(vooOrigem.getDestino()) &&
+                                 v.getDestino().equalsIgnoreCase(destino) &&
+                                 v.getHorarioDecolagem().isAfter(vooOrigem.getHorarioChegada()))
+                    .collect(Collectors.toList());
+
+            for (Voo vooDestino : voosDestino) {
+                voosComConexao.add(vooOrigem);
+                voosComConexao.add(vooDestino);
+            }
+        }
+
+        return voosComConexao;
+    }
+
     public Bilhete comprarPassagem(Passageiro passageiro, Voo voo) {
         // Determinar o TipoVoo com base nos aeroportos de origem e destino
         TipoVoo tipoVoo = determinarTipoVoo(voo.getOrigem(), voo.getDestino());
