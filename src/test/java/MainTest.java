@@ -1,29 +1,68 @@
 import com.flyeasy.models.*;
 import com.flyeasy.controllers.*;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MainTest {
 
+    private static final String LOG_DIR = "storage";
+    private static final String LOG_FILE = LOG_DIR + "/log.txt";
+
     public static void main(String[] args) {
+
+        // Cria a pasta de logs se não existir
+        criarPastaLog();
 
         SistemaAeroportoController sistemaAeroportoController = new SistemaAeroportoController();
 
+        logToFile("Iniciando o sistema de aeroportos...");
+        
         // 1. Cadastro Básico - Criar duas companhias aéreas com 3 voos cada
+        logToFile("Cadastro Básico iniciado.");
         cadastroBasico(sistemaAeroportoController);
+        logToFile("Cadastro Básico concluído com sucesso.");
 
         // 2. Cenário 1 - Buscar voos diretos, comprar passagem, check-in e embarque
+        logToFile("Cenário 1 - Voos Diretos iniciado.");
         cenariosVoosDiretos(sistemaAeroportoController);
+        logToFile("Cenário 1 concluído com sucesso.");
 
         // 3. Cenário 2 - Buscar voos com conexão, compra passagem para passageiro VIP, e cancelamento do voo
+        logToFile("Cenário 2 - Voos com Conexão iniciado.");
         cenariosVoosComConexao(sistemaAeroportoController);
+        logToFile("Cenário 2 concluído com sucesso.");
+    }
+
+    private static void criarPastaLog() {
+        File dir = new File(LOG_DIR);
+        if (!dir.exists()) {
+            if (dir.mkdir()) {
+                System.out.println("Pasta 'storage' criada com sucesso.");
+            } else {
+                System.err.println("Erro ao criar a pasta 'storage'. Verifique as permissões do sistema.");
+            }
+        }
+    }
+
+    private static void logToFile(String message) {
+        try (FileWriter fw = new FileWriter(LOG_FILE, true);
+             PrintWriter pw = new PrintWriter(fw)) {
+            pw.println(LocalDateTime.now() + " - " + message);
+        } catch (IOException e) {
+            System.err.println("Erro ao gravar no arquivo de log: " + e.getMessage());
+        }
     }
 
     private static void cadastroBasico(SistemaAeroportoController sistemaAeroportoController) {
-
         CompanhiaAerea companhia1 = new CompanhiaAerea("TAP Portugal", "TP", "TAP", "12345678000100", 100.0, 50.0);
         CompanhiaAerea companhia2 = new CompanhiaAerea("LATAM", "LA", "LATAM", "98765432000100", 120.0, 60.0);
 
@@ -34,44 +73,39 @@ public class MainTest {
         Aeroporto aeroportoConexao = new Aeroporto("Aeroporto Internacional de Miami", "MIA", "Miami", "FL", "EUA", TipoVoo.INTERNACIONAL, 25.7959, -80.2871);
 
         Voo voo1 = new Voo("TP1020", "GRU", "LIS", Arrays.asList(DiaSemana.SEGUNDA), aeronave, LocalDateTime.now().plusHours(2), Duration.ofHours(10), 3500.0, companhia1);
-        Voo voo2 = new Voo("TP1020", "GRU", "LIS", Arrays.asList(DiaSemana.TERCA), aeronave, LocalDateTime.now().plusHours(2), Duration.ofHours(10), 4000.0, companhia1);
-        Voo voo3 = new Voo("TP1021", "GRU", "LIS", Arrays.asList(DiaSemana.QUARTA), aeronave, LocalDateTime.now().plusHours(2), Duration.ofHours(10), 4500.0, companhia1);
-        Voo voo4 = new Voo("TP1040", "GRU", "LIS", Arrays.asList(DiaSemana.QUINTA), aeronave, LocalDateTime.now().plusHours(2), Duration.ofHours(10), 5500.0, companhia1);
-        Voo voo5 = new Voo("TP1030", "MAD", "MIA", Arrays.asList(DiaSemana.SEGUNDA), aeronave, LocalDateTime.now().plusHours(5), Duration.ofHours(8), 3200.0, companhia1);
-        Voo voo6 = new Voo("TP1050", "MAD", "MIA", Arrays.asList(DiaSemana.TERCA), aeronave, LocalDateTime.now().plusHours(9), Duration.ofHours(11), 4500.0, companhia2);
-        Voo voo7 = new Voo("TP1060", "MAD", "MIA", Arrays.asList(DiaSemana.QUARTA), aeronave, LocalDateTime.now().plusHours(11), Duration.ofHours(2), 1500.0, companhia2);
-        Voo voo8 = new Voo("TP1060", "MAD", "MIA", Arrays.asList(DiaSemana.QUINTA), aeronave, LocalDateTime.now().plusHours(11), Duration.ofHours(2), 1500.0, companhia2);        
+        Voo voo2 = new Voo("TP1021", "GRU", "LIS", Arrays.asList(DiaSemana.TERCA), aeronave, LocalDateTime.now().plusHours(3), Duration.ofHours(12), 4000.0, companhia1);
+        Voo voo3 = new Voo("TP1022", "GRU", "LIS", Arrays.asList(DiaSemana.QUARTA), aeronave, LocalDateTime.now().plusHours(2), Duration.ofHours(10), 5500.0, companhia1);
+        Voo voo4 = new Voo("TP1023", "GRU", "LIS", Arrays.asList(DiaSemana.QUINTA), aeronave, LocalDateTime.now().plusHours(3), Duration.ofHours(12), 5000.0, companhia1);
 
-        Voo vooConexao1 = new Voo("TP2000", "GRU", "MIA", Arrays.asList(DiaSemana.SEGUNDA), aeronave, LocalDateTime.now().plusHours(5), Duration.ofHours(8), 3000.0, companhia1);
+        Voo vooConexao1 = new Voo("TP2000", "GRU", "MIA", Arrays.asList(DiaSemana.SEGUNDA), aeronave, LocalDateTime.now().plusHours(5), Duration.ofHours(8), 3000.0, companhia1);  
         Voo vooConexao2 = new Voo("TP2001", "MIA", "LIS", Arrays.asList(DiaSemana.SEGUNDA), aeronave, LocalDateTime.now().plusHours(15), Duration.ofHours(7), 4000.0, companhia1);
-        Voo vooConexao3 = new Voo("TP2002", "GRU", "MAD", Arrays.asList(DiaSemana.TERCA), aeronave, LocalDateTime.now().plusHours(6), Duration.ofHours(11), 4200.0, companhia1);
-        Voo vooConexao4 = new Voo("TP2003", "MAD", "LIS", Arrays.asList(DiaSemana.TERCA), aeronave, LocalDateTime.now().plusHours(18), Duration.ofHours(2), 1800.0, companhia1);
-        Voo vooConexao5 = new Voo("TP2004", "GRU", "CDG", Arrays.asList(DiaSemana.QUARTA), aeronave, LocalDateTime.now().plusHours(7), Duration.ofHours(12), 4600.0, companhia2);
-        Voo vooConexao6 = new Voo("TP2005", "CDG", "LIS", Arrays.asList(DiaSemana.QUARTA), aeronave, LocalDateTime.now().plusHours(20), Duration.ofHours(3), 2000.0, companhia2);        
-
+    
         sistemaAeroportoController.adicionarVoo(voo1);
         sistemaAeroportoController.adicionarVoo(voo2);
+        sistemaAeroportoController.adicionarVoo(voo3);
+        sistemaAeroportoController.adicionarVoo(voo4);
         sistemaAeroportoController.adicionarVoo(vooConexao1);
         sistemaAeroportoController.adicionarVoo(vooConexao2);
 
         gerarVoosFuturos(sistemaAeroportoController);
 
-        System.out.println("Cadastro Básico realizado com sucesso!");
+        logToFile("Cadastro de voos básico realizado com sucesso.");
     }
 
     private static void gerarVoosFuturos(SistemaAeroportoController sistemaAeroportoController) {
         LocalDateTime dataInicial = LocalDateTime.now();
-    
+        Set<String> voosGerados = new HashSet<>();
+        
         List<Voo> voosOriginais = sistemaAeroportoController.listarVoos();
-    
-        for (int i = 1; i <= 10; i++) {
+
+        for (int i = 1; i <= 3; i++) {
             LocalDateTime dataVoo = dataInicial.plusDays(i);
             for (Voo voo : voosOriginais) {
-
                 String novoCodigo = voo.getCodigo() + "_DIA" + i;
-    
-                double novoValorPassagem = voo.getValorPassagem() + (i * 50);
-    
+
+                if (voosGerados.contains(novoCodigo)) continue;
+
+                voosGerados.add(novoCodigo);
                 Voo vooFuturo = new Voo(
                     novoCodigo, 
                     voo.getOrigem(), 
@@ -80,18 +114,18 @@ public class MainTest {
                     voo.getAeronave(), 
                     dataVoo, 
                     voo.getDuracao(), 
-                    novoValorPassagem, 
+                    voo.getValorPassagem() + (i * 50),
                     voo.getCompanhiaAerea()
                 );
-    
+
                 sistemaAeroportoController.adicionarVoo(vooFuturo);
             }
         }
-    
-        System.out.println("Voos futuros gerados até 10 dias a partir da data de execução com informações diferenciadas.");
-    }     
+        logToFile("Voos futuros gerados com controle para evitar duplicações.");
+    }
 
     private static void cenariosVoosDiretos(SistemaAeroportoController sistemaAeroportoController) {
+        logToFile("Iniciando busca de voos diretos de GRU para LIS.");
 
         Passageiro passageiro = new Passageiro("João Silva", "123.456.789-00", "joao@email.com", false, "123456789");
 
@@ -100,6 +134,7 @@ public class MainTest {
 
         if (voos.isEmpty()) {
             System.out.println("Nenhum voo direto encontrado.");
+            logToFile("Nenhum voo direto encontrado.");
             return;
         }
 
@@ -115,10 +150,10 @@ public class MainTest {
         }
 
         Voo vooSelecionado = voos.get(0);
-        System.out.printf("Selecionando o voo %s para compra...%n", vooSelecionado.getCodigo());
+        logToFile("Selecionando o voo " + vooSelecionado.getCodigo() + " para compra.");
 
         Bilhete bilhete = sistemaAeroportoController.comprarPassagem(passageiro, vooSelecionado);
-        System.out.println("Passagem comprada com sucesso!");
+        logToFile("Passagem comprada com sucesso.");
 
         System.out.println("Realizando check-in para o voo...");
         sistemaAeroportoController.realizarCheckIn(bilhete);
@@ -126,47 +161,53 @@ public class MainTest {
         System.out.println("Registrando embarque no voo...");
         sistemaAeroportoController.exibirCartaoEmbarque(bilhete);
 
-        System.out.println("\nCenário 1 concluído com sucesso!");
+        logToFile("Cenário 1 concluído com sucesso.");
     }
 
     private static void cenariosVoosComConexao(SistemaAeroportoController sistemaAeroportoController) {
+        logToFile("Iniciando busca de voos com conexão de GRU para LIS.");
+
         Passageiro passageiroVIP = new Passageiro("Ana VIP", "123.456.789-00", "vip@email.com", true, "123456789");
-    
+
         System.out.println("Buscando voos com conexão de GRU para LIS na data atual...");
         List<Voo> voosConectados = sistemaAeroportoController.buscarVoosComConexao("GRU", "LIS", LocalDateTime.now());
-    
+
         if (voosConectados.isEmpty()) {
             System.out.println("Nenhum voo com conexão encontrado.");
+            logToFile("Nenhum voo com conexão encontrado.");
             return;
         }
-    
+
         System.out.println("Voos com conexão encontrados:");
-        for (Voo voo : voosConectados) {
-            System.out.printf("Voo: %s | Origem: %s | Destino: %s | Decolagem: %s | Duração: %s | Valor: R$ %.2f%n",
-                    voo.getCodigo(),
-                    voo.getOrigem(),
-                    voo.getDestino(),
-                    voo.getHorarioDecolagem(),
-                    voo.getDuracao(),
-                    voo.getValorPassagem());
+        for (int i = 0; i < voosConectados.size(); i += 2) {
+            Voo vooOrigem = voosConectados.get(i);
+            Voo vooDestino = voosConectados.get(i + 1);
+            System.out.printf("Conexão: %s -> %s -> %s | Valor Total: R$ %.2f%n",
+                    vooOrigem.getOrigem(), vooOrigem.getDestino(), vooDestino.getDestino(),
+                    vooOrigem.getValorPassagem() + vooDestino.getValorPassagem());
         }
-    
-        Voo vooSelecionado = voosConectados.get(0);
-        Bilhete bilhete = sistemaAeroportoController.comprarPassagem(passageiroVIP, vooSelecionado);
-    
-        sistemaAeroportoController.adicionarFranquiaBagagem(bilhete, 0);
-    
+
+        Voo vooSelecionadoOrigem = voosConectados.get(0);
+        Voo vooSelecionadoDestino = voosConectados.get(1);
+
+        Bilhete bilhete = sistemaAeroportoController.comprarPassagem(passageiroVIP, vooSelecionadoOrigem);
+        sistemaAeroportoController.comprarPassagem(passageiroVIP, vooSelecionadoDestino);
+
+        logToFile("Voos com conexão selecionados e passagens compradas com sucesso.");
+
         System.out.println("\nDetalhamento dos custos da passagem:");
-        System.out.printf("Valor do voo: R$ %.2f%n", bilhete.getVoo().getValorPassagem());
-        System.out.printf("Taxa de bagagem: R$ %.2f%n", bilhete.getFranquiaBagagem());
-        System.out.printf("Total: R$ %.2f%n", bilhete.getVoo().getValorPassagem() + bilhete.getFranquiaBagagem());
-    
+        System.out.printf("Valor do primeiro voo: R$ %.2f%n", vooSelecionadoOrigem.getValorPassagem());
+        System.out.printf("Valor do segundo voo: R$ %.2f%n", vooSelecionadoDestino.getValorPassagem());
+        System.out.printf("Total: R$ %.2f%n",
+                vooSelecionadoOrigem.getValorPassagem() + vooSelecionadoDestino.getValorPassagem());
+
         sistemaAeroportoController.exibirCartaoEmbarque(bilhete);
-    
+
         System.out.println("\nCancelando o voo...");
-        sistemaAeroportoController.cancelarVoo(vooSelecionado);
+        sistemaAeroportoController.cancelarVoo(vooSelecionadoOrigem);
+        sistemaAeroportoController.cancelarVoo(vooSelecionadoDestino);
         sistemaAeroportoController.cancelarPassagem(bilhete);
-    
-        System.out.println("\nCenário 2 concluído com sucesso!");
+
+        logToFile("Cenário 2 concluído com sucesso.");
     }
 }

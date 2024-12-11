@@ -31,29 +31,42 @@ public class SistemaAeroportoController {
                 .collect(Collectors.toList());
     }
 
-    public List<Voo> buscarVoosComConexao(String origem, String destino, LocalDateTime data) {
-        List<Voo> voosComConexao = new ArrayList<>();
+    public List<Voo> buscarVoosComConexao(String origem, String destino, LocalDateTime dataInicial) {
+        System.out.println("Iniciando busca de voos com conexão...");
+        List<Voo> voosConexao = new ArrayList<>();
     
-        // Buscar todos os voos que partem do aeroporto de origem
-        List<Voo> voosOrigem = voos.stream()
-                .filter(voo -> voo.getOrigem().equalsIgnoreCase(origem) &&
-                        voo.getHorarioDecolagem().toLocalDate().equals(data.toLocalDate()))
-                .collect(Collectors.toList());
+        // Filtrar voos que partem da origem
+        List<Voo> voosPartindoOrigem = listarVoos().stream()
+                .filter(voo -> voo.getOrigem().equals(origem) && 
+                               voo.getHorarioDecolagem().isAfter(dataInicial))
+                .toList();
     
-        // Para cada voo de origem, verificar conexões
-        for (Voo primeiroVoo : voosOrigem) {
-            List<Voo> voosConexao = voos.stream()
-                    .filter(voo -> voo.getOrigem().equalsIgnoreCase(primeiroVoo.getDestino()) &&
-                            voo.getDestino().equalsIgnoreCase(destino) &&
-                            voo.getHorarioDecolagem().isAfter(primeiroVoo.getHorarioDecolagem().plus(primeiroVoo.getDuracao())))
-                    .collect(Collectors.toList());
+        // Filtrar voos que chegam ao destino
+        List<Voo> voosChegandoDestino = listarVoos().stream()
+                .filter(voo -> voo.getDestino().equals(destino))
+                .toList();
     
-            // Adicionar os voos conectados à lista de voos com conexão
-            voosComConexao.addAll(voosConexao);
+        System.out.printf("Total de voos cadastrados no sistema: %d%n", listarVoos().size());
+        System.out.printf("Voos partindo de %s: %d%n", origem, voosPartindoOrigem.size());
+        System.out.printf("Voos chegando a %s: %d%n", destino, voosChegandoDestino.size());
+    
+        // Conectar voos partindo da origem com os que chegam ao destino
+        for (Voo vooOrigem : voosPartindoOrigem) {
+            for (Voo vooDestino : voosChegandoDestino) {
+                // Verifica se o destino intermediário do primeiro voo é a origem do segundo voo
+                // e se o horário de chegada do primeiro voo é antes do horário de decolagem do segundo
+                LocalDateTime chegadaOrigem = vooOrigem.getHorarioDecolagem().plus(vooOrigem.getDuracao());
+                if (vooOrigem.getDestino().equals(vooDestino.getOrigem()) && 
+                    chegadaOrigem.isBefore(vooDestino.getHorarioDecolagem())) {
+                    voosConexao.add(vooOrigem);
+                    voosConexao.add(vooDestino);
+                }
+            }
         }
     
-        return voosComConexao;
-    }    
+        System.out.printf("Total de voos com conexão encontrados: %d%n", voosConexao.size() / 2);
+        return voosConexao;
+    }                       
 
     public Bilhete comprarPassagem(Passageiro passageiro, Voo voo) {
         // Determinar o TipoVoo com base nos aeroportos de origem e destino

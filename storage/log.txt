@@ -1,0 +1,16 @@
+2024-12-11T20:10:04.768914600 - Iniciando o sistema de aeroportos...
+2024-12-11T20:10:04.768914600 - Cadastro Básico iniciado.
+2024-12-11T20:10:04.784434700 - Voos futuros gerados com controle para evitar duplicações.
+2024-12-11T20:10:04.784434700 - Cadastro de voos básico realizado com sucesso.
+2024-12-11T20:10:04.791454200 - Cadastro Básico concluído com sucesso.
+2024-12-11T20:10:04.791454200 - Cenário 1 - Voos Diretos iniciado.
+2024-12-11T20:10:04.791454200 - Iniciando busca de voos diretos de GRU para LIS.
+2024-12-11T20:10:04.817779800 - Selecionando o voo TP1020 para compra.
+2024-12-11T20:10:04.824793200 - Passagem comprada com sucesso.
+2024-12-11T20:10:04.828078500 - Cenário 1 concluído com sucesso.
+2024-12-11T20:10:04.828078500 - Cenário 1 concluído com sucesso.
+2024-12-11T20:10:04.828078500 - Cenário 2 - Voos com Conexão iniciado.
+2024-12-11T20:10:04.828078500 - Iniciando busca de voos com conexão de GRU para LIS.
+2024-12-11T20:10:04.841386500 - Voos com conexão selecionados e passagens compradas com sucesso.
+2024-12-11T20:10:04.850061 - Cenário 2 concluído com sucesso.
+2024-12-11T20:10:04.850061 - Cenário 2 concluído com sucesso.
