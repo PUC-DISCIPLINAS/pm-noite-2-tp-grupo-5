@@ -19,37 +19,41 @@ public class SistemaAeroportoController {
         voos.add(voo);
     }
 
+    public List<Voo> listarVoos() {
+        return new ArrayList<>(voos); // Retorna uma cópia da lista de voos
+    }
+
     public List<Voo> buscarVoosDiretos(String origem, String destino, LocalDateTime data) {
         return voos.stream()
                 .filter(v -> v.getOrigem().equalsIgnoreCase(origem) &&
-                             v.getDestino().equalsIgnoreCase(destino) &&
-                             v.getHorarioDecolagem().toLocalDate().equals(data.toLocalDate()))
+                        v.getDestino().equalsIgnoreCase(destino) &&
+                        v.getHorarioDecolagem().toLocalDate().equals(data.toLocalDate()))
                 .collect(Collectors.toList());
     }
 
     public List<Voo> buscarVoosComConexao(String origem, String destino, LocalDateTime data) {
         List<Voo> voosComConexao = new ArrayList<>();
-
+    
+        // Buscar todos os voos que partem do aeroporto de origem
         List<Voo> voosOrigem = voos.stream()
-                .filter(v -> v.getOrigem().equalsIgnoreCase(origem) &&
-                             v.getHorarioDecolagem().toLocalDate().equals(data.toLocalDate()))
+                .filter(voo -> voo.getOrigem().equalsIgnoreCase(origem) &&
+                        voo.getHorarioDecolagem().toLocalDate().equals(data.toLocalDate()))
                 .collect(Collectors.toList());
-
-        for (Voo vooOrigem : voosOrigem) {
-            List<Voo> voosDestino = voos.stream()
-                    .filter(v -> v.getOrigem().equalsIgnoreCase(vooOrigem.getDestino()) &&
-                                 v.getDestino().equalsIgnoreCase(destino) &&
-                                 v.getHorarioDecolagem().isAfter(vooOrigem.getHorarioChegada()))
+    
+        // Para cada voo de origem, verificar conexões
+        for (Voo primeiroVoo : voosOrigem) {
+            List<Voo> voosConexao = voos.stream()
+                    .filter(voo -> voo.getOrigem().equalsIgnoreCase(primeiroVoo.getDestino()) &&
+                            voo.getDestino().equalsIgnoreCase(destino) &&
+                            voo.getHorarioDecolagem().isAfter(primeiroVoo.getHorarioDecolagem().plus(primeiroVoo.getDuracao())))
                     .collect(Collectors.toList());
-
-            for (Voo vooDestino : voosDestino) {
-                voosComConexao.add(vooOrigem);
-                voosComConexao.add(vooDestino);
-            }
+    
+            // Adicionar os voos conectados à lista de voos com conexão
+            voosComConexao.addAll(voosConexao);
         }
-
+    
         return voosComConexao;
-    }
+    }    
 
     public Bilhete comprarPassagem(Passageiro passageiro, Voo voo) {
         // Determinar o TipoVoo com base nos aeroportos de origem e destino
@@ -64,7 +68,7 @@ public class SistemaAeroportoController {
                 "Brasil", // País fictício
                 tipoVoo, // Tipo de voo
                 -23.5505, // Latitude fictícia (São Paulo)
-                -46.6333  // Longitude fictícia (São Paulo)
+                -46.6333 // Longitude fictícia (São Paulo)
         );
 
         Aeroporto aeroportoDestino = new Aeroporto(
@@ -75,7 +79,7 @@ public class SistemaAeroportoController {
                 "Brasil", // País fictício
                 tipoVoo, // Tipo de voo
                 38.7167, // Latitude fictícia (Lisboa)
-                -9.1395  // Longitude fictícia (Lisboa)
+                -9.1395 // Longitude fictícia (Lisboa)
         );
 
         // Converter a data de decolagem do voo (LocalDateTime) para Date
@@ -88,9 +92,9 @@ public class SistemaAeroportoController {
                 dataHoraVoo,
                 voo.getCodigo(),
                 voo.getCompanhiaAerea(), // Supondo que Voo tenha um método getCompanhiaAerea()
-                voo.getValorPassagem(),  // Se tiver tarifas diferentes, ajuste aqui
-                voo.getValorPassagem(),  // Ajuste conforme a tarifa Business, Premium, etc.
-                voo.getValorPassagem(),  // Ajuste conforme a tarifa Business, Premium, etc.
+                voo.getValorPassagem(), // Se tiver tarifas diferentes, ajuste aqui
+                voo.getValorPassagem(), // Ajuste conforme a tarifa Business, Premium, etc.
+                voo.getValorPassagem(), // Ajuste conforme a tarifa Business, Premium, etc.
                 "BRL" // Considerando que a moeda seja em Reais (BRL)
         );
 
@@ -99,15 +103,16 @@ public class SistemaAeroportoController {
                 passageiro.getNome(),
                 passageiro.getCpf(),
                 passageiro.getEmail(),
+                passageiro.getDocumento(),   
                 passagemAerea,
                 passageiro,
-                voo
-        );
+                voo);
     }
 
     // Método para determinar o tipo do voo com base na origem e destino
     private TipoVoo determinarTipoVoo(String origem, String destino) {
-        // Para simplificar, estamos considerando que a origem e destino têm o mesmo país se for doméstico
+        // Para simplificar, estamos considerando que a origem e destino têm o mesmo
+        // país se for doméstico
         if (origem.equalsIgnoreCase(destino)) {
             return TipoVoo.DOMESTICO;
         } else {
@@ -136,4 +141,30 @@ public class SistemaAeroportoController {
         System.out.println("Passageiro: " + bilhete.getPassageiro().getNome());
         System.out.println("Voo: " + bilhete.getVoo().toString());
     }
+
+    public void cancelarPassagem(Bilhete bilhete) {
+        if (bilhete == null) {
+            System.out.println("Bilhete inválido.");
+            return;
+        }
+
+        // Alterar o status do bilhete para 'Cancelado'
+        bilhete.setStatus("Cancelado");
+        System.out.println("Passagem cancelada com sucesso para o bilhete: " + bilhete.getCodigo());
+
+        // Registrar no log de operações, se aplicável
+        logOperacoes.add("Passagem cancelada: " + bilhete.getCodigo());
+    }
+
+    private List<String> logOperacoes = new ArrayList<>();
+
+    public void exibirLogOperacoes() {
+        for (String log : logOperacoes) {
+            System.out.println(log);
+        }
+    }
+
+    public void adicionarFranquiaBagagem(Bilhete bilhete, double custo) {
+        bilhete.setFranquiaBagagem(custo);
+    }    
 }

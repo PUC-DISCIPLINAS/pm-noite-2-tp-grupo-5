@@ -8,9 +8,15 @@ public class Bilhete {
     private double valorTotal;
     private Passageiro passageiro;
     private Voo voo;
+    private String assento;
+    private double franquiaBagagem;
+    public String status;
+    private String codigo;
 
     // Construtor
-    public Bilhete(String nome, String sobrenome, String documento, PassagemAerea passagemAerea, Passageiro passageiro, Voo voo) {
+    public Bilhete(String codigo, String nome, String sobrenome, String documento, PassagemAerea passagemAerea, Passageiro passageiro,
+            Voo voo) {
+        this.codigo = codigo;
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.documento = documento;
@@ -18,10 +24,17 @@ public class Bilhete {
         this.valorTotal = calcularValorTotal();
         this.passageiro = passageiro;
         this.voo = voo;
+        this.assento = assento;
+        this.status = "Emitido";
     }
 
-    public Passageiro getPassageiro() { return passageiro; }
-    public Voo getVoo() { return voo; }
+    public Passageiro getPassageiro() {
+        return passageiro;
+    }
+
+    public Voo getVoo() {
+        return voo;
+    }
 
     private double calcularValorTotal() {
         return passagemAerea.getTarifaBasica() + passagemAerea.calcularTarifaLucro();
@@ -66,6 +79,42 @@ public class Bilhete {
 
     public void setValorTotal(double valorTotal) {
         this.valorTotal = valorTotal;
+    }
+
+    public String getAssento() {
+        return assento;
+    }
+
+    public void setAssento(String assento) {
+        this.assento = assento;
+    }
+
+    public double getFranquiaBagagem() {
+        return franquiaBagagem;
+    }
+
+    public void setFranquiaBagagem(double franquiaBagagem) {
+        this.franquiaBagagem = franquiaBagagem;
+    }
+
+    public void adicionarFranquiaBagagem(Bilhete bilhete, double custo) {
+        bilhete.setFranquiaBagagem(custo);
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     @Override
