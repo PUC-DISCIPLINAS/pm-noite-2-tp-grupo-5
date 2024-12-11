@@ -95,3 +95,91 @@ Iniciando configuração do teste: setUp
 Configuração do teste setUp concluída.
 Iniciando teste: testAssentosDisponiveis
 Teste testAssentosDisponiveis concluído com sucesso.
+Iniciando configuração do teste: setUp
+Configuração do teste setUp concluída.
+Iniciando teste: testCheckInForaDoPeriodo
+Teste testCheckInForaDoPeriodo concluído com sucesso.
+Iniciando configuração do teste: setUp
+Configuração do teste setUp concluída.
+Iniciando teste: testPrecoComTaxas
+Teste testPrecoComTaxas concluído com sucesso.
+Iniciando configuração do teste: setUp
+Configuração do teste setUp concluída.
+Iniciando teste: testPrecoEmReais
+Teste testPrecoEmReais concluído com sucesso.
+Iniciando configuração do teste: setUp
+Configuração do teste setUp concluída.
+Iniciando teste: testDistanciaEntreAeroportos
+Teste testDistanciaEntreAeroportos concluído com sucesso.
+Iniciando configuração do teste: setUp
+Configuração do teste setUp concluída.
+Iniciando teste: testReservarAssento
+Teste testReservarAssento concluído com sucesso.
+Iniciando configuração do teste: setUp
+Configuração do teste setUp concluída.
+Iniciando teste: testCheckInValido
+Teste testCheckInValido concluído com sucesso.
+Iniciando configuração do teste: setUp
+Configuração do teste setUp concluída.
+Iniciando teste: testLatitudeLongitudeAeroportos
+Teste testLatitudeLongitudeAeroportos concluído com sucesso.
+Iniciando configuração do teste: setUp
+Configuração do teste setUp concluída.
+Iniciando teste: testRegistrarNoShow
+Teste testRegistrarNoShow concluído com sucesso.
+Iniciando configuração do teste: setUp
+Configuração do teste setUp concluída.
+Iniciando teste: testValoresIniciais
+Teste testValoresIniciais concluído com sucesso.
+Iniciando configuração do teste: setUp
+Configuração do teste setUp concluída.
+Iniciando teste: testAssentosDisponiveis
+Teste testAssentosDisponiveis concluído com sucesso.
+Iniciando teste: testarCalculoBagagemSemBagagem
+Teste testarCalculoBagagemSemBagagem concluído com sucesso
+Iniciando teste: testarCalculoBagagemComGrandeQuantidade
+Teste testarCalculoBagagemComGrandeQuantidade concluído com sucesso
+Iniciando teste: testarCalculoBagagemComUmaBagagem
+Teste testarCalculoBagagemComUmaBagagem concluído com sucesso
+Iniciando teste: testarCalculoBagagemComDuasBagagens
+Teste testarCalculoBagagemComDuasBagagens concluído com sucesso
+Iniciando teste: testarCalculoBagagemComBagagensNegativas
+Teste testarCalculoBagagemComBagagensNegativas concluído com sucesso
+Configuração inicial: Cadastrando aeronaves AB123 e CD456
+Iniciando teste: testarCadastrarAeronave
+Teste de cadastro de aeronave EF789 concluído com sucesso
+Configuração inicial: Cadastrando aeronaves AB123 e CD456
+Iniciando teste: testarListarAeronaves
+Teste de listar aeronaves concluído com sucesso
+Configuração inicial: Cadastrando aeronaves AB123 e CD456
+Iniciando teste: testarExibirDisposicaoAssentos
+Teste de exibição de disposição de assentos concluído com sucesso
+Configuração inicial: Cadastrando aeronaves AB123 e CD456
+Iniciando teste: testarBuscarAeronavePorCodigo
+Teste de busca por código de aeronave concluído com sucesso
+Iniciando teste: testarGettersESetters
+Teste testarGettersESetters concluído com sucesso
+Iniciando teste: testarSetters
+Teste testarSetters concluído com sucesso
+Iniciando teste: testarGettersESetters
+Teste testarGettersESetters concluído com sucesso
+Iniciando teste: testeCadastroPassageiroVIP
+Teste testeCadastroPassageiroVIP concluído com sucesso
+Iniciando teste: testeCadastroPassageiroComDadosCompletos
+Teste testeCadastroPassageiroComDadosCompletos concluído com sucesso
+Iniciando teste: testeAlteracaoDeDadosDoPassageiro
+Teste testeAlteracaoDeDadosDoPassageiro concluído com sucesso
+Iniciando setup para CartaoEmbarqueTest
+Setup concluído para CartaoEmbarqueTest
+Iniciando teste: testCartaoEmbarqueCriadoCorretamente
+Teste testCartaoEmbarqueCriadoCorretamente concluído com sucesso
+Iniciando setup para CartaoEmbarqueTest
+Setup concluído para CartaoEmbarqueTest
+Iniciando teste: testCartaoEmbarqueFormatoString
+Iniciando setup para CartaoEmbarqueTest
+Setup concluído para CartaoEmbarqueTest
+Iniciando teste: testCartaoEmbarqueCriadoCorretamente
+Teste testCartaoEmbarqueCriadoCorretamente concluído com sucesso
+Iniciando setup para CartaoEmbarqueTest
+Setup concluído para CartaoEmbarqueTest
+Iniciando teste: testCartaoEmbarqueFormatoString
